@@ -1,6 +1,7 @@
 import expressSession from 'express-session';
 import connectRedis from 'connect-redis';
 import redis from 'redis';
+import { hour } from '../helpers/constants';
 
 const RedisStore = connectRedis(expressSession);
 const redisClient = redis.createClient();
@@ -23,7 +24,7 @@ export const session = () =>
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 24 * constants.hour,
+      maxAge: 24 * hour,
       domain: process.env.BASE_URL,
     },
     store: redisSessionStore,

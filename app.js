@@ -3,8 +3,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import { sequelize } from './models';
-import { translate, localPassport, session } from './config';
+import { localPassport, session, security } from './config';
 import { handleErrors } from './middlewares/app';
+import routes from './routes';
 
 dotenv.config();
 localPassport(passport);
@@ -22,15 +23,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session());
 
+security(app);
 /**
  * Initialize passport and session
  */
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get('/', (req, res) => {
-  res.status(200).json({ message: translate['en'].welcomeMesg });
-});
+/**
+ * App routes
+ */
+app.use(routes);
 /**
  * Catch unexpected errors
  */

@@ -21,15 +21,15 @@ export const localPassport = (passport) => {
     'local.login',
     new LocalStrategy(
       {
-        usernameField: 'phone',
+        usernameField: 'username',
         passwordField: 'password',
         passReqToCallback: true,
       },
-      (req, phone, password, done) => {
-        phone = phone.toLowerCase().trim();
-        const username = req.body.username || '';
+      (req, username, password, done) => {
+        username = username.toLowerCase().trim();
+        const email = req.body.email ? req.body.email.toLowerCase().trim() : '';
         User.findOne({
-          where: { [Op.or]: [{ phone }, { username }] },
+          where: { [Op.or]: [{ email }, { username }] },
           logging: false,
         })
           .then((user) => {
@@ -52,22 +52,27 @@ export const localPassport = (passport) => {
     'local.signup',
     new LocalStrategy(
       {
-        usernameField: 'phone',
+        usernameField: 'username',
         passwordField: 'password',
         passReqToCallback: true,
       },
-      (req, phone, password, done) => {
+      (req, username, password, done) => {
+        let { email, names, phone, gender, accessLevel } = req.body;
+
+        email = email ? email.toLowerCase().trim() : '';
         password = hashPassword(password);
-        const email = req.body.email || null;
-        const username = req.body.username.trim();
-        const names = req.body.names.trim();
-        const a_level = Number(req.body.a_level);
-        if (!allowedLevels.includes(a_level)) {
+        username = username.toLowerCase().trim();
+        names = names.trim();
+        phone = phone.trim();
+        accessLevel = Number(accessLevel);
+
+        if (!allowedLevels.includes(accessLevel)) {
           return done({ message: 'You are not allowed to create account' });
         }
-        const userPhoneParams = [{ username }, { phone }];
-        const withEmailParams = [...userPhoneParams, { email }];
-        const params = email ? withEmailParams : userPhoneParams;
+
+        const userNamePhoneParams = [{ username }, { phone }];
+        const withEmailParams = [...userNamePhoneParams, { email }];
+        const params = email ? withEmailParams : userNamePhoneParams;
         User.findOne({
           where: { [Op.or]: params },
           logging: false,
@@ -79,7 +84,7 @@ export const localPassport = (passport) => {
               });
             }
             User.create(
-              { email, phone, username, password, names, a_level },
+              { email, phone, username, password, names, accessLevel, gender },
               { logging: false }
             )
               .then((user) => done(null, user))

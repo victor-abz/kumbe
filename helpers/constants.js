@@ -8,3 +8,6 @@ export const msgs = {
   NOT_FOUND: (item) => `${item} is not found`,
   ROUTE_NOT_FOUND: 'Oops, you seem lost',
 };
+export const hour = 3600000;
+export const day = hour * 24;
+export const week = day * 7;

@@ -21,16 +21,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM,
         values: ['Male', 'Female', 'Other'],
       },
+      accessLevel: {
+        type: DataTypes.ENUM,
+        values: ['1', '2', '3', '4'],
+      },
+      password: DataTypes.STRING,
+      password: Sequelize.STRING,
+      isActive: Sequelize.BOOLEAN,
+      resetToken: Sequelize.STRING,
     },
     {
       tableName: 'users',
     }
   );
-  User.associate = (models) => {
-    User.belongsTo(models.Role, {
-      as: 'role',
-      foreignKey: 'roleId',
-    });
-  };
+  User.associate = (models) => {};
   return User;
 };

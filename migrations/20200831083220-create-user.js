@@ -31,15 +31,20 @@ module.exports = {
         allowNull: false,
         values: ['Male', 'Female', 'Other'],
       },
-      roleId: {
-        type: Sequelize.INTEGER,
+      accessLevel: {
+        type: Sequelize.ENUM,
         allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'roles',
-          key: 'id',
-          as: 'roleId',
-        },
+        values: ['1', '2', '3', '4'],
+      },
+      password: {
+        type: Sequelize.STRING,
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        default: false,
+      },
+      resetToken: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

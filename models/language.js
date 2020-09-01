@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique: true,
       },
-      short_name: {
+      shortName: {
         type: DataTypes.STRING,
         unique: true,
       },

@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: 'medias' }
   );
-  Media.associate = (models) => {};
+  Media.associate = (models) => {
+    Media.belongsTo(models.Language, {
+      as: 'language',
+      foreignKey: 'languageId',
+    });
+  };
   return Media;
 };

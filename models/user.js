@@ -17,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       profilePic: DataTypes.STRING,
-      gender: DataTypes.STRING,
+      gender: {
+        type: DataTypes.ENUM,
+        values: ['Male', 'Female', 'Other'],
+      },
     },
     {
       tableName: 'users',

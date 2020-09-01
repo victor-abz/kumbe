@@ -1,30 +1,43 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Languages', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+    return queryInterface.createTable(
+      'languages',
+      {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+        name: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        shortName: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      short_name: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      {
+        uniqueKeys: {
+          unique_tag: {
+            customIndex: true,
+            fields: ['name', 'shortName'],
+          },
+        },
       }
-    });
+    );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Languages');
-  }
+    return queryInterface.dropTable('languages');
+  },
 };

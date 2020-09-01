@@ -1,30 +1,43 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Partners', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+    return queryInterface.createTable(
+      'partners',
+      {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+        name: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        coverImage: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      coverImage: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      {
+        uniqueKeys: {
+          unique_tag: {
+            customIndex: true,
+            fields: ['name', 'coverImage'],
+          },
+        },
       }
-    });
+    );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Partners');
-  }
+    return queryInterface.dropTable('partners');
+  },
 };

@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     'Category',
     {
       name: DataTypes.STRING,
+      slug: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
       type: {
         type: DataTypes.ENUM,
         values: ['blog', 'forum'],

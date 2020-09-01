@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     Reply.belongsTo(models.Reply, {
       as: 'parent',
-      foreignKey: 'replyId',
+      foreignKey: 'parentId',
+    });
+    Reply.hasMany(models.Reply, {
+      as: 'replies',
     });
   };
   return Reply;

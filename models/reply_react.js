@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Like = sequelize.define(
     'ReplyReact',
     {
-      type: DataTypes.BOOLEAN,
+      like: DataTypes.BOOLEAN,
     },
     { tableName: 'reply_reacts' }
   );

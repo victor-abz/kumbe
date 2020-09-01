@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     { tableName: 'tags' }
   );
   Tag.associate = (models) => {
+    Tag.belongsTo(models.Language, {
+      as: 'language',
+      foreignKey: 'languageId',
+    });
     Tag.belogsToMany(models.Blog, {
       as: 'blogs',
       through: 'blog_tags',

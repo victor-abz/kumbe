@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       coverImage: DataTypes.STRING,
       content: DataTypes.TEXT,
+      isPublished: DataTypes.BOOLEAN,
     },
     { tableName: 'blogs' }
   );

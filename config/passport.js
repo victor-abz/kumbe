@@ -1,8 +1,7 @@
 import passportLocal from 'passport-local';
-import { User, sequelize } from '../models';
+import { Op } from 'sequelize';
+import { User } from '../models';
 import { unHashPassword, hashPassword, allowedLevels } from '../helpers';
-
-const { Op } = sequelize;
 
 const LocalStrategy = passportLocal.Strategy;
 
@@ -29,7 +28,7 @@ export const localPassport = (passport) => {
         username = username.toLowerCase().trim();
         const email = req.body.email ? req.body.email.toLowerCase().trim() : '';
         User.findOne({
-          where: { [Op.or]: [{ email }, { username }] },
+          where: { [Op.or]: [{ username }] },
           logging: false,
         })
           .then((user) => {

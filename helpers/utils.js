@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const hashPassword = (password) => {
   const salt = bcrypt.genSaltSync(process.env.PASS_SALT);
@@ -20,4 +21,8 @@ export const serverResponse = (res, statusCode, message, data) => {
   return res
     .status(statusCode)
     .json({ status: statusCode, [messageType]: message, data });
+};
+export const generatJWT = (userInfo) => {
+  const token = jwt.sign(userInfo, process.env.SECRET, { expiresIn: '1w' });
+  return token;
 };

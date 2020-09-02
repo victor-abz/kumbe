@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
     { tableName: 'discussions' }
   );
   Discussion.associate = (models) => {
-    Discussion.hasMany({ as: 'tags' });
+    Discussion.hasMany(models.Tag, { as: 'tags' });
     Discussion.belongsTo(models.User, {
       as: 'user',
       foreignKey: 'userId',

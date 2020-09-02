@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
       as: 'category',
       foreignKey: 'categoryId',
     });
-    Blog.hasMany(models.Tag, {
+    Blog.belongsToMany(models.Tag, {
       as: 'tags',
       through: 'blog_tags',
     });

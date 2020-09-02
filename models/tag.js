@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
       as: 'language',
       foreignKey: 'languageId',
     });
-    Tag.belogsToMany(models.Blog, {
+    Tag.belongsToMany(models.Blog, {
       as: 'blogs',
       through: 'blog_tags',
     });

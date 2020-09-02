@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import { capture } from 'express-device';
 import { sequelize } from './models';
 import { localPassport, session, security } from './config';
 import { handleErrors } from './middlewares/app';
@@ -21,6 +22,7 @@ sequelize
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(capture());
 app.use(session());
 
 security(app);

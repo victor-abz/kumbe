@@ -10,14 +10,20 @@ export class Validator extends ValidatorKeys {
   validateInput(type, action) {
     let validationKeys = null;
     switch (type) {
-      case 'user':
+      case 'auth':
         validationKeys = this.getAuthKeys(action);
+        break;
+      case 'user-update':
+        validationKeys = this.getUserKeys();
         break;
       default:
         break;
     }
     const schema = Joi.object(validationKeys);
-    return schema.validate(this.data);
+    const { error } = schema.validate(this.data);
+
+    if (error) return this.getErrorMessage(error);
+    return false;
   }
   getErrorMessage(error) {
     const errors = [];

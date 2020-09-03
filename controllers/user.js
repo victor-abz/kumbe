@@ -1,6 +1,8 @@
 import passport from 'passport';
-import { serverResponse, week, generatJWT } from '../helpers';
+import { User } from '../models';
+import { serverResponse, week, generatJWT, QueryHelper } from '../helpers';
 
+const userDb = new QueryHelper(User);
 export const getUsers = (req, res) => {
   return serverResponse(res, 200, 'Working');
 };
@@ -9,8 +11,6 @@ export const loginUser = (req, res, next) => {
     if (error) return serverResponse(res, 401, error.message);
     req.logIn(user, (err) => {
       if (err) return next(err);
-
-      delete user.password;
 
       user.token = generatJWT({ id: user.id });
       req.session.cookie.maxAge = week;
@@ -31,4 +31,14 @@ export const logoutUser = (req, res) => {
   req.session.destroy();
   req.logout();
   return serverResponse(res, 200, 'Successfully logged out');
+};
+export const updateProfile = async (req, res) => {
+  const { id } = req.user;
+  await userDb.update(req.body, { id });
+  return serverResponse(res, 200, 'Profile successfuly updated');
+};
+export const getUserProfile = (req, res) => {
+  const currentUser = req.user.toJSON();
+  delete currentUser.password;
+  return serverResponse(res, 200, 'Success', currentUser);
 };

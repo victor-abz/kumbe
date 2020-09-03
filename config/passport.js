@@ -22,14 +22,14 @@ export const localPassport = (passport) => {
       {
         usernameField: 'username',
         passwordField: 'password',
-        passReqToCallback: true,
+        passReqToCallback: true
       },
       (req, username, password, done) => {
         username = username.toLowerCase().trim();
         const email = req.body.email ? req.body.email.toLowerCase().trim() : '';
         User.findOne({
           where: { [Op.or]: [{ username }] },
-          logging: false,
+          logging: false
         })
           .then((user) => {
             if (!user) return done({ message: 'Invalid user info' });
@@ -53,7 +53,7 @@ export const localPassport = (passport) => {
       {
         usernameField: 'username',
         passwordField: 'password',
-        passReqToCallback: true,
+        passReqToCallback: true
       },
       (req, username, password, done) => {
         let { email, names, phone, gender, accessLevel } = req.body;
@@ -74,12 +74,12 @@ export const localPassport = (passport) => {
         const params = email ? withEmailParams : userNamePhoneParams;
         User.findOne({
           where: { [Op.or]: params },
-          logging: false,
+          logging: false
         })
           .then((user) => {
             if (user) {
               return done({
-                message: 'Phone number, email or username has taken',
+                message: 'Phone number, email or username has taken'
               });
             }
             User.create(

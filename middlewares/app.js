@@ -1,5 +1,7 @@
-import { serverResponse, msgs } from '../helpers';
+import { serverResponse, msgs, QueryHelper } from '../helpers';
+import { Language } from '../models';
 
+const languageDb = new QueryHelper(Language);
 export const monitorDevActions = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     const user = req.isAuthenticated()
@@ -33,4 +35,10 @@ export const handleErrors = (err, req, res, next) => {
     console.log(err.stack);
   }
   return serverResponse(res, 500, err.message);
+};
+export const setLanguage = async (req, res, next) => {
+  const shortName = req.acceptsLanguages('en', 'kn') || 'kn';
+  const language = await languageDb.findOne({ shortName });
+  req.body.languageId = language.id || 1;
+  return next();
 };

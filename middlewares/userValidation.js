@@ -1,11 +1,13 @@
 import { User, Sequelize } from '../models';
-import { Validator, serverResponse, QueryHelper } from '../helpers';
+import { Validator, serverResponse, QueryHelper, getLang } from '../helpers';
+import { translate } from '../config/messages';
 
 const userDb = new QueryHelper(User);
 const { Op } = Sequelize;
 export const isLoginInfoValid = (req, res, next) => {
+  const lang = getLang(req);
   if (req.isAuthenticated()) {
-    return serverResponse(res, 422, 'You are already authenticatred');
+    return serverResponse(res, 422, translate[lang].alreadyAuth);
   }
   let validator = new Validator(req.body);
   const error = validator.validateInput('user', 'login');
@@ -14,8 +16,9 @@ export const isLoginInfoValid = (req, res, next) => {
   return next();
 };
 export const isSignUpInfoValid = (req, res, next) => {
+  const lang = getLang(req);
   if (req.isAuthenticated()) {
-    return serverResponse(res, 422, 'You are already authenticatred');
+    return serverResponse(res, 422, translate[lang].alreadyAuth);
   }
   delete req.body.confirmPassword;
   let validator = new Validator(req.body);
@@ -25,6 +28,7 @@ export const isSignUpInfoValid = (req, res, next) => {
   return next();
 };
 export const isUpdateUserInfoValid = async (req, res, next) => {
+  const lang = getLang(req);
   let validator = new Validator(req.body);
   const error = validator.validateInput('user-update', '');
 
@@ -35,7 +39,7 @@ export const isUpdateUserInfoValid = async (req, res, next) => {
     username
   });
   if (usernameTaken) {
-    return serverResponse(res, 422, 'The username has taken');
+    return serverResponse(res, 422, translate[lang].usernameTaken);
   }
   return next();
 };

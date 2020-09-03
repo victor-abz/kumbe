@@ -3,6 +3,7 @@ import Joi from 'joi';
 export class ValidatorKeys {
   getAuthKeys(action) {
     const login = {
+      languageId: Joi.number(),
       email: Joi.string().email(),
       username: Joi.string(),
       password: Joi.string().required()
@@ -19,6 +20,7 @@ export class ValidatorKeys {
   }
   getUserKeys() {
     return {
+      languageId: Joi.number().required(),
       names: Joi.string().required(),
       phone: Joi.string().required(),
       username: Joi.string().required()

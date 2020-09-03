@@ -1,5 +1,5 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Tag = sequelize.define(
     'Tag',
     {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'language',
       foreignKey: 'languageId',
     });
-    Tag.belogsToMany(models.Blog, {
+    Tag.belongsToMany(models.Blog, {
       as: 'blogs',
       through: 'blog_tags',
     });

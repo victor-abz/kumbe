@@ -1,5 +1,5 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Blog = sequelize.define(
     'Blog',
     {
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'category',
       foreignKey: 'categoryId',
     });
-    Blog.hasMany(models.Tag, {
+    Blog.belongsToMany(models.Tag, {
       as: 'tags',
       through: 'blog_tags',
     });

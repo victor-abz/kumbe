@@ -1,5 +1,5 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
     {
@@ -26,9 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         values: ['1', '2', '3', '4'],
       },
       password: DataTypes.STRING,
-      password: Sequelize.STRING,
-      isActive: Sequelize.BOOLEAN,
-      resetToken: Sequelize.STRING,
+      isActive: DataTypes.BOOLEAN,
+      resetToken: DataTypes.STRING,
     },
     {
       tableName: 'users',

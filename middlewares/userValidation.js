@@ -10,9 +10,9 @@ export const isLoginInfoValid = (req, res, next) => {
     return serverResponse(res, 422, translate[lang].alreadyAuth);
   }
   let validator = new Validator(req.body);
-  const error = validator.validateInput('user', 'login');
+  const error = validator.validateInput('auth', 'login');
 
-  if (error) return serverResponse(res, 400, errorMsg);
+  if (error) return serverResponse(res, 400, error);
   return next();
 };
 export const isSignUpInfoValid = (req, res, next) => {

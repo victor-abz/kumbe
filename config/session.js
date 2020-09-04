@@ -11,7 +11,8 @@ const redisSessionStore = new RedisStore({
   port: process.env.REDIS_PORT,
   prefix: process.env.REDIS_PREFIX,
   name: process.env.REDIS_NAME,
-  client: redisClient,
+  pass: process.env.REDIS_SECRET,
+  client: redisClient
 });
 
 export const session = () =>
@@ -25,7 +26,7 @@ export const session = () =>
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * hour,
-      domain: process.env.BASE_URL,
+      domain: process.env.BASE_URL
     },
-    store: redisSessionStore,
+    store: redisSessionStore
   });

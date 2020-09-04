@@ -1,5 +1,6 @@
-import { serverResponse, msgs, QueryHelper } from '../helpers';
+import { serverResponse, QueryHelper, getLang } from '../helpers';
 import { Language } from '../models';
+import { translate } from '../config';
 
 const languageDb = new QueryHelper(Language);
 export const monitorDevActions = (req, res, next) => {
@@ -19,7 +20,8 @@ export const monitorDevActions = (req, res, next) => {
 };
 
 export const route404 = (req, res) => {
-  return serverResponse(res, 404, msgs.ROUTE_NOT_FOUND);
+  const lang = getLang(req);
+  return serverResponse(res, 404, translate[lang].notFound);
 };
 /**
  *

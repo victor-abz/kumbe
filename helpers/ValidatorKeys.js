@@ -4,8 +4,7 @@ export class ValidatorKeys {
   getAuthKeys(action) {
     const login = {
       languageId: Joi.number(),
-      email: Joi.string().email(),
-      username: Joi.string(),
+      username: Joi.string().required(),
       password: Joi.string().required()
     };
     const signUp = {

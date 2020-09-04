@@ -1,12 +1,11 @@
-import passportLocal from 'passport-local';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { Op } from 'sequelize';
 import { User } from '../models';
 import { unHashPassword, hashPassword, allowedLevels } from '../helpers';
 
-const LocalStrategy = passportLocal.Strategy;
-
 export const localPassport = (passport) => {
   passport.serializeUser((user, done) => {
+    console.log('User', user);
     done(null, user.id);
   });
 

@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node ./app.js",
-    "dev": "nodemon --exec babel-node ./app.js"
+    "dev": "nodemon --exec babel-node ./app.js",
+    "migrate:up": "npx sequelize-cli db:migrate",
+    "migrate:drop": "sequelize db:migrate:undo:all",
+    "seed:up": "npx sequelize-cli db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -48,7 +51,8 @@
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "redis": "^3.0.2",
-    "sequelize": "^5.21.5"
+    "sequelize": "^5.22.3",
+    "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
     "eslint": "^7.7.0"

@@ -9,23 +9,27 @@ export const up = (queryInterface, Sequelize) => {
       {
         names: 'Administrator',
         username: 'admin',
+        gender: 'Male',
         password: hashPassword('MyPassword'),
-        accessLevel: 1,
+        accessLevel: '1',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         names: 'Modulator',
         username: 'modulator',
-        accessLevel: 2,
+        gender: 'Male',
+        accessLevel: '2',
+        password: hashPassword('MyPassword'),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         names: 'User',
         username: 'user',
+        gender: 'Male',
         password: hashPassword('MyPassword'),
-        accessLevel: 3,
+        accessLevel: '3',
         createdAt: new Date(),
         updatedAt: new Date()
       }

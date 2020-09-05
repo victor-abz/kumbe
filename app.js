@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import cors from 'cors';
+import userAgent from 'express-useragent';
 import { capture } from 'express-device';
 import { sequelize } from './models';
 import { localPassport, session, security } from './config';
@@ -22,6 +23,7 @@ sequelize
   });
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
+app.use(userAgent.express());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(capture());

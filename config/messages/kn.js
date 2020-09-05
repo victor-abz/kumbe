@@ -14,5 +14,6 @@ export const kn = {
   registerSuccess: (names) => `Murakoze, ${names}, kwiyandikisha`,
   userExists: '(Telefoni, email cg amazina) bikoreshwa n undi',
   invalidLogin: 'Amazina mwatanze siyo',
-  invalidPwd: 'Ibanga muri gukoresha siryo'
+  invalidPwd: 'Ibanga muri gukoresha siryo',
+  dataNotFound: (type) => `${type} ntibashishije kuboneka`
 };

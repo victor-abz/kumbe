@@ -26,4 +26,20 @@ export class ValidatorKeys {
       username: Joi.string().required()
     };
   }
+  getCategoryKeys() {
+    return {
+      name: Joi.string().required(),
+      languageId: Joi.number()
+    };
+  }
+  getBlogKeys() {
+    return {
+      title: Joi.string().required(),
+      coverImage: Joi.string(),
+      content: Joi.string().required(),
+      categoryId: Joi.number().required(),
+      languageId: Joi.number().required(),
+      isPublished: Joi.boolean()
+    };
+  }
 }

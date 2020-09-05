@@ -41,6 +41,7 @@
     "express": "^4.17.1",
     "express-device": "^0.4.2",
     "express-session": "^1.17.1",
+    "express-useragent": "^1.0.15",
     "fs": "0.0.1-security",
     "helmet": "^4.1.0",
     "joi": "^17.2.1",
@@ -52,7 +53,9 @@
     "pg-hstore": "^2.3.3",
     "redis": "^3.0.2",
     "sequelize": "^5.22.3",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "slugify": "^1.4.5",
+    "uniqid": "^5.2.0"
   },
   "devDependencies": {
     "eslint": "^7.7.0"

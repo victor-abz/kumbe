@@ -1,4 +1,4 @@
-import { Category, Share, Comment, BlogReact } from '../models';
+import { Category, BlogShare, Comment, BlogReact } from '../models';
 
 export const blogIncludes = [
   {
@@ -7,8 +7,7 @@ export const blogIncludes = [
     attributes: ['name']
   },
   {
-    model: Share,
-    // where: { type: 'blog' },
+    model: BlogShare,
     as: 'shares',
     attributes: ['blogId']
   },

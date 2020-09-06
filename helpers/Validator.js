@@ -18,8 +18,10 @@ export class Validator extends ValidatorKeys {
         break;
       case 'category':
         validationKeys = this.getCategoryKeys();
+        break;
       case 'blog':
         validationKeys = this.getBlogKeys();
+        break;
       default:
         break;
     }

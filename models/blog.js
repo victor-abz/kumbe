@@ -37,7 +37,7 @@ export default (sequelize, DataTypes) => {
     Blog.hasMany(models.BlogReact, {
       as: 'likes'
     });
-    Blog.hasMany(models.Share, {
+    Blog.hasMany(models.BlogShare, {
       as: 'shares'
     });
     Blog.hasMany(models.Comment, {

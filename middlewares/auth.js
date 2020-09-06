@@ -12,6 +12,6 @@ export const isAtLeastAdmin = async (req, res, next) => {
   const user = await authenticatedUser(req);
   if (user && user.accessLevel <= 2) return next();
 
-  const message = translate[lang].notEditor;
+  const message = translate[lang].notAdmin;
   return serverResponse(res, 401, message);
 };

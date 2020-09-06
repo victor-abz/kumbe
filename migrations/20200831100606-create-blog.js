@@ -8,25 +8,25 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER,
+          type: Sequelize.INTEGER
         },
         title: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: false
         },
         slug: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: false
         },
         coverImage: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING
         },
         content: {
-          type: Sequelize.TEXT,
+          type: Sequelize.TEXT
         },
         isPublished: {
           type: Sequelize.BOOLEAN,
-          default: false,
+          defaultValue: false
         },
         categoryId: {
           type: Sequelize.INTEGER,
@@ -35,8 +35,8 @@ module.exports = {
           references: {
             model: 'categories',
             key: 'id',
-            as: 'categoryId',
-          },
+            as: 'categoryId'
+          }
         },
         languageId: {
           type: Sequelize.INTEGER,
@@ -45,8 +45,8 @@ module.exports = {
           references: {
             model: 'languages',
             key: 'id',
-            as: 'languageId',
-          },
+            as: 'languageId'
+          }
         },
         userId: {
           type: Sequelize.INTEGER,
@@ -55,29 +55,29 @@ module.exports = {
           references: {
             model: 'users',
             key: 'id',
-            as: 'userId',
-          },
+            as: 'userId'
+          }
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE,
+          type: Sequelize.DATE
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE,
-        },
+          type: Sequelize.DATE
+        }
       },
       {
         uniqueKeys: {
           unique_tag: {
             customIndex: true,
-            fields: ['title', 'languageId'],
-          },
-        },
+            fields: ['title', 'languageId']
+          }
+        }
       }
     );
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('blogs');
-  },
+  }
 };

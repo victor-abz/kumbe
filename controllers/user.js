@@ -24,7 +24,7 @@ export const loginUser = (req, res, next) => {
       req.session.cookie.maxAge = week;
       req.session.save();
 
-      const successMsg = translate[lang].loginSuccess(user.names);
+      const successMsg = translate[lang].loginSuccess(user.firstName);
       return serverResponse(res, 200, successMsg, user);
     });
   })(req, res, next);
@@ -35,7 +35,7 @@ export const signupUser = (req, res, next) => {
   passport.authenticate('local.signup', (error, user) => {
     if (error) return serverResponse(res, 401, error.message);
 
-    const successMsg = translate[lang].registerSuccess(user.names);
+    const successMsg = translate[lang].registerSuccess(user.firstName);
     delete user.password;
     return serverResponse(res, 200, successMsg, user);
   })(req, res, next);

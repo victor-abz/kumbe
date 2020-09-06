@@ -11,5 +11,8 @@ export const kn = {
   usernameTaken: 'Iyi username ifitwe n undi',
   alreadyAuth: 'Singombwa gukora login',
   loginSuccess: (name) => `Murisanga ${name}, kuri ${appName} platform`,
-  registerSuccess: (names) => `Murakoze, ${names}, kwiyandikisha`
+  registerSuccess: (names) => `Murakoze, ${names}, kwiyandikisha`,
+  userExists: '(Telefoni, email cg amazina) bikoreshwa n undi',
+  invalidLogin: 'Amazina mwatanze siyo',
+  invalidPwd: 'Ibanga muri gukoresha siryo'
 };

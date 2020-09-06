@@ -10,6 +10,9 @@ export const en = {
   serverError: 'Service not available',
   usernameTaken: 'The username has taken',
   alreadyAuth: 'You are already authenticatred',
-  loginSuccess: (names) => `Welcome ${names}`,
-  registerSuccess: (names) => `Thank you, ${names}, for registering`
+  loginSuccess: (name) => `Welcome ${name}`,
+  registerSuccess: (name) => `Thank you, ${name}, for registering`,
+  userExists: 'Phone number, email or username has been taken',
+  invalidLogin: 'Invalid user login info',
+  invalidPwd: 'Invalid password'
 };

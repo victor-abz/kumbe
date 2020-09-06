@@ -7,27 +7,33 @@ export const up = (queryInterface, Sequelize) => {
     'users',
     [
       {
-        names: 'Administrator',
+        firstName: 'Administrator',
+        lastName: 'Admin',
         username: 'admin',
         gender: 'Male',
+        phone: '0783543016',
         password: hashPassword('MyPassword'),
         accessLevel: '1',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        names: 'Modulator',
+        firstName: 'Modulator',
+        lastName: 'Modular',
         username: 'modulator',
         gender: 'Male',
         accessLevel: '2',
+        phone: '0738533018',
         password: hashPassword('MyPassword'),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        names: 'User',
+        firstName: 'System',
+        lastName: 'User',
         username: 'user',
         gender: 'Male',
+        phone: '0728533016',
         password: hashPassword('MyPassword'),
         accessLevel: '3',
         createdAt: new Date(),

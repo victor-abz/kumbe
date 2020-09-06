@@ -6,15 +6,15 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       content: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       approved: {
         type: Sequelize.BOOLEAN,
-        default: false,
+        defaultValue: false
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -23,8 +23,8 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id',
-          as: 'userId',
-        },
+          as: 'userId'
+        }
       },
       blogId: {
         type: Sequelize.INTEGER,
@@ -33,20 +33,20 @@ module.exports = {
         references: {
           model: 'blogs',
           key: 'id',
-          as: 'blogId',
-        },
+          as: 'blogId'
+        }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('comments');
-  },
+  }
 };

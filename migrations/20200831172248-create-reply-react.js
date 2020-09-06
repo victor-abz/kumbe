@@ -6,11 +6,11 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       like: {
         type: Sequelize.BOOLEAN,
-        default: true,
+        defaultValue: true
       },
       replyId: {
         type: Sequelize.INTEGER,
@@ -19,8 +19,8 @@ module.exports = {
         references: {
           model: 'replies',
           key: 'id',
-          as: 'replyId',
-        },
+          as: 'replyId'
+        }
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -29,20 +29,20 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id',
-          as: 'userId',
-        },
+          as: 'userId'
+        }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('reply_reacts');
-  },
+  }
 };

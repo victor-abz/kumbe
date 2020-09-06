@@ -1,7 +1,13 @@
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Op } from 'sequelize';
 import { User } from '../models';
-import { unHashPassword, hashPassword, allowedLevels } from '../helpers';
+import {
+  unHashPassword,
+  hashPassword,
+  allowedLevels,
+  getLang
+} from '../helpers';
+import { translate } from './messages';
 
 export const localPassport = (passport) => {
   passport.serializeUser((user, done) => {
@@ -24,6 +30,7 @@ export const localPassport = (passport) => {
         passReqToCallback: true
       },
       (req, username, password, done) => {
+        const lang = getLang(req);
         username = username.toLowerCase().trim();
         const email = req.body.email ? req.body.email.toLowerCase().trim() : '';
         User.findOne({
@@ -31,12 +38,12 @@ export const localPassport = (passport) => {
           logging: false
         })
           .then((user) => {
-            if (!user) return done({ message: 'Invalid user info' });
+            if (!user) return done({ message: translate[lang].invalidLogin });
             if (!unHashPassword(password, user.password))
-              return done({ message: 'Invalid password' });
+              return done({ message: translate[lang].invalidPwd });
             user = user.toJSON();
-            if (user.a_level > 2)
-              return done({ message: 'You are not allowed to log in' });
+
+            delete user.password;
             return done(null, user);
           })
           .catch((error) => done(error));
@@ -55,18 +62,12 @@ export const localPassport = (passport) => {
         passReqToCallback: true
       },
       (req, username, password, done) => {
-        let { email, names, phone, gender, accessLevel } = req.body;
+        let { email, firstName, lastName, phone, gender } = req.body;
 
         email = email ? email.toLowerCase().trim() : '';
         password = hashPassword(password);
         username = username.toLowerCase().trim();
-        names = names.trim();
         phone = phone.trim();
-        accessLevel = Number(accessLevel);
-
-        if (!allowedLevels.includes(accessLevel)) {
-          return done({ message: 'You are not allowed to create account' });
-        }
 
         const userNamePhoneParams = [{ username }, { phone }];
         const withEmailParams = [...userNamePhoneParams, { email }];
@@ -77,12 +78,13 @@ export const localPassport = (passport) => {
         })
           .then((user) => {
             if (user) {
+              const lang = getLang(req);
               return done({
-                message: 'Phone number, email or username has taken'
+                message: translate[lang].userExists
               });
             }
             User.create(
-              { email, phone, username, password, names, accessLevel, gender },
+              { email, phone, username, password, firstName, lastName, gender },
               { logging: false }
             )
               .then((user) => done(null, user))

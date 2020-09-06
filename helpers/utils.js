@@ -26,3 +26,15 @@ export const generatJWT = (userInfo) => {
   const token = jwt.sign(userInfo, process.env.SECRET, { expiresIn: '1w' });
   return token;
 };
+export const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+export const tokenGenerator = (tokenLength) => {
+  const token = [];
+  const chars = '0123456789';
+
+  for (let i = 0; i < tokenLength; i += 1) {
+    token.push(chars[getRandomInt(0, chars.length - 1)]);
+  }
+  return token.join('');
+};

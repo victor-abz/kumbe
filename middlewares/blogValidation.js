@@ -1,8 +1,9 @@
 import { Validator, serverResponse, QueryHelper, getLang } from '../helpers';
-import { Category } from '../models';
+import { Category, Blog } from '../models';
 import { translate } from '../config';
 
-let categoryDb = new QueryHelper(Category);
+const categoryDb = new QueryHelper(Category);
+const blogDb = new QueryHelper(Blog);
 export const isCategoryValid = (req, res, next) => {
   let validator = new Validator(req.body);
   const error = validator.validateInput('category');
@@ -33,5 +34,23 @@ export const doesCategoryExist = async (req, res, next) => {
   if (req.method === 'POST' && !categoryIdOrSlug) return next();
   const lang = getLang(req);
   const message = translate[lang].dataNotFound('Category');
+  return serverResponse(res, 404, message);
+};
+export const doesBlogExist = async (req, res, next) => {
+  const blogIdOrSlug = req.params.blogId || req.body.blogId;
+  if (blogIdOrSlug) {
+    const attribute = isNaN(blogIdOrSlug) ? 'slug' : 'id';
+    const blog = await blogDb.findOne({
+      [attribute]: blogIdOrSlug
+    });
+    if (blog) {
+      req.params.blogId = blog.id;
+      req.body.blogId = blog.id;
+      return next();
+    }
+  }
+  if (req.method === 'POST' && !blogIdOrSlug) return next();
+  const lang = getLang(req);
+  const message = translate[lang].dataNotFound('Blog');
   return serverResponse(res, 404, message);
 };

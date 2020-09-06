@@ -5,34 +5,43 @@ export default (sequelize, DataTypes) => {
     {
       title: {
         type: DataTypes.STRING,
-        unique: true,
+        unique: true
       },
       slug: {
         type: DataTypes.STRING,
-        unique: true,
+        unique: true
       },
       coverImage: DataTypes.STRING,
       content: DataTypes.TEXT,
-      isPublished: DataTypes.BOOLEAN,
+      isPublished: DataTypes.BOOLEAN
     },
     { tableName: 'blogs' }
   );
   Blog.associate = (models) => {
     Blog.belongsTo(models.User, {
       as: 'editor',
-      foreignKey: 'userId',
+      foreignKey: 'userId'
     });
     Blog.belongsTo(models.Language, {
       as: 'language',
-      foreignKey: 'languageId',
+      foreignKey: 'languageId'
     });
     Blog.belongsTo(models.Category, {
       as: 'category',
-      foreignKey: 'categoryId',
+      foreignKey: 'categoryId'
     });
     Blog.belongsToMany(models.Tag, {
       as: 'tags',
-      through: 'blog_tags',
+      through: 'blog_tags'
+    });
+    Blog.hasMany(models.BlogReact, {
+      as: 'likes'
+    });
+    Blog.hasMany(models.Share, {
+      as: 'shares'
+    });
+    Blog.hasMany(models.Comment, {
+      as: 'comments'
     });
   };
   return Blog;

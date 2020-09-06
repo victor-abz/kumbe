@@ -1,10 +1,16 @@
 import { Router } from 'express';
-import { createBlog } from '../../controllers/blog';
+import {
+  createBlog,
+  getBlogs,
+  getOneBlog,
+  deleteBlog
+} from '../../controllers/blog';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin } from '../../middlewares/auth';
 import {
   isBlogInfoValid,
-  doesCategoryExist
+  doesCategoryExist,
+  doesBlogExist
 } from '../../middlewares/blogValidation';
 
 const blogRoutes = Router();
@@ -15,6 +21,13 @@ blogRoutes.post(
   isBlogInfoValid,
   catchErrors(doesCategoryExist),
   catchErrors(createBlog)
+);
+blogRoutes.get('/', catchErrors(getBlogs));
+blogRoutes.get('/:blogId', catchErrors(doesBlogExist), catchErrors(getOneBlog));
+blogRoutes.delete(
+  '/:blogId',
+  catchErrors(doesBlogExist),
+  catchErrors(deleteBlog)
 );
 
 export default blogRoutes;

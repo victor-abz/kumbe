@@ -7,7 +7,7 @@ export class QueryHelper {
       where: whereCondition,
       logging: false,
       include,
-      attributes,
+      attributes
     });
   }
   async findAll(
@@ -25,7 +25,7 @@ export class QueryHelper {
       where: whereCondition,
       logging: false,
       include,
-      attributes,
+      attributes
     });
   }
   async create(data) {
@@ -37,14 +37,14 @@ export class QueryHelper {
   async delete(whereCondition) {
     return this.model.destroy({
       where: whereCondition,
-      logging: false,
+      logging: false
     });
   }
   async findOrCreate(whereCondition, defaults) {
     return this.model.findOrCreate({
       where: whereCondition,
       defaults,
-      logging: false,
+      logging: false
     });
   }
   async count(whereCondition = {}) {

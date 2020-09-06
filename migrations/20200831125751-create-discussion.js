@@ -6,14 +6,14 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       content: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       anonymous: {
         type: Sequelize.BOOLEAN,
-        default: false,
+        defaultValue: false
       },
       categoryId: {
         type: Sequelize.INTEGER,
@@ -22,8 +22,8 @@ module.exports = {
         references: {
           model: 'categories',
           key: 'id',
-          as: 'categoryId',
-        },
+          as: 'categoryId'
+        }
       },
       languageId: {
         type: Sequelize.INTEGER,
@@ -32,8 +32,8 @@ module.exports = {
         references: {
           model: 'languages',
           key: 'id',
-          as: 'languageId',
-        },
+          as: 'languageId'
+        }
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -42,20 +42,20 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id',
-          as: 'userId',
-        },
+          as: 'userId'
+        }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('discussions');
-  },
+  }
 };

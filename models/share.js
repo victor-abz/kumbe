@@ -1,23 +1,14 @@
 'use strict';
 export default (sequelize, DataTypes) => {
-  const Share = sequelize.define(
-    'Share',
-    {
-      type: {
-        type: DataTypes.ENUM,
-        values: ['blog', 'forum'],
-      },
-    },
-    { tableName: 'shares' }
-  );
+  const Share = sequelize.define('Share', {}, { tableName: 'shares' });
   Share.associate = (models) => {
     Share.belongsTo(models.Blog, {
       as: 'blog',
-      foreignKey: 'blogId',
+      foreignKey: 'blogId'
     });
     Share.belongsTo(models.User, {
       as: 'user',
-      foreignKey: 'userId',
+      foreignKey: 'userId'
     });
   };
   return Share;

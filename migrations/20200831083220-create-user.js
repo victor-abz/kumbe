@@ -6,57 +6,66 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
-      names: {
+      firstName: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       username: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       phone: {
         type: Sequelize.STRING,
+        allowNull: false
       },
       profilePic: {
         type: Sequelize.STRING,
-        default: 'default.png',
+        defaultValue: 'default.png'
       },
       gender: {
         type: Sequelize.ENUM,
         allowNull: false,
-        values: ['Male', 'Female', 'Other'],
+        values: ['Male', 'Female', 'Other']
       },
       accessLevel: {
         type: Sequelize.ENUM,
-        allowNull: false,
-        values: ['1', '2', '3', '4'],
+        defaultValue: '4',
+        values: ['1', '2', '3', '4']
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       isActive: {
         type: Sequelize.BOOLEAN,
-        default: false,
+        defaultValue: false
+      },
+      isVerified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       resetToken: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('users');
-  },
+  }
 };

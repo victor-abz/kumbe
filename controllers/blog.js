@@ -21,11 +21,13 @@ export const createCategory = async (req, res) => {
 };
 export const createBlog = async (req, res) => {
   const lang = getLang(req);
-  req.body.slug = generateSlug(req.body.title);
-  req.body.userId = req.user.id;
-  const newBlog = await blogDb.create(req.body);
+  console.log('The file', req.file);
+  // req.body.slug = generateSlug(req.body.title);
+  // req.body.coverImage = req.file.filename;
+  // req.body.userId = req.user.id;
+  // const newBlog = await blogDb.create(req.body);
 
-  return serverResponse(res, 201, translate[lang].success, newBlog);
+  return serverResponse(res, 201, translate[lang].success);
 };
 export const getBlogs = async (req, res) => {
   const lang = getLang(req);

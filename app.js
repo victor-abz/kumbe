@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import multer from 'multer';
 import cors from 'cors';
 import userAgent from 'express-useragent';
 import { capture } from 'express-device';
@@ -14,6 +15,7 @@ dotenv.config();
 localPassport(passport);
 
 const port = process.env.PORT || 3000;
+const upload = multer();
 sequelize
   .authenticate()
   .then(() => console.log('Database connected'))
@@ -24,8 +26,8 @@ sequelize
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(userAgent.express());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(capture());
 app.use(session());
 
@@ -38,7 +40,11 @@ app.use(passport.session());
 /**
  * App routes
  */
+app.use(multer().single('file'));
 app.use(routes);
+app.use('/songs', express.static(process.env.SONGS_ZONE));
+app.use('/images', express.static(process.env.IMAGES_ZONE));
+app.use('/cover-images', express.static(process.env.BLOGS_ZONE));
 /**
  * Catch unexpected errors
  */

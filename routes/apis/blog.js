@@ -12,14 +12,16 @@ import {
   doesCategoryExist,
   doesBlogExist
 } from '../../middlewares/blogValidation';
+import { upload } from '../../middlewares/fileUploader';
 
 const blogRoutes = Router();
 
 blogRoutes.post(
   '/',
-  catchErrors(isAtLeastAdmin),
-  isBlogInfoValid,
-  catchErrors(doesCategoryExist),
+  // catchErrors(isAtLeastAdmin),
+  // isBlogInfoValid,
+  // catchErrors(doesCategoryExist),
+  upload,
   catchErrors(createBlog)
 );
 blogRoutes.get('/', catchErrors(getBlogs));

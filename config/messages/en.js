@@ -17,5 +17,7 @@ export const en = {
   invalidPwd: 'Invalid password',
   loginSuccess: (names) => `Welcome ${names}`,
   registerSuccess: (names) => `Thank you, ${names}, for registering`,
-  dataNotFound: (type) => `${type} does not exist`
+  dataNotFound: (type) => `${type} does not exist`,
+  fileError: 'Unknown file upload',
+  notUploaded: 'File not uploaded'
 };

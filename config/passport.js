@@ -1,12 +1,8 @@
 import { Strategy as LocalStrategy } from 'passport-local';
+import { OAuthStrategy as GoogleStrategy } from 'passport-google-oauth';
 import { Op } from 'sequelize';
 import { User } from '../models';
-import {
-  unHashPassword,
-  hashPassword,
-  allowedLevels,
-  getLang
-} from '../helpers';
+import { unHashPassword, hashPassword, getLang } from '../helpers';
 import { translate } from './messages';
 
 export const localPassport = (passport) => {
@@ -91,6 +87,22 @@ export const localPassport = (passport) => {
               .catch((error) => done(error));
           })
           .catch((error) => done(error));
+      }
+    )
+  );
+  passport.use(
+    'google',
+    new GoogleStrategy(
+      {
+        consumerKey: 'GOOGLE_CONSUMER_KEY',
+        consumerSecret: 'GOOGLE_CONSUMER_SECRET',
+        callbackURL: 'http://www.kumbe.com/auth/google/callback'
+      },
+      (token, tokenSecret, profile, done) => {
+        console.log('g token', token);
+        console.log('g tokenSecret', tokenSecret);
+        console.log('g profile', profile);
+        return done(null, 'Success user');
       }
     )
   );

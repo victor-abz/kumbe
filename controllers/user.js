@@ -8,6 +8,7 @@ import {
   getLang
 } from '../helpers';
 import { translate } from '../config/messages';
+import { socialAuth } from '../helpers/socialAuth';
 
 const userDb = new QueryHelper(User);
 export const getUsers = (req, res) => {
@@ -60,4 +61,13 @@ export const getUserProfile = (req, res) => {
   delete currentUser.password;
   const msg = translate[lang].success;
   return serverResponse(res, 200, msg, currentUser);
+};
+export const googleCallBack = (req, res) => {
+  socialAuth(req, res, 'google', (error, userLink) => {
+    if (error) return serverResponse(res, 500, error);
+    /*
+     * Redirect a user to the link
+     */
+    return res.redirect(userLink);
+  });
 };

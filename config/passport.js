@@ -1,11 +1,12 @@
 import { Strategy as LocalStrategy } from 'passport-local';
-import { OAuthStrategy as GoogleStrategy } from 'passport-google-oauth';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Op } from 'sequelize';
 import { User } from '../models';
 import { unHashPassword, hashPassword, getLang } from '../helpers';
 import { translate } from './messages';
 
-export const localPassport = (passport) => {
+export const localPassport = () => {
   passport.serializeUser((user, done) => {
     console.log('User', user);
     done(null, user.id);
@@ -94,15 +95,30 @@ export const localPassport = (passport) => {
     'google',
     new GoogleStrategy(
       {
-        consumerKey: 'GOOGLE_CONSUMER_KEY',
-        consumerSecret: 'GOOGLE_CONSUMER_SECRET',
-        callbackURL: 'http://www.kumbe.com/auth/google/callback'
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: `${process.env.APP_LINK}/google/auth/callback`
       },
       (token, tokenSecret, profile, done) => {
         console.log('g token', token);
         console.log('g tokenSecret', tokenSecret);
-        console.log('g profile', profile);
-        return done(null, 'Success user');
+        console.log('g profile', profile._json);
+        const { given_name, family_name, picture, email } = profile._json;
+        User.findOrCreate({
+          where: { email },
+          defaults: {
+            firstName: given_name,
+            lastName: family_name,
+            profilePic: picture,
+            username: given_name,
+            gender: 'Other',
+            isActive: true,
+            isVerified: true
+          },
+          logging: false
+        })
+          .then((user) => done(null, user))
+          .catch((error) => done(error));
       }
     )
   );

@@ -11,7 +11,7 @@ import { handleErrors } from './middlewares/app';
 import routes from './routes';
 
 dotenv.config();
-localPassport(passport);
+localPassport();
 
 const port = process.env.PORT || 3000;
 sequelize

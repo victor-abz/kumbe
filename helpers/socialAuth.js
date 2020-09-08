@@ -19,7 +19,10 @@ export const socialAuth = (req, res, strategy, authCallBack) => {
     (error, user, info) => {
       if (error) return authCallBack(error.message);
       req.logIn(user, (logError) => {
-        if (logError) return authCallBack('Service not available');
+        if (logError) {
+          console.log('LogError', logError);
+          return authCallBack('Service not available');
+        }
         user.token = generatJWT({ id: user.id });
         req.session.cookie.maxAge = week;
         req.session.save();

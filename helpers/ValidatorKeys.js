@@ -29,6 +29,7 @@ export class ValidatorKeys {
   getCategoryKeys() {
     return {
       name: Joi.string().required(),
+      type: Joi.string(),
       languageId: Joi.number()
     };
   }
@@ -39,7 +40,16 @@ export class ValidatorKeys {
       content: Joi.string().required(),
       categoryId: Joi.number().required(),
       languageId: Joi.number().required(),
+      tags: Joi.array().required(),
       isPublished: Joi.boolean()
+    };
+  }
+  getTagKeys() {
+    return {
+      name: Joi.string().required(),
+      color: Joi.string().required(),
+      type: Joi.string().valid('blog', 'forum'),
+      languageId: Joi.number()
     };
   }
 }

@@ -1,4 +1,4 @@
-import { Blog, Category } from '../models';
+import { Blog, Category, Tag, BlogTag } from '../models';
 import {
   serverResponse,
   QueryHelper,
@@ -11,22 +11,69 @@ import { blogIncludes } from '../helpers/modelIncludes';
 
 const categoryDb = new QueryHelper(Category);
 const blogDb = new QueryHelper(Blog);
+const tagDb = new QueryHelper(Tag);
+const blogTagDb = new QueryHelper(BlogTag);
 
 export const createCategory = async (req, res) => {
   const lang = getLang(req);
   req.body.slug = generateSlug(req.body.name);
-  const newCategory = await categoryDb.create(req.body);
+  const { name, slug, type = 'blog', languageId } = req.body;
+  const newCategory = await categoryDb.findOrCreate(
+    { name, type, languageId },
+    { slug }
+  );
 
   return serverResponse(res, 201, translate[lang].success, newCategory);
 };
+export const getCategories = async (req, res) => {
+  const lang = getLang(req);
+  const { languageId } = req.body;
+  const { categoryType = 'blog' } = req.query;
+  const categories = await categoryDb.findAll({
+    languageId,
+    type: categoryType
+  });
+  return serverResponse(res, 200, translate[lang].success, categories);
+};
+export const updateCategory = async (req, res) => {
+  const lang = getLang(req);
+  let { slug, name, categoryId: id } = req.body;
+  slug = generateSlug(name);
+  await categoryDb.update({ slug, name }, { id });
+
+  return serverResponse(res, 201, translate[lang].success);
+};
+export const deleteCategory = async (req, res) => {
+  let { categoryId: id } = req.body;
+  let { accessCount } = req.session;
+  const lang = getLang(req);
+  if (!accessCount || accessCount < 3) {
+    req.session.accessCount = accessCount ? accessCount + 1 : 1;
+    req.session.save();
+    const message = translate[lang].delRemainCount(req.session.accessCount);
+
+    return serverResponse(res, 409, message, req.session.accessCount);
+  }
+  await categoryDb.delete({ id });
+  req.session.accessCount = 0;
+  req.session.save();
+  return serverResponse(res, 201, translate[lang].success);
+};
 export const createBlog = async (req, res) => {
   const lang = getLang(req);
-  console.log('The file', req.file);
-  // req.body.slug = generateSlug(req.body.title);
+  // console.log('The file', req.file);
+  req.body.slug = generateSlug(req.body.title);
   // req.body.coverImage = req.file.filename;
-  // req.body.userId = req.user.id;
-  // const newBlog = await blogDb.create(req.body);
+  req.body.userId = req.user.id;
+  const newBlog = await blogDb.create(req.body);
 
+  if (req.body.tags.length) {
+    await Promise.all(
+      req.body.tags.map(async (tag) => {
+        await blogTagDb.findOrCreate({ tagId: tag, blogId: newBlog.id });
+      })
+    );
+  }
   return serverResponse(res, 201, translate[lang].success);
 };
 export const getBlogs = async (req, res) => {
@@ -72,4 +119,25 @@ export const deleteBlog = async (req, res) => {
 
   await blogDb.delete({ id });
   return serverResponse(res, 200, message);
+};
+export const createTag = async (req, res) => {
+  let { name, color, languageId, type = 'blog' } = req.body;
+  const lang = getLang(req);
+
+  const newTag = await tagDb.findOrCreate(
+    { name, languageId, type },
+    { color }
+  );
+  const message = translate[lang].success;
+  return serverResponse(res, 200, message, newTag);
+};
+export const getTags = async (req, res) => {
+  const lang = getLang(req);
+  const { languageId } = req.body;
+  let { tagType = 'blog' } = req.query;
+
+  const tags = await tagDb.findAll({ languageId, type: tagType });
+
+  const message = translate[lang].success;
+  return serverResponse(res, 200, message, tags);
 };

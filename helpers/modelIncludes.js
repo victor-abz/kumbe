@@ -1,4 +1,4 @@
-import { Category, BlogShare, Comment, BlogReact } from '../models';
+import { Category, BlogShare, Comment, BlogReact, Tag } from '../models';
 
 export const blogIncludes = [
   {
@@ -20,5 +20,11 @@ export const blogIncludes = [
     model: Comment,
     as: 'comments',
     attributes: ['blogId']
+  },
+  {
+    model: Tag,
+    as: 'tags',
+    through: { attributes: [] },
+    attributes: ['name']
   }
 ];

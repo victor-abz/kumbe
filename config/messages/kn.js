@@ -17,5 +17,7 @@ export const kn = {
   invalidPwd: 'Ibanga muri gukoresha siryo',
   dataNotFound: (type) => `${type} ntibashishije kuboneka`,
   fileError: 'Ntimwemerewe kuzamura file',
-  notUploaded: 'File ntabwo yabaye uploaded'
+  notUploaded: 'File ntabwo yabaye uploaded',
+  delRemainCount: (count) => `Harabura inshuro ${3 - count}!!`,
+  invalidTag: 'Tags ntabwo zemewe'
 };

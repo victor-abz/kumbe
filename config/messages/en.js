@@ -19,5 +19,7 @@ export const en = {
   registerSuccess: (names) => `Thank you, ${names}, for registering`,
   dataNotFound: (type) => `${type} does not exist`,
   fileError: 'Unknown file upload',
-  notUploaded: 'File not uploaded'
+  notUploaded: 'File not uploaded',
+  delRemainCount: (count) => `Remain ${3 - count} click(s)!`,
+  invalidTag: 'Invalid tags'
 };

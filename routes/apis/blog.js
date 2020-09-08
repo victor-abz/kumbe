@@ -18,10 +18,10 @@ const blogRoutes = Router();
 
 blogRoutes.post(
   '/',
-  // catchErrors(isAtLeastAdmin),
-  // isBlogInfoValid,
-  // catchErrors(doesCategoryExist),
-  upload,
+  catchErrors(isAtLeastAdmin),
+  catchErrors(isBlogInfoValid),
+  catchErrors(doesCategoryExist),
+  // upload,
   catchErrors(createBlog)
 );
 blogRoutes.get('/', catchErrors(getBlogs));

@@ -1,9 +1,10 @@
 import { Validator, serverResponse, QueryHelper, getLang } from '../helpers';
-import { Category, Blog } from '../models';
+import { Category, Blog, Tag } from '../models';
 import { translate } from '../config';
 
 const categoryDb = new QueryHelper(Category);
 const blogDb = new QueryHelper(Blog);
+const tagDb = new QueryHelper(Tag);
 export const isCategoryValid = (req, res, next) => {
   let validator = new Validator(req.body);
   const error = validator.validateInput('category');
@@ -11,12 +12,25 @@ export const isCategoryValid = (req, res, next) => {
   if (!error) return next();
   return serverResponse(res, 400, error);
 };
-export const isBlogInfoValid = (req, res, next) => {
+export const isBlogInfoValid = async (req, res, next) => {
   let validator = new Validator(req.body);
   const error = validator.validateInput('blog');
 
-  if (!error) return next();
-  return serverResponse(res, 400, error);
+  if (error) return serverResponse(res, 400, error);
+  let tags = [];
+  await Promise.all(
+    req.body.tags.map(async (tag) => {
+      const thisTag = await tagDb.findOne({ id: tag });
+      if (thisTag) tags.push(tag);
+    })
+  );
+  if (tags.length) {
+    req.body.tags = tags;
+    return next();
+  }
+  const lang = getLang(req);
+  const message = translate[lang].invalidTag;
+  return serverResponse(res, 404, message);
 };
 export const doesCategoryExist = async (req, res, next) => {
   const categoryIdOrSlug = req.params.categoryId || req.body.categoryId;
@@ -53,4 +67,11 @@ export const doesBlogExist = async (req, res, next) => {
   const lang = getLang(req);
   const message = translate[lang].dataNotFound('Blog');
   return serverResponse(res, 404, message);
+};
+export const isTagValid = async (req, res, next) => {
+  let validator = new Validator(req.body);
+  const error = validator.validateInput('tag');
+
+  if (!error) return next();
+  return serverResponse(res, 400, error);
 };

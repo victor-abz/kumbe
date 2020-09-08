@@ -26,4 +26,30 @@ export class ValidatorKeys {
       username: Joi.string().required()
     };
   }
+  getCategoryKeys() {
+    return {
+      name: Joi.string().required(),
+      type: Joi.string(),
+      languageId: Joi.number()
+    };
+  }
+  getBlogKeys() {
+    return {
+      title: Joi.string().required(),
+      coverImage: Joi.string(),
+      content: Joi.string().required(),
+      categoryId: Joi.number().required(),
+      languageId: Joi.number().required(),
+      tags: Joi.array().required(),
+      isPublished: Joi.boolean()
+    };
+  }
+  getTagKeys() {
+    return {
+      name: Joi.string().required(),
+      color: Joi.string().required(),
+      type: Joi.string().valid('blog', 'forum'),
+      languageId: Joi.number()
+    };
+  }
 }

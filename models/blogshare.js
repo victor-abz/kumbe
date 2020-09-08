@@ -1,6 +1,10 @@
 'use strict';
 export default (sequelize, DataTypes) => {
-  const BlogShare = sequelize.define('BlogShare', { tableName: 'blog_shares' });
+  const BlogShare = sequelize.define(
+    'BlogShare',
+    {},
+    { tableName: 'blog_shares' }
+  );
   BlogShare.associate = (models) => {
     BlogShare.belongsTo(models.Blog, {
       as: 'blog',

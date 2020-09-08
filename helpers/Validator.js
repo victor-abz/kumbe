@@ -16,6 +16,15 @@ export class Validator extends ValidatorKeys {
       case 'user-update':
         validationKeys = this.getUserKeys();
         break;
+      case 'category':
+        validationKeys = this.getCategoryKeys();
+        break;
+      case 'blog':
+        validationKeys = this.getBlogKeys();
+        break;
+      case 'tag':
+        validationKeys = this.getTagKeys();
+        break;
       default:
         break;
     }

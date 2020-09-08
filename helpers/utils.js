@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { verify } from 'jsonwebtoken';
+import slugify from 'slugify';
+import uniqid from 'uniqid';
+import { User } from '../models';
+import { QueryHelper } from './QueryHelper';
 
+const userDb = new QueryHelper(User);
 export const hashPassword = (password) => {
   const salt = bcrypt.genSaltSync(process.env.PASS_SALT);
   const hashPass = bcrypt.hashSync(password, salt);
@@ -37,4 +42,37 @@ export const tokenGenerator = (tokenLength) => {
     token.push(chars[getRandomInt(0, chars.length - 1)]);
   }
   return token.join('');
+};
+export const generateSlug = (title) => {
+  const uniqueId = uniqid.process();
+  const slug = `${slugify(title, { lower: true })}-${uniqueId}`;
+  return slug;
+};
+export const authenticatedUser = async (req) => {
+  const { user, useragent, headers } = req;
+  if (
+    useragent.isFirefox ||
+    useragent.isOpera ||
+    useragent.isChromeOS ||
+    useragent.isEdge
+  ) {
+    const token = headers.authorization;
+    try {
+      const { id } = verify(token, process.env.SECRET);
+      const user = await userDb.findOne({ id });
+      if (user.id) {
+        return user;
+      }
+    } catch (error) {
+      return null;
+    }
+  } else if ((useragent.browser = 'PostmanRuntime' && req.isAuthenticated())) {
+    return user;
+  }
+  return null;
+};
+export const paginator = ({ page, pageSize }) => {
+  const offset = Number((page - 1) * pageSize) || 0;
+  const limit = Number(pageSize) || 20;
+  return { offset, limit };
 };

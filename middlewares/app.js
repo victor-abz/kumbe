@@ -1,9 +1,17 @@
+import { existsSync, mkdirSync, unlink } from 'fs';
 import { serverResponse, QueryHelper, getLang } from '../helpers';
 import { Language } from '../models';
 import { translate } from '../config';
 
 const languageDb = new QueryHelper(Language);
 export const monitorDevActions = (req, res, next) => {
+  const songsDir = process.env.SONGS_ZONE;
+  const imagesDir = process.env.IMAGES_ZONE;
+  const blogsDir = process.env.BLOGS_ZONE;
+  if (!existsSync(songsDir)) mkdirSync(songsDir, { recursive: true });
+  if (!existsSync(imagesDir)) mkdirSync(imagesDir, { recursive: true });
+  if (!existsSync(blogsDir)) mkdirSync(blogsDir, { recursive: true });
+
   if (process.env.NODE_ENV === 'development') {
     const user = req.isAuthenticated()
       ? `User: ${req.user.username}`
@@ -35,6 +43,15 @@ export const catchErrors = (fn) => (req, res, next) => {
 export const handleErrors = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     console.log(err.stack);
+  }
+  if (req.file) {
+    const filePath = null;
+    //Check every route that uses the uploadFile Middleware
+    if (req.path.includes('blogs')) filePath = process.env.BLOGS_ZONE;
+    unlink(`${filePath}/${req.file.filename}`, (delError) => {
+      if (delError) console.log('File not deleted', delError);
+      return serverResponse(res, 500, err.message);
+    });
   }
   return serverResponse(res, 500, err.message);
 };

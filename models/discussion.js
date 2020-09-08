@@ -4,26 +4,29 @@ export default (sequelize, DataTypes) => {
     'Discussion',
     {
       content: DataTypes.STRING,
-      anonymous: DataTypes.BOOLEAN,
+      anonymous: DataTypes.BOOLEAN
     },
     { tableName: 'discussions' }
   );
   Discussion.associate = (models) => {
-    Discussion.hasMany(models.Tag, { as: 'tags' });
+    Discussion.belongsToMany(models.Tag, {
+      as: 'tags',
+      through: 'discussion_tags'
+    });
     Discussion.belongsTo(models.User, {
       as: 'user',
-      foreignKey: 'userId',
+      foreignKey: 'userId'
     });
     Discussion.belongsTo(models.Language, {
       as: 'language',
-      foreignKey: 'languageId',
+      foreignKey: 'languageId'
     });
     Discussion.belongsTo(models.Category, {
       as: 'category',
-      foreignKey: 'categoryId',
+      foreignKey: 'categoryId'
     });
     Discussion.hasMany(models.Reply, {
-      as: 'replies',
+      as: 'replies'
     });
   };
   return Discussion;

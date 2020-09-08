@@ -14,5 +14,10 @@ export const kn = {
   registerSuccess: (names) => `Murakoze, ${names}, kwiyandikisha`,
   userExists: '(Telefoni, email cg amazina) bikoreshwa n undi',
   invalidLogin: 'Amazina mwatanze siyo',
-  invalidPwd: 'Ibanga muri gukoresha siryo'
+  invalidPwd: 'Ibanga muri gukoresha siryo',
+  dataNotFound: (type) => `${type} ntibashishije kuboneka`,
+  fileError: 'Ntimwemerewe kuzamura file',
+  notUploaded: 'File ntabwo yabaye uploaded',
+  delRemainCount: (count) => `Harabura inshuro ${3 - count}!!`,
+  invalidTag: 'Tags ntabwo zemewe'
 };

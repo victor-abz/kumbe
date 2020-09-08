@@ -14,5 +14,12 @@ export const en = {
   registerSuccess: (name) => `Thank you, ${name}, for registering`,
   userExists: 'Phone number, email or username has been taken',
   invalidLogin: 'Invalid user login info',
-  invalidPwd: 'Invalid password'
+  invalidPwd: 'Invalid password',
+  loginSuccess: (names) => `Welcome ${names}`,
+  registerSuccess: (names) => `Thank you, ${names}, for registering`,
+  dataNotFound: (type) => `${type} does not exist`,
+  fileError: 'Unknown file upload',
+  notUploaded: 'File not uploaded',
+  delRemainCount: (count) => `Remain ${3 - count} click(s)!`,
+  invalidTag: 'Invalid tags'
 };

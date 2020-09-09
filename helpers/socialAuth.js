@@ -16,7 +16,9 @@ export const socialAuth = (req, res, strategy, authCallBack) => {
       successRedirect: '/',
       failureRedirect: '/login'
     },
-    (error, user, info) => {
+    (error, user) => {
+      console.log('fs Error', error);
+      console.log('fs User', user);
       if (error) return authCallBack(error.message);
       req.logIn(user, (logError) => {
         if (logError) {

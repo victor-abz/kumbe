@@ -1,6 +1,7 @@
 import { Strategy as LocalStrategy } from 'passport-local';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Op } from 'sequelize';
 import { User } from '../models';
 import { unHashPassword, hashPassword, getLang } from '../helpers';
@@ -8,7 +9,6 @@ import { translate } from './messages';
 
 export const localPassport = () => {
   passport.serializeUser((user, done) => {
-    console.log('User', user);
     done(null, user.id);
   });
 
@@ -100,9 +100,6 @@ export const localPassport = () => {
         callbackURL: `${process.env.APP_LINK}/google/auth/callback`
       },
       (token, tokenSecret, profile, done) => {
-        console.log('g token', token);
-        console.log('g tokenSecret', tokenSecret);
-        console.log('g profile', profile._json);
         const { given_name, family_name, picture, email } = profile._json;
         User.findOrCreate({
           where: { email },
@@ -117,8 +114,28 @@ export const localPassport = () => {
           },
           logging: false
         })
-          .then((user) => done(null, user))
+          .then((user) => {
+            const jsonUser = user[0].dataValues;
+
+            return done(null, jsonUser);
+          })
           .catch((error) => done(error));
+      }
+    )
+  );
+  passport.use(
+    'facebook',
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: `${process.env.APP_LINK}/facebook/auth/callback`
+      },
+      (accessToken, refreshToken, profile, done) => {
+        console.log('f accessToken', accessToken);
+        console.log('f refreshToken', refreshToken);
+        console.log('f profile', profile);
+        return done(null, { id: 2 });
       }
     )
   );

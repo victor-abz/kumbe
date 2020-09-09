@@ -8,8 +8,9 @@
     "start": "babel-node ./app.js",
     "dev": "nodemon --exec babel-node ./app.js",
     "migrate:up": "npx sequelize-cli db:migrate",
-    "migrate:drop": "sequelize db:migrate:undo:all",
-    "seed:up": "npx sequelize-cli db:seed:all"
+    "migrate:drop": "npx sequelize-cli db:migrate:undo:all",
+    "seed:up": "npx sequelize-cli db:seed:all",
+    "seed:drop": "npx sequelize-cli db:seed:undo:all"
   },
   "repository": {
     "type": "git",

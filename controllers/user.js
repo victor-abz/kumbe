@@ -62,12 +62,20 @@ export const getUserProfile = (req, res) => {
   const msg = translate[lang].success;
   return serverResponse(res, 200, msg, currentUser);
 };
-export const googleCallBack = (req, res) => {
+export const passportStrategy = (req, res) => {
+  const { strategy } = req.params;
+  const permissions = strategy === 'google' ? ['profile', 'email'] : null;
+
+  passport.authenticate(strategy, { scope: permissions })(req, res);
+};
+export const socialAuthCallBack = (req, res) => {
   socialAuth(req, res, 'google', (error, userLink) => {
     if (error) return serverResponse(res, 500, error);
+    const lang = getLang(req);
     /*
      * Redirect a user to the link
      */
-    return res.redirect(userLink);
+    const msg = translate[lang].success;
+    return serverResponse(res, 200, msg, userLink);
   });
 };

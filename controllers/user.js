@@ -8,6 +8,7 @@ import {
   getLang
 } from '../helpers';
 import { translate } from '../config/messages';
+import { socialAuth } from '../helpers/socialAuth';
 
 const userDb = new QueryHelper(User);
 export const getUsers = (req, res) => {
@@ -60,4 +61,22 @@ export const getUserProfile = (req, res) => {
   delete currentUser.password;
   const msg = translate[lang].success;
   return serverResponse(res, 200, msg, currentUser);
+};
+export const passportStrategy = (req, res, next) => {
+  const { strategy } = req.params;
+  const permissions = strategy === 'facebook' ? null : ['profile', 'email'];
+
+  passport.authenticate(strategy, { scope: permissions })(req, res, next);
+};
+export const socialAuthCallBack = (req, res, next) => {
+  const { strategy } = req.params;
+  socialAuth(req, res, next, strategy, (error, userLink) => {
+    if (error) return serverResponse(res, 500, error);
+    const lang = getLang(req);
+    /*
+     * Redirect a user to the link
+     */
+    const msg = translate[lang].success;
+    return serverResponse(res, 200, msg, userLink);
+  });
 };

@@ -3,11 +3,13 @@ import {
   monitorDevActions,
   route404,
   catchErrors,
-  setLanguage
+  setLanguage,
+  validateStrategy
 } from '../middlewares/app';
 import apiRoutes from './apis';
 import { serverResponse, getLang } from '../helpers';
 import { translate } from '../config';
+import { passportStrategy, socialAuthCallBack } from '../controllers/user';
 
 const routes = Router();
 
@@ -17,6 +19,8 @@ routes.get('/', (req, res) => {
 });
 routes.use(monitorDevActions);
 routes.use('/api', catchErrors(setLanguage), apiRoutes);
+routes.get('/:strategy/auth', validateStrategy, passportStrategy);
+routes.get('/:strategy/auth/callback', validateStrategy, socialAuthCallBack);
 routes.all('*', route404);
 
 export default routes;

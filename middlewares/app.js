@@ -1,5 +1,10 @@
 import { existsSync, mkdirSync, unlink } from 'fs';
-import { serverResponse, QueryHelper, getLang } from '../helpers';
+import {
+  serverResponse,
+  QueryHelper,
+  getLang,
+  allowedStrategies
+} from '../helpers';
 import { Language } from '../models';
 import { translate } from '../config';
 
@@ -41,23 +46,38 @@ export const catchErrors = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 export const handleErrors = (err, req, res, next) => {
+  const lang = getLang(req);
   if (process.env.NODE_ENV === 'development') {
     console.log(err.stack);
   }
+  /**
+   * Check every route that uses the uploadFile Middleware
+   */
   if (req.file) {
     const filePath = null;
-    //Check every route that uses the uploadFile Middleware
     if (req.path.includes('blogs')) filePath = process.env.BLOGS_ZONE;
     unlink(`${filePath}/${req.file.filename}`, (delError) => {
       if (delError) console.log('File not deleted', delError);
-      return serverResponse(res, 500, err.message);
+      return serverResponse(res, 500, translate[lang].serverError);
     });
   }
-  return serverResponse(res, 500, err.message);
+  return serverResponse(res, 500, translate[lang].serverError);
+  /**
+   * To view the error detail, uncomment this line
+   */
+  // return serverResponse(res, 500, err.message);
 };
 export const setLanguage = async (req, res, next) => {
   const shortName = req.acceptsLanguages('en', 'kn') || 'kn';
   const language = await languageDb.findOne({ shortName });
   req.body.languageId = language.id || 1;
   return next();
+};
+export const validateStrategy = (req, res, next) => {
+  const lang = getLang(req);
+  const { strategy } = req.params;
+  if (allowedStrategies.includes(strategy)) {
+    return next();
+  }
+  return serverResponse(res, 500, translate[lang].serverError);
 };

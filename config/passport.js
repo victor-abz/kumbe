@@ -1,10 +1,16 @@
-import { Strategy as LocalStrategy } from 'passport-local';
 import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
+import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { Op } from 'sequelize';
 import { User } from '../models';
-import { unHashPassword, hashPassword, getLang } from '../helpers';
+import {
+  unHashPassword,
+  hashPassword,
+  getLang,
+  toFirstLastName
+} from '../helpers';
 import { translate } from './messages';
 
 export const localPassport = () => {
@@ -100,6 +106,7 @@ export const localPassport = () => {
         callbackURL: `${process.env.APP_LINK}/google/auth/callback`
       },
       (token, tokenSecret, profile, done) => {
+        console.log('GM profile', profile);
         const { given_name, family_name, picture, email } = profile._json;
         User.findOrCreate({
           where: { email },
@@ -132,10 +139,59 @@ export const localPassport = () => {
         callbackURL: `${process.env.APP_LINK}/facebook/auth/callback`
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log('f accessToken', accessToken);
-        console.log('f refreshToken', refreshToken);
-        console.log('f profile', profile);
-        return done(null, { id: 2 });
+        console.log('FB profile', profile);
+        const { name } = profile._json;
+        const { firstName, lastName } = toFirstLastName(name);
+        User.findOrCreate({
+          where: { username: name.split(' ').join('') },
+          defaults: {
+            firstName,
+            lastName,
+            gender: 'Other',
+            isActive: true,
+            isVerified: true
+          },
+          logging: false
+        })
+          .then((user) => {
+            const jsonUser = user[0].dataValues;
+
+            return done(null, jsonUser);
+          })
+          .catch((error) => done(error));
+      }
+    )
+  );
+  passport.use(
+    'twitter',
+    new TwitterStrategy(
+      {
+        consumerKey: process.env.TWITTER_APP_ID,
+        consumerSecret: process.env.TWITTER_APP_SECRET,
+        callbackURL: `${process.env.APP_LINK}/twitter/auth/callback`
+      },
+      (accessToken, refreshToken, profile, done) => {
+        console.log('TW profile', profile);
+        const { screen_name, name, profile_image_url_https } = profile._json;
+        const { firstName, lastName } = toFirstLastName(name);
+        User.findOrCreate({
+          where: { username: screen_name.toLowerCase() },
+          defaults: {
+            firstName,
+            lastName,
+            profilePic: profile_image_url_https,
+            gender: 'Other',
+            isActive: true,
+            isVerified: true
+          },
+          logging: false
+        })
+          .then((user) => {
+            const jsonUser = user[0].dataValues;
+
+            return done(null, jsonUser);
+          })
+          .catch((error) => done(error));
       }
     )
   );

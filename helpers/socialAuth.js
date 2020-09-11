@@ -9,7 +9,7 @@ import { week } from './constants';
  * @param {string} strategy google | facebook
  * @param {Callback} authCallBack Callback function whick return link
  */
-export const socialAuth = (req, res, strategy, authCallBack) => {
+export const socialAuth = (req, res, next, strategy, authCallBack) => {
   passport.authenticate(
     strategy,
     {
@@ -37,5 +37,5 @@ export const socialAuth = (req, res, strategy, authCallBack) => {
         return authCallBack(null, userLink);
       });
     }
-  )(req, res);
+  )(req, res, next);
 };

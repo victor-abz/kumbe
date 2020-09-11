@@ -76,3 +76,26 @@ export const paginator = ({ page, pageSize }) => {
   const limit = Number(pageSize) || 20;
   return { offset, limit };
 };
+/**
+ *
+ * @param {string} name
+ * @returns {string} Return a capitalized name
+ */
+export const ucFirst = (name) => {
+  return name.replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+};
+/**
+ *
+ * @param {string} fullName A name to split into two
+ * @returns {object} An object of two names
+ */
+export const toFirstLastName = (fullName) => {
+  let names = {};
+
+  if (fullName) {
+    const nameArr = fullName.split(' ');
+    names.lastName = nameArr.pop();
+    names.firstName = ucFirst(nameArr.join(' '));
+  }
+  return names;
+};

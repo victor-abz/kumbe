@@ -1,5 +1,5 @@
 const appName = process.env.APP_NAME || null;
-export const kn = {
+export const kin = {
   welcomeMesg: `Murakaza neza kuri ${appName} platform`,
   notAuth: 'Ooh, Mubanze mukore login',
   notAdmin: 'Ibyo bigenewe administrator',

@@ -68,7 +68,7 @@ export const handleErrors = (err, req, res, next) => {
   // return serverResponse(res, 500, err.message);
 };
 export const setLanguage = async (req, res, next) => {
-  const shortName = req.acceptsLanguages('en', 'kn') || 'kn';
+  const shortName = req.acceptsLanguages('en', 'kin') || 'en';
   const language = await languageDb.findOne({ shortName });
   req.body.languageId = language.id || 1;
   return next();

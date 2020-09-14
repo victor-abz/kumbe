@@ -7,16 +7,16 @@ module.exports = {
       [
         {
           name: 'Kinyarwanda',
-          shortName: 'kn',
+          shortName: 'kin',
           createdAt: new Date(),
-          updatedAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'English',
           shortName: 'en',
           createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+          updatedAt: new Date()
+        }
       ],
       {}
     );
@@ -24,5 +24,5 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete('languages', null, {});
-  },
+  }
 };

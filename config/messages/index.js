@@ -1,4 +1,4 @@
 import { en } from './en';
-import { kn } from './kn';
+import { kin } from './kin';
 
-export const translate = { en, kn };
+export const translate = { en, kin };

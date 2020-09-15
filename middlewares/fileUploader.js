@@ -11,7 +11,8 @@ const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
     let fileStorage = null;
     const lang = getLang(req);
-    if (req.baseUrl.includes('blogs')) {
+    const { fileType } = req.params;
+    if (fileType === 'coverImage') {
       fileStorage = process.env.BLOGS_ZONE;
     } else callBack(translate[lang].fileError);
     console.log('fs', fileStorage);
@@ -34,12 +35,15 @@ export const upload = multer({
   }
 }).single('file');
 
-export const uploadFile = (req, res, next) => {
+export const uploadFile = (req, res) => {
   upload(req, res, (uploadError) => {
     const lang = getLang(req);
+    console.log(uploadError);
     if (uploadError instanceof multer.MulterError || uploadError || !req.file) {
       return serverResponse(res, 500, translate[lang].notUploaded);
     }
-    return next();
+    if (!req.file) return serverResponse(res, 400, 'No file selected');
+    const fileName = req.file.filename;
+    return serverResponse(res, 200, translate[lang].success, fileName);
   });
 };

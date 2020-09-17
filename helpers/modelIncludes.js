@@ -1,10 +1,15 @@
-import { Category, BlogShare, Comment, BlogReact, Tag } from '../models';
+import { Category, BlogShare, Comment, BlogReact, Tag, User } from '../models';
 
 export const blogIncludes = [
   {
     model: Category,
     as: 'category',
     attributes: ['name']
+  },
+  {
+    model: User,
+    as: 'editor',
+    attributes: ['firstName', 'lastName', 'username', 'profilePic']
   },
   {
     model: BlogShare,

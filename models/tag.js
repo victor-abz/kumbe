@@ -20,6 +20,7 @@ export default (sequelize, DataTypes) => {
     Tag.belongsToMany(models.Blog, {
       as: 'blogs',
       through: 'blog_tags',
+      foreignKey: 'tagId'
     });
   };
   return Tag;

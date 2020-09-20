@@ -10,6 +10,11 @@ export default (sequelize, DataTypes) => {
   );
   BlogTag.associate = (models) => {
     // associations can be defined here
+    BlogTag.belongsTo(models.Blog, {
+      as: 'blog',
+      foreignKey: 'tagId'
+    });
+    
   };
   return BlogTag;
 };

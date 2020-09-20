@@ -32,16 +32,20 @@ export default (sequelize, DataTypes) => {
     });
     Blog.belongsToMany(models.Tag, {
       as: 'tags',
-      through: 'blog_tags'
+      through: 'blog_tags',
+      foreignKey: 'tagId'
     });
     Blog.hasMany(models.BlogReact, {
-      as: 'likes'
+      as: 'likes',
+      foreignKey: 'blogId',
     });
     Blog.hasMany(models.BlogShare, {
-      as: 'shares'
+      as: 'shares',
+      foreignKey: 'blogId'
     });
     Blog.hasMany(models.Comment, {
-      as: 'comments'
+      as: 'comments',
+      foreignKey: 'blogId',
     });
   };
   return Blog;

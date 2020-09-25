@@ -7,20 +7,19 @@ export default (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       type: {
         type: DataTypes.ENUM,
-        values: ['blog', 'forum'],
-      },
+        values: ['blog', 'forum']
+      }
     },
     { tableName: 'tags' }
   );
   Tag.associate = (models) => {
     Tag.belongsTo(models.Language, {
       as: 'language',
-      foreignKey: 'languageId',
+      foreignKey: 'languageId'
     });
     Tag.belongsToMany(models.Blog, {
       as: 'blogs',
-      through: 'blog_tags',
-      foreignKey: 'tagId'
+      through: 'blog_tags'
     });
   };
   return Tag;

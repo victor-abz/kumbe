@@ -31,6 +31,9 @@ export class QueryHelper {
   async create(data) {
     return this.model.create(data, { logging: false });
   }
+  async bulkCreate(data) {
+    return this.model.bulkCreate(data, { logging: false });
+  }
   async update(data, whereCondition = {}) {
     return this.model.update(data, { where: whereCondition, logging: false });
   }

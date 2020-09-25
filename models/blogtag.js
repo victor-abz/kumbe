@@ -4,17 +4,12 @@ export default (sequelize, DataTypes) => {
     'BlogTag',
     {
       tagId: DataTypes.NUMBER,
-      blogId: DataTypes.NUMBER,
+      blogId: DataTypes.NUMBER
     },
     { tableName: 'blog_tags' }
   );
   BlogTag.associate = (models) => {
     // associations can be defined here
-    BlogTag.belongsTo(models.Blog, {
-      as: 'blog',
-      foreignKey: 'tagId'
-    });
-    
   };
   return BlogTag;
 };

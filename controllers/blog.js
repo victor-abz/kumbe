@@ -61,19 +61,15 @@ export const deleteCategory = async (req, res) => {
 };
 export const createBlog = async (req, res) => {
   const lang = getLang(req);
-  // console.log('The file', req.file);
   req.body.slug = generateSlug(req.body.title);
-  // req.body.coverImage = req.file.filename;
   req.body.userId = req.user.id;
   const newBlog = await blogDb.create(req.body);
+  const blogTags = req.body.tags.map((tagId) => ({
+    tagId,
+    blogId: newBlog.id
+  }));
+  await blogTagDb.bulkCreate(blogTags);
 
-  if (req.body.tags.length) {
-    await Promise.all(
-      req.body.tags.map(async (tag) => {
-        await blogTagDb.findOrCreate({ tagId: tag, blogId: newBlog.id });
-      })
-    );
-  }
   return serverResponse(res, 201, translate[lang].success);
 };
 export const getBlogs = async (req, res) => {

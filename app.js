@@ -38,9 +38,6 @@ app.use(passport.session());
 /**
  * App routes
  */
-app.use('/songs', express.static(process.env.SONGS_ZONE));
-app.use('/blogs', express.static(process.env.BLOGS_ZONE));
-app.use('/cover-images', express.static(process.env.IMAGES_ZONE));
 app.use(routes);
 /**
  * Catch unexpected errors

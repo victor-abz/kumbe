@@ -2,7 +2,14 @@
 export default (sequelize, DataTypes) => {
   const BlogShare = sequelize.define(
     'BlogShare',
-    {},
+    {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      }
+    },
     { tableName: 'blog_shares' }
   );
   BlogShare.associate = (models) => {

@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const BlogReact = sequelize.define(
     'BlogReact',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       like: DataTypes.BOOLEAN,
     },
     { tableName: 'blog_reacts' }

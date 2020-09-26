@@ -13,3 +13,7 @@ export default (sequelize, DataTypes) => {
   };
   return BlogTag;
 };
+
+// const BlogTag = sequelize.define('BlogTag', {}, { timestamps: false });
+// Blog.belongsToMany(Tag, { through: BlogTag });
+// Tag.belongsToMany(Blog, { through: BlogTag });

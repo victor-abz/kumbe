@@ -1,6 +1,13 @@
 'use strict';
 export default (sequelize, DataTypes) => {
-  const Share = sequelize.define('Share', {}, { tableName: 'shares' });
+  const Share = sequelize.define('Share', {
+    id: {
+    allowNull: false,
+    primaryKey: true,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+  }
+}, { tableName: 'shares' });
   Share.associate = (models) => {
     Share.belongsTo(models.Blog, {
       as: 'blog',

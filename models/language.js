@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const Language = sequelize.define(
     'Language',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       name: {
         type: DataTypes.STRING,
         unique: true,

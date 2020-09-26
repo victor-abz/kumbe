@@ -54,7 +54,7 @@ export const doesCategoryExist = async (req, res, next) => {
 export const doesBlogExist = async (req, res, next) => {
   const blogIdOrSlug = req.params.blogId || req.body.blogId;
   if (blogIdOrSlug) {
-    const attribute = isNaN(blogIdOrSlug) ? 'slug' : 'id';
+    const attribute = isUuid(blogIdOrSlug) ? 'id' : 'slug';
     const blog = await blogDb.findOne({
       [attribute]: blogIdOrSlug
     });

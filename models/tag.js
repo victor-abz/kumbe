@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const Tag = sequelize.define(
     'Tag',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
+      },
       color: DataTypes.STRING,
       name: DataTypes.STRING,
       type: {

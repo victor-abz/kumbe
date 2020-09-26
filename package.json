@@ -61,7 +61,8 @@
     "sequelize": "^5.22.3",
     "sequelize-cli": "^5.5.1",
     "slugify": "^1.4.5",
-    "uniqid": "^5.2.0"
+    "uniqid": "^5.2.0",
+    "uuidv4": "^6.2.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",

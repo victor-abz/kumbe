@@ -1,3 +1,4 @@
+import { isUuid } from 'uuidv4';
 import { Validator, serverResponse, QueryHelper, getLang } from '../helpers';
 import { Category, Blog, Tag } from '../models';
 import { translate } from '../config';
@@ -35,7 +36,7 @@ export const isBlogInfoValid = async (req, res, next) => {
 export const doesCategoryExist = async (req, res, next) => {
   const categoryIdOrSlug = req.params.categoryId || req.body.categoryId;
   if (categoryIdOrSlug) {
-    const attribute = isNaN(categoryIdOrSlug) ? 'slug' : 'id';
+    const attribute = isUuid(categoryIdOrSlug) ? 'id' : 'slug';
     const category = await categoryDb.findOne({
       [attribute]: categoryIdOrSlug
     });

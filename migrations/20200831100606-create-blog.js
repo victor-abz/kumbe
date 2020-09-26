@@ -6,9 +6,8 @@ module.exports = {
       {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.UUID
         },
         title: {
           type: Sequelize.STRING,
@@ -29,7 +28,7 @@ module.exports = {
           defaultValue: false
         },
         categoryId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {
@@ -39,7 +38,7 @@ module.exports = {
           }
         },
         languageId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {
@@ -49,7 +48,7 @@ module.exports = {
           }
         },
         userId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {

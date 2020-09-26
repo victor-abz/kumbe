@@ -6,16 +6,15 @@ module.exports = {
       {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
         },
         tagId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
         },
         blogId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
         },
         createdAt: {

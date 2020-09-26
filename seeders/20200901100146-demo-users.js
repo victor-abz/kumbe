@@ -1,12 +1,14 @@
 'use strict';
 
 import { hashPassword } from '../helpers';
+import faker from 'faker'
 
 export const up = (queryInterface, Sequelize) => {
   return queryInterface.bulkInsert(
     'users',
     [
       {
+        id: faker.random.uuid(),
         firstName: 'Administrator',
         lastName: 'Admin',
         username: 'admin',
@@ -18,6 +20,7 @@ export const up = (queryInterface, Sequelize) => {
         updatedAt: new Date()
       },
       {
+        id: faker.random.uuid(),
         firstName: 'Modulator',
         lastName: 'Modular',
         username: 'modulator',
@@ -29,6 +32,7 @@ export const up = (queryInterface, Sequelize) => {
         updatedAt: new Date()
       },
       {
+        id: faker.random.uuid(),
         firstName: 'System',
         lastName: 'User',
         username: 'user',

@@ -4,12 +4,11 @@ module.exports = {
     return queryInterface.createTable('shares', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -19,7 +18,7 @@ module.exports = {
         }
       },
       blogId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {

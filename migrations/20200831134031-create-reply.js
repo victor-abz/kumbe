@@ -4,9 +4,8 @@ module.exports = {
     return queryInterface.createTable('replies', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       content: {
         type: Sequelize.STRING,
@@ -15,7 +14,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -25,7 +24,7 @@ module.exports = {
         },
       },
       discussionId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -35,7 +34,7 @@ module.exports = {
         },
       },
       parentId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
           model: 'replies',

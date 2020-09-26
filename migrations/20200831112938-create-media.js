@@ -4,9 +4,8 @@ module.exports = {
     return queryInterface.createTable('medias', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       type: {
         type: Sequelize.ENUM,
@@ -17,7 +16,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       languageId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {

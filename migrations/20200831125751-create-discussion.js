@@ -4,9 +4,8 @@ module.exports = {
     return queryInterface.createTable('discussions', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       content: {
         type: Sequelize.STRING
@@ -16,7 +15,7 @@ module.exports = {
         defaultValue: false
       },
       categoryId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -26,7 +25,7 @@ module.exports = {
         }
       },
       languageId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -36,7 +35,7 @@ module.exports = {
         }
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {

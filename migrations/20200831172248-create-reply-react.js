@@ -4,16 +4,15 @@ module.exports = {
     return queryInterface.createTable('reply_reacts', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       like: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
       },
       replyId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -23,7 +22,7 @@ module.exports = {
         }
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {

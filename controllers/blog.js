@@ -1,4 +1,4 @@
-import { isUuid } from 'uuidv4';
+import { validate } from 'uuid';
 import { Blog, Category, Tag, BlogTag } from '../models';
 import {
   serverResponse,
@@ -83,7 +83,7 @@ export const getBlogs = async (req, res) => {
   if (category === 'sample') {
     orderBy = [['title', 'ASC']];
   }
-  if (isUuid(category)) {
+  if (validate(category)) {
     whereConditions = {
       languageId,
       categoryId: category

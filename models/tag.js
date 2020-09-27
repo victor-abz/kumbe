@@ -28,9 +28,6 @@ export default (sequelize, DataTypes) => {
       through: 'blog_tags',
       foreignKey: 'tagId'
     });
-    Tag.hasMany(models.BlogTag, {
-      foreignKey: 'tagId'
-    });
   };
   return Tag;
 };

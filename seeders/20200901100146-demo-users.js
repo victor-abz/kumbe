@@ -1,7 +1,7 @@
 'use strict';
 
 import { hashPassword } from '../helpers';
-import faker from 'faker'
+import faker from 'faker';
 
 export const up = (queryInterface, Sequelize) => {
   return queryInterface.bulkInsert(
@@ -13,7 +13,7 @@ export const up = (queryInterface, Sequelize) => {
         lastName: 'Admin',
         username: 'admin',
         gender: 'Male',
-        phone: '0783543016',
+        phone: '0781234567',
         password: hashPassword('MyPassword'),
         accessLevel: '1',
         createdAt: new Date(),
@@ -26,7 +26,7 @@ export const up = (queryInterface, Sequelize) => {
         username: 'modulator',
         gender: 'Male',
         accessLevel: '2',
-        phone: '0738533018',
+        phone: '0731234567',
         password: hashPassword('MyPassword'),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -37,7 +37,7 @@ export const up = (queryInterface, Sequelize) => {
         lastName: 'User',
         username: 'user',
         gender: 'Male',
-        phone: '0728533016',
+        phone: '0721234567',
         password: hashPassword('MyPassword'),
         accessLevel: '3',
         createdAt: new Date(),

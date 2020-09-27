@@ -1,3 +1,4 @@
+import { validate } from 'uuid';
 import { Validator, serverResponse, QueryHelper, getLang } from '../helpers';
 import { Category, Blog, Tag } from '../models';
 import { translate } from '../config';
@@ -35,7 +36,7 @@ export const isBlogInfoValid = async (req, res, next) => {
 export const doesCategoryExist = async (req, res, next) => {
   const categoryIdOrSlug = req.params.categoryId || req.body.categoryId;
   if (categoryIdOrSlug) {
-    const attribute = isNaN(categoryIdOrSlug) ? 'slug' : 'id';
+    const attribute = validate(categoryIdOrSlug) ? 'id' : 'slug';
     const category = await categoryDb.findOne({
       [attribute]: categoryIdOrSlug
     });
@@ -53,7 +54,7 @@ export const doesCategoryExist = async (req, res, next) => {
 export const doesBlogExist = async (req, res, next) => {
   const blogIdOrSlug = req.params.blogId || req.body.blogId;
   if (blogIdOrSlug) {
-    const attribute = isNaN(blogIdOrSlug) ? 'slug' : 'id';
+    const attribute = validate(blogIdOrSlug) ? 'id' : 'slug';
     const blog = await blogDb.findOne({
       [attribute]: blogIdOrSlug
     });

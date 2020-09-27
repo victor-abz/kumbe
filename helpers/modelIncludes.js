@@ -30,6 +30,6 @@ export const blogIncludes = [
     model: Tag,
     as: 'tags',
     through: { attributes: [] },
-    attributes: ['name']
+    attributes: ['name', 'color']
   }
 ];

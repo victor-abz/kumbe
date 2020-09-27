@@ -4,15 +4,15 @@ module.exports = {
     return queryInterface.createTable('discussion_tags', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       discussionId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       tagId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       createdAt: {
         allowNull: false,

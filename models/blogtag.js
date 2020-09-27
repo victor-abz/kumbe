@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const BlogTag = sequelize.define(
     'BlogTag',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
+      },
       tagId: DataTypes.NUMBER,
       blogId: DataTypes.NUMBER
     },

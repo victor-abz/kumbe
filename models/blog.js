@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const Blog = sequelize.define(
     'Blog',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4
+      },
       title: {
         type: DataTypes.STRING,
         unique: true
@@ -32,7 +38,8 @@ export default (sequelize, DataTypes) => {
     });
     Blog.belongsToMany(models.Tag, {
       as: 'tags',
-      through: 'blog_tags'
+      through: 'blog_tags',
+      foreignKey: 'blogId'
     });
     Blog.hasMany(models.BlogReact, {
       as: 'likes',

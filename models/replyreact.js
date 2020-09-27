@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const Like = sequelize.define(
     'ReplyReact',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       like: DataTypes.BOOLEAN,
     },
     { tableName: 'reply_reacts' }

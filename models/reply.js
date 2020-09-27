@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const Reply = sequelize.define(
     'Reply',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       content: DataTypes.STRING,
       anonymous: DataTypes.BOOLEAN,
     },

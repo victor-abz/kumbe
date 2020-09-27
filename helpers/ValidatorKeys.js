@@ -4,7 +4,7 @@ export class ValidatorKeys {
   getAuthKeys(action) {
     const phoneReg = '^+[0-9]{2}(0)([0-9]{9}$';
     const login = {
-      languageId: Joi.number(),
+      languageId: Joi.string(),
       username: Joi.string().required(),
       password: Joi.string().required()
     };
@@ -20,7 +20,7 @@ export class ValidatorKeys {
   }
   getUserKeys() {
     return {
-      languageId: Joi.number().required(),
+      languageId: Joi.string().required(),
       names: Joi.string().required(),
       phone: Joi.string().required(),
       username: Joi.string().required()
@@ -30,7 +30,7 @@ export class ValidatorKeys {
     return {
       name: Joi.string().required(),
       type: Joi.string(),
-      languageId: Joi.number()
+      languageId: Joi.string()
     };
   }
   getBlogKeys() {
@@ -38,8 +38,8 @@ export class ValidatorKeys {
       title: Joi.string().required(),
       coverImage: Joi.string(),
       content: Joi.string().required(),
-      categoryId: Joi.number().required(),
-      languageId: Joi.number().required(),
+      categoryId: Joi.string().required(),
+      languageId: Joi.string().required(),
       tags: Joi.array().required(),
       isPublished: Joi.boolean()
     };
@@ -49,7 +49,7 @@ export class ValidatorKeys {
       name: Joi.string().required(),
       color: Joi.string().required(),
       type: Joi.string().valid('blog', 'forum'),
-      languageId: Joi.number()
+      languageId: Joi.string()
     };
   }
 }

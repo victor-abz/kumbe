@@ -3,6 +3,12 @@ export default (sequelize, DataTypes) => {
   const Category = sequelize.define(
     'Category',
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       name: DataTypes.STRING,
       slug: {
         type: DataTypes.STRING,

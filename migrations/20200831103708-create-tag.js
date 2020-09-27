@@ -6,9 +6,9 @@ module.exports = {
       {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
         },
         color: {
           type: Sequelize.STRING,
@@ -22,7 +22,7 @@ module.exports = {
           values: ['blog', 'forum'],
         },
         languageId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           onDelete: 'CASCADE',
           references: {

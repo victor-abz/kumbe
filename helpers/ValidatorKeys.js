@@ -52,4 +52,13 @@ export class ValidatorKeys {
       languageId: Joi.string()
     };
   }
+  getMediaKeys() {
+    return {
+      title: Joi.string().required(),
+      type: Joi.string().valid('audio', 'image', 'video').required(),
+      mediaLink: Joi.string().required(),
+      description: Joi.string().required(),
+      languageId: Joi.string()
+    };
+  }
 }

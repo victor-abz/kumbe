@@ -6,15 +6,21 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.UUIDV4
+      },
+      title: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
       },
       type: {
         type: Sequelize.ENUM,
         allowNull: false,
-        values: ['image', 'video', 'pdf', 'audio'],
+        values: ['image', 'video', 'pdf', 'audio']
       },
       mediaLink: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       languageId: {
         type: Sequelize.UUID,
@@ -23,20 +29,20 @@ module.exports = {
         references: {
           model: 'languages',
           key: 'id',
-          as: 'languageId',
-        },
+          as: 'languageId'
+        }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('medias');
-  },
+  }
 };

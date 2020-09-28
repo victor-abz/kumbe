@@ -14,7 +14,14 @@ const storage = multer.diskStorage({
     const { fileType } = req.params;
     if (fileType === 'coverImage') {
       fileStorage = process.env.BLOGS_ZONE;
+    } else if (fileType === 'image') {
+      fileStorage = process.env.IMAGES_ZONE;
+    } else if (fileType === 'audio') {
+      fileStorage = process.env.AUDIOS_ZONE;
+    } else if (fileType === 'profile') {
+      fileStorage = process.env.PROFILES_ZONE;
     } else callBack(translate[lang].fileError);
+
     console.log('fs', fileStorage);
     callBack(null, fileStorage);
   },

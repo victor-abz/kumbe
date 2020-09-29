@@ -3,6 +3,7 @@ import path from 'path';
 import { getLang } from '../helpers/constants';
 import { translate } from '../config';
 import { serverResponse } from '../helpers';
+import { unlink } from 'fs';
 
 const MB = 1024 * 1024;
 const fileMaxSize = 12 * MB; //16 mbs
@@ -12,6 +13,7 @@ const storage = multer.diskStorage({
     let fileStorage = null;
     const lang = getLang(req);
     const { fileType } = req.params;
+    const { prevFile } = req.query;
     if (fileType === 'coverImage') {
       fileStorage = process.env.BLOGS_ZONE;
     } else if (fileType === 'image') {
@@ -23,6 +25,12 @@ const storage = multer.diskStorage({
     } else callBack(translate[lang].fileError);
 
     console.log('fs', fileStorage);
+    /**
+     * Delete the previous file if exist
+     */
+    if (prevFile) {
+      unlink(`${fileStorage}/${prevFile}`, () => {});
+    }
     callBack(null, fileStorage);
   },
   filename: (req, file, callBack) => {

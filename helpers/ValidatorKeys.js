@@ -48,7 +48,7 @@ export class ValidatorKeys {
     return {
       name: Joi.string().required(),
       color: Joi.string().required(),
-      type: Joi.string().valid('blog', 'forum'),
+      type: Joi.string().valid('blog', 'forum', 'media'),
       languageId: Joi.string()
     };
   }
@@ -58,6 +58,7 @@ export class ValidatorKeys {
       type: Joi.string().valid('audio', 'image', 'video').required(),
       mediaLink: Joi.string().required(),
       description: Joi.string().required(),
+      tags: Joi.array().required(),
       languageId: Joi.string()
     };
   }

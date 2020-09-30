@@ -28,6 +28,11 @@ export default (sequelize, DataTypes) => {
       through: 'blog_tags',
       foreignKey: 'tagId'
     });
+    Tag.belongsToMany(models.Media, {
+      as: 'medias',
+      through: 'media_tags',
+      foreignKey: 'tagId'
+    });
   };
   return Tag;
 };

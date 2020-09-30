@@ -15,7 +15,8 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.ENUM,
         values: ['image', 'video', 'pdf', 'audio']
       },
-      mediaLink: DataTypes.STRING
+      mediaLink: DataTypes.STRING,
+      thumbnail: DataTypes.STRING
     },
     { tableName: 'medias' }
   );
@@ -23,6 +24,11 @@ export default (sequelize, DataTypes) => {
     Media.belongsTo(models.Language, {
       as: 'language',
       foreignKey: 'languageId'
+    });
+    Media.belongsToMany(models.Tag, {
+      as: 'tags',
+      through: 'media_tags',
+      foreignKey: 'mediaId'
     });
   };
   return Media;

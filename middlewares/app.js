@@ -10,15 +10,6 @@ import { translate } from '../config';
 
 const languageDb = new QueryHelper(Language);
 export const monitorDevActions = (req, res, next) => {
-  const audiosDir = process.env.AUDIOS_ZONE;
-  const imagesDir = process.env.IMAGES_ZONE;
-  const blogsDir = process.env.BLOGS_ZONE;
-  const profilesDir = process.env.BLOGS_ZONE;
-  if (!existsSync(audiosDir)) mkdirSync(audiosDir, { recursive: true });
-  if (!existsSync(imagesDir)) mkdirSync(imagesDir, { recursive: true });
-  if (!existsSync(blogsDir)) mkdirSync(blogsDir, { recursive: true });
-  if (!existsSync(profilesDir)) mkdirSync(profilesDir, { recursive: true });
-
   if (process.env.NODE_ENV === 'development') {
     const user = req.isAuthenticated()
       ? `User: ${req.user.username}`

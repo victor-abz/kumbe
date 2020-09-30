@@ -3,7 +3,7 @@ import path from 'path';
 import { getLang } from '../helpers/constants';
 import { translate } from '../config';
 import { serverResponse } from '../helpers';
-import { unlink } from 'fs';
+import { existsSync, mkdirSync, unlink } from 'fs';
 
 const MB = 1024 * 1024;
 const fileMaxSize = 12 * MB; //16 mbs
@@ -22,12 +22,17 @@ const storage = multer.diskStorage({
       fileStorage = process.env.AUDIOS_ZONE;
     } else if (fileType === 'profile') {
       fileStorage = process.env.PROFILES_ZONE;
+    } else if (fileType === 'thumbnail') {
+      fileStorage = process.env.THUMBNAILS_ZONE;
     } else callBack(translate[lang].fileError);
 
     console.log('fs', fileStorage);
     /**
      * Delete the previous file if exist
      */
+    if (!existsSync(fileStorage)) {
+      mkdirSync(fileStorage, { recursive: true });
+    }
     if (prevFile) {
       unlink(`${fileStorage}/${prevFile}`, () => {});
     }

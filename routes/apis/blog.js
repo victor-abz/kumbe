@@ -10,7 +10,8 @@ import { isAtLeastAdmin } from '../../middlewares/auth';
 import {
   isBlogInfoValid,
   doesCategoryExist,
-  doesBlogExist
+  doesBlogExist,
+  areTagsValid
 } from '../../middlewares/blogValidation';
 import { upload } from '../../middlewares/fileUploader';
 
@@ -20,8 +21,8 @@ blogRoutes.post(
   '/',
   catchErrors(isAtLeastAdmin),
   catchErrors(isBlogInfoValid),
+  catchErrors(areTagsValid),
   catchErrors(doesCategoryExist),
-  // upload,
   catchErrors(createBlog)
 );
 blogRoutes.get('/', catchErrors(getBlogs));

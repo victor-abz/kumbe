@@ -1,7 +1,7 @@
 'use strict';
 export default (sequelize, DataTypes) => {
-  const DiscussionTag = sequelize.define(
-    'DiscussionTag',
+  const MediaTag = sequelize.define(
+    'MediaTag',
     {
       id: {
         allowNull: false,
@@ -9,13 +9,13 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4
       },
-      discussionId: DataTypes.UUID,
+      mediaId: DataTypes.UUID,
       tagId: DataTypes.UUID
     },
-    { tableName: 'discussion_tags' }
+    { tableName: 'media_tags' }
   );
-  DiscussionTag.associate = (models) => {
+  MediaTag.associate = (models) => {
     // associations can be defined here
   };
-  return DiscussionTag;
+  return MediaTag;
 };

@@ -22,6 +22,9 @@ module.exports = {
       mediaLink: {
         type: Sequelize.STRING
       },
+      thumbnail: {
+        type: Sequelize.STRING
+      },
       languageId: {
         type: Sequelize.UUID,
         allowNull: false,

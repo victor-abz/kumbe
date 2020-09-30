@@ -18,6 +18,9 @@ export const isBlogInfoValid = async (req, res, next) => {
   const error = validator.validateInput('blog');
 
   if (error) return serverResponse(res, 400, error);
+  return next();
+};
+export const areTagsValid = async (req, res, next) => {
   let tags = [];
   await Promise.all(
     req.body.tags.map(async (tag) => {

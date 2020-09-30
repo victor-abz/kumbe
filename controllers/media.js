@@ -1,10 +1,16 @@
 import { translate } from '../config';
 import { getLang, QueryHelper, serverResponse } from '../helpers';
-import { Media } from '../models';
+import { Media, MediaTag } from '../models';
 
 const mediaDb = new QueryHelper(Media);
+const mediaTagDb = new QueryHelper(MediaTag);
 export const createMedia = async (req, res) => {
   const newMedia = await mediaDb.create(req.body);
+  const mediaTags = req.body.tags.map((tagId) => ({
+    tagId,
+    mediaId: newMedia.id
+  }));
+  await mediaTagDb.bulkCreate(mediaTags);
 
   const lang = getLang(req);
   const message = translate[lang].success;

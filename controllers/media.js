@@ -16,17 +16,38 @@ export const createMedia = async (req, res) => {
   const message = translate[lang].success;
   return serverResponse(res, 201, message, newMedia);
 };
+export const updateMedia = async (req, res) => {
+  const { mediaId: id } = req.params;
+  const { tags } = req.body;
+  await mediaDb.update(req.body, { id });
+
+  if (tags && tags.length) {
+    await Promise.all(
+      tags.map(async (tag) => {
+        await mediaTagDb.findOrCreate({ tagId: tag, mediaId: id });
+      })
+    );
+  }
+
+  const lang = getLang(req);
+  const message = translate[lang].success;
+  return serverResponse(res, 201, message, newMedia);
+};
 
 export const getMedias = async (req, res) => {
   const mediaTypes = ['image', 'audio', 'video'];
-  const { mediaType } = req.params;
+  const { mediaType } = req.query;
   let conditions = { type: mediaType };
   if (!mediaTypes.includes(mediaType) || mediaType === 'all') {
     conditions = null;
   }
-  const medias = await mediaDb.findAll(conditions, null, [
-    ['createdAt', 'DESC']
-  ]);
+  const attributes = { exclude: ['languageId', 'createdAt', 'updatedAt'] };
+  const medias = await mediaDb.findAll(
+    conditions,
+    null,
+    [['createdAt', 'DESC']],
+    attributes
+  );
 
   const lang = getLang(req);
   const message = translate[lang].success;

@@ -58,7 +58,8 @@ export class ValidatorKeys {
       type: Joi.string().valid('audio', 'image', 'video').required(),
       mediaLink: Joi.string().required(),
       description: Joi.string().required(),
-      tags: Joi.array().required(),
+      tags: Joi.array(),
+      thumbnail: Joi.string(),
       languageId: Joi.string()
     };
   }

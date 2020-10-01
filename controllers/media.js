@@ -16,6 +16,14 @@ export const createMedia = async (req, res) => {
   const message = translate[lang].success;
   return serverResponse(res, 201, message, newMedia);
 };
+export const getMediaDetail = async (req, res) => {
+  const { mediaId } = req.params;
+  const media = await mediaDb.findOne({ id: mediaId });
+
+  const lang = getLang(req);
+  const message = translate[lang].success;
+  return serverResponse(res, 200, message, media);
+};
 export const updateMedia = async (req, res) => {
   const { mediaId: id } = req.params;
   const { tags } = req.body;
@@ -31,7 +39,7 @@ export const updateMedia = async (req, res) => {
 
   const lang = getLang(req);
   const message = translate[lang].success;
-  return serverResponse(res, 201, message, newMedia);
+  return serverResponse(res, 200, message);
 };
 
 export const getMedias = async (req, res) => {

@@ -13,8 +13,7 @@ export const doesMediaExist = async (req, res, next) => {
   const { mediaId } = req.params;
   if (mediaId) {
     console.log('=====', mediaId);
-    const media = await mediaDb.findOne({ title: mediaDb });
-
+    const media = await mediaDb.findOne({ id: mediaId });
     if (media) {
       return next();
     }

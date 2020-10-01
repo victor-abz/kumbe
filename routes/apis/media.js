@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { createMedia, getMedias, updateMedia } from '../../controllers/media';
+import {
+  createMedia,
+  getMediaDetail,
+  getMedias,
+  updateMedia
+} from '../../controllers/media';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin } from '../../middlewares/auth';
 import { areTagsValid } from '../../middlewares/blogValidation';
@@ -16,6 +21,11 @@ mediaRoutes.post(
   isMediaValid,
   catchErrors(areTagsValid),
   catchErrors(createMedia)
+);
+mediaRoutes.get(
+  '/:mediaId',
+  catchErrors(doesMediaExist),
+  catchErrors(getMediaDetail)
 );
 mediaRoutes.patch(
   '/:mediaId',

@@ -28,5 +28,6 @@ apiRoutes.use('/res/audios', express.static(process.env.AUDIOS_ZONE));
 apiRoutes.use('/res/images', express.static(process.env.IMAGES_ZONE));
 apiRoutes.use('/res/blogs', express.static(process.env.BLOGS_ZONE));
 apiRoutes.use('/res/profiles', express.static(process.env.PROFILES_ZONE));
+apiRoutes.use('/res/thumbnails', express.static(process.env.THUMBNAILS_ZONE));
 
 export default apiRoutes;

@@ -52,15 +52,20 @@ export class ValidatorKeys {
       languageId: Joi.string()
     };
   }
-  getMediaKeys() {
-    return {
+  getMediaKeys(action) {
+    const basicKeys = {
       title: Joi.string().required(),
       type: Joi.string().valid('audio', 'image', 'video').required(),
       mediaLink: Joi.string().required(),
       description: Joi.string().required(),
       tags: Joi.array(),
-      thumbnail: Joi.string(),
       languageId: Joi.string()
     };
+    const moreKeys = {
+      ...basicKeys,
+      tags: Joi.array(),
+      thumbnail: Joi.string().required()
+    };
+    return action === 'add' ? basicKeys : moreKeys;
   }
 }

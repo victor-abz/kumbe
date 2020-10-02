@@ -1,18 +1,20 @@
-import { QueryHelper, serverResponse, Validator } from '../helpers';
+import { validate } from 'uuid';
+import { translate } from '../config';
+import { getLang, QueryHelper, serverResponse, Validator } from '../helpers';
 import { Media } from '../models';
 
 const mediaDb = new QueryHelper(Media);
 export const isMediaValid = (req, res, next) => {
+  const action = req.method === 'POST' ? 'add' : 'edit';
   let validator = new Validator(req.body);
-  const error = validator.validateInput('media');
+  const error = validator.validateInput('media', action);
 
   if (!error) return next();
   return serverResponse(res, 400, error);
 };
 export const doesMediaExist = async (req, res, next) => {
   const { mediaId } = req.params;
-  if (mediaId) {
-    console.log('=====', mediaId);
+  if (mediaId && validate(mediaId)) {
     const media = await mediaDb.findOne({ id: mediaId });
     if (media) {
       return next();

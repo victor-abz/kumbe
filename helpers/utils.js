@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import jwt, { verify } from 'jsonwebtoken';
 import slugify from 'slugify';
 import uniqid from 'uniqid';
+import path from 'path';
+import { translate } from '../config';
 import { User } from '../models';
 import { QueryHelper } from './QueryHelper';
 
@@ -98,4 +100,49 @@ export const toFirstLastName = (fullName) => {
     names.firstName = ucFirst(nameArr.join(' '));
   }
   return names;
+};
+
+/**
+ *
+ * @param {File} file File info
+ * @param {String} filePath Where file will be saved
+ * @param {String} lang System languange
+ * @param {Function} fileCallBack Callback function
+ */
+export const isFileAllowed = (file, filePath, lang, fileCallBack) => {
+  const coverImages = process.env.BLOGS_ZONE;
+  const images = process.env.IMAGES_ZONE;
+  const audios = process.env.AUDIOS_ZONE;
+  const profiles = process.env.PROFILES_ZONE;
+  const thumbnails = process.env.THUMBNAILS_ZONE;
+  // Allowed exts
+  const allowedImages = /jpeg|jpg|png/;
+  const allowedAudios = /mp3|mpeg/;
+  // Check ext
+  let extname = false;
+  // Check mime
+  let mimetype = false;
+  let errorMessage = '';
+  if (
+    filePath === coverImages ||
+    filePath === images ||
+    filePath === profiles ||
+    filePath === thumbnails
+  ) {
+    extname = allowedImages.test(path.extname(file.originalname).toLowerCase());
+    mimetype = allowedImages.test(file.mimetype);
+    errorMessage = translate[lang].imageNotAllowed;
+  }
+  if (filePath === audios) {
+    extname = allowedAudios.test(path.extname(file.originalname).toLowerCase());
+    mimetype = allowedAudios.test(file.mimetype);
+    console.log('mimetype', file.mimetype);
+    errorMessage = translate[lang].audioNotAllowed;
+  }
+
+  if (mimetype && extname) {
+    return fileCallBack(null, true);
+  } else {
+    fileCallBack(errorMessage);
+  }
 };

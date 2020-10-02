@@ -1,6 +1,16 @@
 import { Category, BlogShare, Comment, BlogReact, Tag, User } from '../models';
 
+export const tagsIncludes = [
+  {
+    model: Tag,
+    as: 'tags',
+    through: { attributes: [] },
+    attributes: ['id', 'name', 'color']
+  }
+];
+
 export const blogIncludes = [
+  ...tagsIncludes,
   {
     model: Category,
     as: 'category',
@@ -25,11 +35,5 @@ export const blogIncludes = [
     model: Comment,
     as: 'comments',
     attributes: ['blogId']
-  },
-  {
-    model: Tag,
-    as: 'tags',
-    through: { attributes: [] },
-    attributes: ['name', 'color']
   }
 ];

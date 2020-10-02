@@ -26,7 +26,7 @@ export class Validator extends ValidatorKeys {
         validationKeys = this.getTagKeys();
         break;
       case 'media':
-        validationKeys = this.getMediaKeys();
+        validationKeys = this.getMediaKeys(action);
         break;
       default:
         break;

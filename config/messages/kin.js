@@ -19,5 +19,7 @@ export const kin = {
   fileError: 'Ntimwemerewe kuzamura file',
   notUploaded: 'File ntabwo yabaye uploaded',
   delRemainCount: (count) => `Harabura inshuro ${3 - count}!!`,
-  invalidTag: 'Tags ntabwo zemewe'
+  invalidTag: 'Tags ntabwo zemewe',
+  imageNotAllowed: 'Ikosa: Hemewe gusa ifoto zo mubwoko bwa (jpeg, jpg cg png)',
+  audioNotAllowed: 'Ikosa: Hemewe gusa audio zo mu bwoko bwa (mp3, mpeg)'
 };

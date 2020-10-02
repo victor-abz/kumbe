@@ -21,5 +21,7 @@ export const en = {
   fileError: 'Unknown file upload',
   notUploaded: 'File not uploaded',
   delRemainCount: (count) => `Remain ${3 - count} click(s)!`,
-  invalidTag: 'Invalid tags'
+  invalidTag: 'Invalid tags',
+  imageNotAllowed: 'Error: only (jpeg, jpg or png) images allowed',
+  audioNotAllowed: 'Error: only (mp3, mpeg) audio allowed'
 };

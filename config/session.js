@@ -22,11 +22,12 @@ export const session = () =>
     secret: process.env.SESSION_SECRET,
     name: process.env.SESSION_NAME,
     cookie: {
-      path: '/',
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 24 * hour,
-      domain: process.env.APP_DOMAIN
+      secure: false,
+      domain: process.env.BASE_URL,
+      path: '/',
+      sameSite: true,
+      maxAge: 24 * hour
     },
     store: redisSessionStore
   });

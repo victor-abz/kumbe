@@ -4,7 +4,7 @@ import categoryRoutes from './category';
 import blogRoutes from './blog';
 import tagRoutes from './tag';
 import { uploadFile } from '../../middlewares/fileUploader';
-import { validateStrategy } from '../../middlewares/app';
+import { catchErrors, validateStrategy } from '../../middlewares/app';
 import { passportStrategy, socialAuthCallBack } from '../../controllers/user';
 import mediaRoutes from './media';
 
@@ -15,7 +15,7 @@ apiRoutes.use('/categories', categoryRoutes);
 apiRoutes.use('/blogs', blogRoutes);
 apiRoutes.use('/tags', tagRoutes);
 apiRoutes.use('/medias', mediaRoutes);
-apiRoutes.post('/upload/:fileType', uploadFile);
+apiRoutes.post('/upload/:fileType', catchErrors(uploadFile));
 /**
  * Social auth routes
  */

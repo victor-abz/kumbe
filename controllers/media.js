@@ -1,10 +1,17 @@
 import { translate } from '../config';
-import { getLang, QueryHelper, serverResponse } from '../helpers';
+import {
+  createYtbThumbnail,
+  getLang,
+  QueryHelper,
+  serverResponse
+} from '../helpers';
 import { Media, MediaTag } from '../models';
 
 const mediaDb = new QueryHelper(Media);
 const mediaTagDb = new QueryHelper(MediaTag);
 export const createMedia = async (req, res) => {
+  const { type, mediaLink } = req.body;
+  req.body.thumbnail = type === 'video' ? createYtbThumbnail(mediaLink) : '';
   const newMedia = await mediaDb.create(req.body);
   const mediaTags = req.body.tags.map((tagId) => ({
     tagId,

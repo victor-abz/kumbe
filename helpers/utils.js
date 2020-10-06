@@ -146,3 +146,9 @@ export const isFileAllowed = (file, filePath, lang, fileCallBack) => {
     fileCallBack(errorMessage);
   }
 };
+export const createYtbThumbnail = (videoLink) => {
+  const matchVId = videoLink.match('[\\?&]v=([^&#]*)');
+  const videoId = matchVId === null ? '' : matchVId[1];
+  const nFrameImg = `http://img.youtube.com/vi/${videoId}/0.jpg`;
+  return nFrameImg;
+};

@@ -57,7 +57,7 @@ export const uploadFile = (req, res) => {
 
   upload(req, res, (uploadError) => {
     const lang = getLang(req);
-    console.log(uploadError);
+    // console.log(uploadError);
     if (uploadError instanceof multer.MulterError || uploadError) {
       return serverResponse(res, 500, uploadError);
     }

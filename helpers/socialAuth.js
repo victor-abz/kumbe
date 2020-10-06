@@ -17,12 +17,12 @@ export const socialAuth = (req, res, next, strategy, authCallBack) => {
       failureRedirect: '/login'
     },
     (error, user) => {
-      console.log('fs Error', error);
-      console.log('fs User', user);
+      // console.log('fs Error', error);
+      // console.log('fs User', user);
       if (error) return authCallBack(error.message);
       req.logIn(user, (logError) => {
         if (logError) {
-          console.log('LogError', logError);
+          // console.log('LogError', logError);
           return authCallBack('Service not available');
         }
         user.token = generatJWT({ id: user.id });

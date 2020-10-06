@@ -136,7 +136,6 @@ export const isFileAllowed = (file, filePath, lang, fileCallBack) => {
   if (filePath === audios) {
     extname = allowedAudios.test(path.extname(file.originalname).toLowerCase());
     mimetype = allowedAudios.test(file.mimetype);
-    console.log('mimetype', file.mimetype);
     errorMessage = translate[lang].audioNotAllowed;
   }
 

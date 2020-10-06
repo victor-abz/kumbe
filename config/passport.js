@@ -106,7 +106,7 @@ export const localPassport = () => {
         callbackURL: `${process.env.APP_LINK}/google/auth/callback`
       },
       (token, tokenSecret, profile, done) => {
-        console.log('GM profile', profile);
+        // console.log('GM profile', profile);
         const { given_name, family_name, picture, email } = profile._json;
         User.findOrCreate({
           where: { email },
@@ -139,7 +139,7 @@ export const localPassport = () => {
         callbackURL: `${process.env.APP_LINK}/facebook/auth/callback`
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log('FB profile', profile);
+        // console.log('FB profile', profile);
         const { name } = profile._json;
         const { firstName, lastName } = toFirstLastName(name);
         User.findOrCreate({
@@ -171,7 +171,7 @@ export const localPassport = () => {
         callbackURL: `${process.env.APP_LINK}/twitter/auth/callback`
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log('TW profile', profile);
+        // console.log('TW profile', profile);
         const { screen_name, name, profile_image_url_https } = profile._json;
         const { firstName, lastName } = toFirstLastName(name);
         User.findOrCreate({

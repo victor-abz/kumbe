@@ -1,12 +1,9 @@
 import multer from 'multer';
 import path from 'path';
-import { getLang } from '../helpers/constants';
+import { ACCEPTED_FILE_SIZE, getLang } from '../helpers/constants';
 import { translate } from '../config';
 import { isFileAllowed, serverResponse } from '../helpers';
 import { existsSync, mkdirSync, unlink } from 'fs';
-
-const MB = 1024 * 1024;
-const fileMaxSize = 12 * MB; //16 mbs
 
 export const uploadFile = (req, res) => {
   let fileStorage = null;
@@ -46,7 +43,7 @@ export const uploadFile = (req, res) => {
   });
   const upload = multer({
     storage,
-    limits: { fileSize: fileMaxSize },
+    limits: { fileSize: ACCEPTED_FILE_SIZE },
     fileFilter: (req, file, filterCallBack) => {
       isFileAllowed(file, fileStorage, lang, (error, allowed) => {
         if (error) return filterCallBack(error);
@@ -57,10 +54,12 @@ export const uploadFile = (req, res) => {
 
   upload(req, res, (uploadError) => {
     const lang = getLang(req);
-    // console.log(uploadError);
     if (uploadError instanceof multer.MulterError || uploadError) {
-      return serverResponse(res, 500, uploadError);
+      const errorMsg = uploadError.message || uploadError;
+      console.log(errorMsg);
+      return serverResponse(res, 500, errorMsg);
     }
+
     if (!req.file) return serverResponse(res, 400, 'No file selected');
     const fileName = req.file.filename;
     return serverResponse(res, 200, translate[lang].success, fileName);

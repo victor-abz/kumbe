@@ -21,5 +21,6 @@ export const kin = {
   delRemainCount: (count) => `Harabura inshuro ${3 - count}!!`,
   invalidTag: 'Tags ntabwo zemewe',
   imageNotAllowed: 'Ikosa: Hemewe gusa ifoto zo mubwoko bwa (jpeg, jpg cg png)',
-  audioNotAllowed: 'Ikosa: Hemewe gusa audio zo mu bwoko bwa (mp3, mpeg)'
+  audioNotAllowed: 'Ikosa: Hemewe gusa audio zo mu bwoko bwa (mp3, mpeg)',
+  logoutMsg: `Murakoze gukoresha ${appName} platform`
 };

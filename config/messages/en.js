@@ -23,5 +23,6 @@ export const en = {
   delRemainCount: (count) => `Remain ${3 - count} click(s)!`,
   invalidTag: 'Invalid tags',
   imageNotAllowed: 'Error: only (jpeg, jpg or png) images allowed',
-  audioNotAllowed: 'Error: only (mp3, mpeg) audio allowed'
+  audioNotAllowed: 'Error: only (mp3, mpeg) audio allowed',
+  logoutMsg: `Thank you for using ${appName}`
 };

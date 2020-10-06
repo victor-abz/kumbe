@@ -46,7 +46,7 @@ export const logoutUser = (req, res) => {
 
   req.session.destroy();
   req.logout();
-  return serverResponse(res, 200, translate[lang].success);
+  return serverResponse(res, 200, translate[lang].logoutMsg);
 };
 export const updateProfile = async (req, res) => {
   const lang = getLang(req);

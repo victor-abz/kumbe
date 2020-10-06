@@ -26,7 +26,7 @@ export const session = () =>
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * hour,
-      domain: process.env.BASE_URL
+      domain: process.env.APP_DOMAIN
     },
     store: redisSessionStore
   });

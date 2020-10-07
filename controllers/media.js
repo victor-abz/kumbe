@@ -2,6 +2,7 @@ import { translate } from '../config';
 import {
   createYtbThumbnail,
   getLang,
+  paginator,
   QueryHelper,
   serverResponse
 } from '../helpers';
@@ -52,6 +53,7 @@ export const updateMedia = async (req, res) => {
 export const getMedias = async (req, res) => {
   const mediaTypes = ['image', 'audio', 'video'];
   const { mediaType } = req.query;
+  const { limit, offset } = paginator(req.query);
   let conditions = { type: mediaType };
   if (!mediaTypes.includes(mediaType) || mediaType === 'all') {
     conditions = null;
@@ -61,7 +63,9 @@ export const getMedias = async (req, res) => {
     conditions,
     null,
     [['createdAt', 'DESC']],
-    attributes
+    attributes,
+    offset,
+    limit
   );
 
   const lang = getLang(req);

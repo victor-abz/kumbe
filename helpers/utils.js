@@ -73,10 +73,10 @@ export const authenticatedUser = async (req) => {
   }
   return null;
 };
-export const paginator = ({ page, pageSize }) => {
-  const offset = Number((page - 1) * pageSize) || 0;
-  const limit = Number(pageSize) || 20;
-  return { offset, limit };
+export const paginator = ({ page = 0, pageSize = 20 }) => {
+  const limit = pageSize ? +pageSize : 20;
+  const offset = page ? page * limit : 0;
+  return { limit, offset };
 };
 /**
  *

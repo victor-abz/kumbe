@@ -75,7 +75,7 @@ export const authenticatedUser = async (req) => {
 };
 export const paginator = ({ page = 0, pageSize = 20 }) => {
   const limit = pageSize ? +pageSize : 20;
-  const offset = page ? page * limit : 0;
+  const offset = page && +page !== 0 ? (+page - 1) * limit : 0;
   return { limit, offset };
 };
 /**

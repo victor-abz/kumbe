@@ -14,7 +14,7 @@ export const up = (queryInterface, Sequelize) => {
         username: 'admin',
         gender: 'Male',
         phone: '0781234567',
-        password: hashPassword('MyPassword'),
+        password: hashPassword(process.env.ADMIN_PASSWORD),
         accessLevel: '1',
         createdAt: new Date(),
         updatedAt: new Date()
@@ -27,7 +27,7 @@ export const up = (queryInterface, Sequelize) => {
         gender: 'Male',
         accessLevel: '2',
         phone: '0731234567',
-        password: hashPassword('MyPassword'),
+        password: hashPassword(process.env.ADMIN_PASSWORD),
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -38,7 +38,7 @@ export const up = (queryInterface, Sequelize) => {
         username: 'user',
         gender: 'Male',
         phone: '0721234567',
-        password: hashPassword('MyPassword'),
+        password: hashPassword(process.env.ADMIN_PASSWORD),
         accessLevel: '3',
         createdAt: new Date(),
         updatedAt: new Date()

@@ -33,7 +33,7 @@ export class ValidatorKeys {
       languageId: Joi.string()
     };
   }
-  getBlogKeys() {
+  getBlogKeys(action) {
     return {
       title: Joi.string().required(),
       coverImage: Joi.string(),

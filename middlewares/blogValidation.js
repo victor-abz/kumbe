@@ -15,7 +15,8 @@ export const isCategoryValid = (req, res, next) => {
 };
 export const isBlogInfoValid = async (req, res, next) => {
   let validator = new Validator(req.body);
-  const error = validator.validateInput('blog');
+  const validateAction = req.method === 'POST' ? 'create' : 'update';
+  const error = validator.validateInput('blog', validateAction);
 
   if (error) return serverResponse(res, 400, error);
   return next();

@@ -20,7 +20,7 @@ export class Validator extends ValidatorKeys {
         validationKeys = this.getCategoryKeys();
         break;
       case 'blog':
-        validationKeys = this.getBlogKeys();
+        validationKeys = this.getBlogKeys(action);
         break;
       case 'tag':
         validationKeys = this.getTagKeys();

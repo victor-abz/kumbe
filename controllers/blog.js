@@ -73,6 +73,23 @@ export const createBlog = async (req, res) => {
 
   return serverResponse(res, 201, translate[lang].success);
 };
+export const updateBlog = async (req, res) => {
+  const lang = getLang(req);
+  const { blogId: id } = req.params;
+  const { tags } = req.body;
+  if (req.body.title) {
+    req.body.slug = generateSlug(req.body.title);
+  }
+
+  await blogDb.update(req.body, { id });
+  await Promise.all(
+    tags.map(async (tag) => {
+      await blogTagDb.findOrCreate({ tagId: tag, blogId: id });
+    })
+  );
+
+  return serverResponse(res, 200, translate[lang].success);
+};
 export const getBlogs = async (req, res) => {
   const lang = getLang(req);
   const { languageId } = req.body;

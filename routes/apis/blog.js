@@ -3,7 +3,8 @@ import {
   createBlog,
   getBlogs,
   getOneBlog,
-  deleteBlog
+  deleteBlog,
+  updateBlog
 } from '../../controllers/blog';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin } from '../../middlewares/auth';
@@ -13,7 +14,6 @@ import {
   doesBlogExist,
   areTagsValid
 } from '../../middlewares/blogValidation';
-import { upload } from '../../middlewares/fileUploader';
 
 const blogRoutes = Router();
 
@@ -24,6 +24,14 @@ blogRoutes.post(
   catchErrors(areTagsValid),
   catchErrors(doesCategoryExist),
   catchErrors(createBlog)
+);
+blogRoutes.patch(
+  '/:blogId',
+  catchErrors(isAtLeastAdmin),
+  catchErrors(isBlogInfoValid),
+  catchErrors(areTagsValid),
+  catchErrors(doesCategoryExist),
+  catchErrors(updateBlog)
 );
 blogRoutes.get('/', catchErrors(getBlogs));
 blogRoutes.get('/:blogId', catchErrors(doesBlogExist), catchErrors(getOneBlog));

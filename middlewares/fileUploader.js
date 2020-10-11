@@ -47,7 +47,7 @@ export const uploadFile = (req, res) => {
     fileFilter: (req, file, filterCallBack) => {
       isFileAllowed(file, fileStorage, lang, (error, allowed) => {
         if (error) return filterCallBack(error);
-        return filterCallBack(null, true);
+        return filterCallBack(null, allowed);
       });
     }
   }).single('file');

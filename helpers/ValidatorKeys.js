@@ -21,8 +21,10 @@ export class ValidatorKeys {
   getUserKeys() {
     return {
       languageId: Joi.string().required(),
-      names: Joi.string().required(),
       phone: Joi.string().required(),
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      profilePic:Joi.string().required(),
       username: Joi.string().required()
     };
   }

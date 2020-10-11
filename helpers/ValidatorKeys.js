@@ -43,7 +43,8 @@ export class ValidatorKeys {
       categoryId: Joi.string().required(),
       languageId: Joi.string().required(),
       tags: Joi.array().required(),
-      isPublished: Joi.boolean()
+      isPublished: Joi.boolean(),
+      blogId: Joi.string(),
     };
   }
   getTagKeys() {

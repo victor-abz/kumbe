@@ -28,6 +28,7 @@ blogRoutes.post(
 blogRoutes.patch(
   '/:blogId',
   catchErrors(isAtLeastAdmin),
+  catchErrors(doesBlogExist),
   catchErrors(isBlogInfoValid),
   catchErrors(areTagsValid),
   catchErrors(doesCategoryExist),

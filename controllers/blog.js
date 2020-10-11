@@ -82,11 +82,14 @@ export const updateBlog = async (req, res) => {
   }
 
   await blogDb.update(req.body, { id });
-  await Promise.all(
-    tags.map(async (tag) => {
-      await blogTagDb.findOrCreate({ tagId: tag, blogId: id });
-    })
-  );
+  /**
+   * Delete all tags first
+   * Then 
+   * Save the tags sent fron client
+   */
+  await blogTagDb.delete({blogId:id})
+  const blogTags = tags.map((tagId) => ({tagId, blogId: id}));
+  await blogTagDb.bulkCreate(blogTags);
 
   return serverResponse(res, 200, translate[lang].success);
 };

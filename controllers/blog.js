@@ -87,12 +87,23 @@ export const updateBlog = async (req, res) => {
    * Then 
    * Save the tags sent fron client
    */
-  await blogTagDb.delete({blogId:id})
-  const blogTags = tags.map((tagId) => ({tagId, blogId: id}));
-  await blogTagDb.bulkCreate(blogTags);
+  if(tags.length){
+    await blogTagDb.delete({blogId:id})
+    const blogTags = tags.map((tagId) => ({tagId, blogId: id}));
+    await blogTagDb.bulkCreate(blogTags);
+  }
 
   return serverResponse(res, 200, translate[lang].success);
 };
+export const publishBlog = async (req, res)=>{
+  const lang = getLang(req);
+  const {isPublished, blogId} = req.body
+
+  await blogDb.update({isPublished}, {id:blogId})
+
+  const message = translate[lang].success;
+  return serverResponse(res, 200, message);
+}
 export const getBlogs = async (req, res) => {
   const lang = getLang(req);
   const { languageId } = req.body;

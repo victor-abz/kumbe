@@ -36,6 +36,13 @@ export class ValidatorKeys {
     };
   }
   getBlogKeys(action) {
+    if(action==='publish'){
+      return {
+        isPublished:Joi.boolean().required(),
+        languageId: Joi.string().required(),
+        blogId: Joi.string(),
+      }
+    }
     return {
       title: Joi.string().required(),
       coverImage: Joi.string(),

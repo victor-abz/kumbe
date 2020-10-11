@@ -4,7 +4,8 @@ import {
   getBlogs,
   getOneBlog,
   deleteBlog,
-  updateBlog
+  updateBlog,
+  publishBlog
 } from '../../controllers/blog';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin } from '../../middlewares/auth';
@@ -33,6 +34,13 @@ blogRoutes.patch(
   catchErrors(areTagsValid),
   catchErrors(doesCategoryExist),
   catchErrors(updateBlog)
+);
+blogRoutes.put(
+  '/publish/:blogId',
+  catchErrors(isAtLeastAdmin),
+  catchErrors(doesBlogExist),
+  catchErrors(isBlogInfoValid),
+  catchErrors(publishBlog)
 );
 blogRoutes.get('/', catchErrors(getBlogs));
 blogRoutes.get('/:blogId', catchErrors(doesBlogExist), catchErrors(getOneBlog));

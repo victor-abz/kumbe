@@ -15,7 +15,13 @@ export const isCategoryValid = (req, res, next) => {
 };
 export const isBlogInfoValid = async (req, res, next) => {
   let validator = new Validator(req.body);
-  const validateAction = req.method === 'POST' ? 'create' : 'update';
+  let validateAction = 'create'
+  if( req.method === 'PATCH'){
+    validateAction='update'
+  }
+  if(req.method === 'PUT'){
+    validateAction='publish'
+  }
   const error = validator.validateInput('blog', validateAction);
 
   if (error) return serverResponse(res, 400, error);

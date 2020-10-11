@@ -23,7 +23,7 @@ userRoutes.post('/', catchErrors(createNewUser));
 userRoutes.patch(
   '/update',
   isAuthenticated,
-  isUpdateUserInfoValid,
+  catchErrors(isUpdateUserInfoValid),
   catchErrors(updateProfile)
 );
 userRoutes.get('/profile', isAuthenticated, getUserProfile);

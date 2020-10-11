@@ -34,12 +34,14 @@ export const isUpdateUserInfoValid = async (req, res, next) => {
 
   if (error) return serverResponse(res, 400, error);
   const { username } = req.body;
-  const usernameTaken = await userDb.findOne({
-    id: { [Op.ne]: req.user.id },
-    username
-  });
-  if (usernameTaken) {
-    return serverResponse(res, 422, translate[lang].usernameTaken);
+  if(username) {
+    const usernameTaken = await userDb.findOne({
+      id: { [Op.ne]: req.user.id },
+      username
+    });
+    if (usernameTaken) {
+      return serverResponse(res, 422, translate[lang].usernameTaken);
+    }
   }
   return next();
 };

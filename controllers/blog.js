@@ -107,7 +107,7 @@ export const publishBlog = async (req, res)=>{
 export const getBlogs = async (req, res) => {
   const lang = getLang(req);
   const { languageId } = req.body;
-  const { category } = req.query;
+  const { category, isAdmin } = req.query;
   const { offset, limit } = paginator(req.query);
   let orderBy = [['createdAt', 'DESC']];
   let whereConditions = { languageId };
@@ -119,6 +119,9 @@ export const getBlogs = async (req, res) => {
       languageId,
       categoryId: category
     };
+  }
+  if (isAdmin!=='yes') {
+    whereConditions = {...whereConditions, isPublished:true}
   }
   const blogs = await blogDb.findAll(
     whereConditions,

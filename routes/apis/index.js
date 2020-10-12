@@ -7,6 +7,7 @@ import { uploadFile } from '../../middlewares/fileUploader';
 import { catchErrors, validateStrategy } from '../../middlewares/app';
 import { passportStrategy, socialAuthCallBack } from '../../controllers/user';
 import mediaRoutes from './media';
+import questionRoutes from './question';
 
 const apiRoutes = Router();
 
@@ -15,6 +16,7 @@ apiRoutes.use('/categories', categoryRoutes);
 apiRoutes.use('/blogs', blogRoutes);
 apiRoutes.use('/tags', tagRoutes);
 apiRoutes.use('/medias', mediaRoutes);
+apiRoutes.use('/questions', questionRoutes)
 apiRoutes.post('/upload/:fileType', catchErrors(uploadFile));
 /**
  * Social auth routes

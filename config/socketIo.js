@@ -36,6 +36,7 @@ export const appSocket = (app) => {
 			});
 			socketJoinCb();
 		});
+		// socket.on('send-reply', )
 		socket.on('disconnect', () => {
 			const user = forumRoom.removeUser(socket.id);
 			if (user) {

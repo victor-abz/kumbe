@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
 		});
 		Reply.belongsTo(models.Discussion, {
 			as: 'discussion',
-			foreignKey: 'descussionId'
+			foreignKey: 'discussionId'
 		});
 		Reply.belongsTo(models.Reply, {
 			as: 'parent',

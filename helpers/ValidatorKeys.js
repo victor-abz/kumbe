@@ -87,4 +87,13 @@ export class ValidatorKeys {
 			languageId: Joi.string()
 		};
 	}
+	getReplyKeys(action) {
+		return {
+			content: Joi.string().required(),
+			anonymous: Joi.boolean().required(),
+			discussionId: Joi.string(),
+			parentId: Joi.string(),
+			userId: Joi.string().required()
+		};
+	}
 }

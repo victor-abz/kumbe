@@ -28,6 +28,9 @@ export class Validator extends ValidatorKeys {
 			case 'question':
 				validationKeys = this.getQuestionKeys(action);
 				break;
+			case 'reply':
+				validationKeys = this.getReplyKeys(action);
+				break;
 			case 'media':
 				validationKeys = this.getMediaKeys(action);
 				break;

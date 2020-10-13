@@ -6,21 +6,20 @@ import cors from 'cors';
 import userAgent from 'express-useragent';
 import { capture } from 'express-device';
 import { sequelize } from './models';
-import { localPassport, session, security } from './config';
+import { localPassport, session, security, appSocket } from './config';
 import { handleErrors } from './middlewares/app';
 import routes from './routes';
 
 dotenv.config();
 localPassport();
 
-const port = process.env.PORT || 3000;
 sequelize
-  .authenticate()
-  .then(() => console.log('Database connected'))
-  .catch((error) => {
-    console.log(`DB configuration error: ${error.message}`);
-    process.exit(1);
-  });
+	.authenticate()
+	.then(() => console.log('Database connected'))
+	.catch((error) => {
+		console.log(`DB configuration error: ${error.message}`);
+		process.exit(1);
+	});
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(userAgent.express());
@@ -44,8 +43,8 @@ app.use(routes);
  */
 app.use(handleErrors);
 /**
- * Start express server
+ * Connect socket
  */
-app.listen(port, () => console.log(`listening on port ${port}`));
+appSocket(app);
 
 export default app;

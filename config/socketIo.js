@@ -1,8 +1,10 @@
 import socketIo from 'socket.io';
-import { ForumRoom } from '../helpers';
+import { ForumRoom, QueryHelper, replyValidator } from '../helpers';
+import { Reply } from '../models';
 
 const port = process.env.PORT || 3000;
 const forumRoom = new ForumRoom();
+const replyDb = new QueryHelper(Reply);
 /**
  *
  * @param {Express} app
@@ -36,7 +38,38 @@ export const appSocket = (app) => {
 			});
 			socketJoinCb();
 		});
-		// socket.on('send-reply', )
+		socket.on('send-reply', (replyContent, sendReplyCb) => {
+			replyValidator(replyContent, (error, user) => {
+				if (error) {
+					socket.emit('send-reply-error', { message: error });
+					sendReplyCb();
+				}
+				let { ...body } = replyContent;
+				if (body.parentId) body.discussionId = null;
+				if (body.discussionId) body.parentId = null;
+				if (!body.parentId && !body.discussionId) {
+					socket.emit('send-reply-error', { message: error });
+					sendReplyCb();
+				}
+				replyDb
+					.create(body)
+					.then((replyRes) => {
+						delete user.password;
+						const reply = {
+							...user,
+							id: replyRes.id,
+							content: replyRes.content,
+							anonymous: replyRes.content
+						};
+						io.to(forumRoom.roomName).emit('new-reply', reply);
+						sendReplyCb();
+					})
+					.catch(() => {
+						socket.emit('send-reply-error', { message: 'Reply not sent' });
+						sendReplyCb();
+					});
+			});
+		});
 		socket.on('disconnect', () => {
 			const user = forumRoom.removeUser(socket.id);
 			if (user) {

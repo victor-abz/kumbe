@@ -81,8 +81,9 @@ export class ValidatorKeys {
 	getQuestionKeys(action) {
 		return {
 			content: Joi.string().required(),
-			anonymous: Joi.string().required(),
+			anonymous: Joi.boolean().required(),
 			categoryId: Joi.string().required(),
+			tags: Joi.array().required(),
 			languageId: Joi.string()
 		};
 	}

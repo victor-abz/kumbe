@@ -39,12 +39,12 @@ export const blogIncludes = [
 	{
 		model: BlogShare,
 		as: 'shares',
-		attributes: ['blogId']
+		attributes: ['id']
 	},
 	{
 		model: BlogReact,
 		as: 'likes',
-		attributes: ['like']
+		attributes: ['userId']
 	},
 	{
 		model: Comment,

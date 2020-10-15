@@ -1,5 +1,13 @@
 import { validate } from 'uuid';
-import { Blog, Category, Tag, BlogTag, Comment } from '../models';
+import {
+	Blog,
+	Category,
+	Tag,
+	BlogTag,
+	Comment,
+	BlogReact,
+	BlogShare
+} from '../models';
 import {
 	serverResponse,
 	QueryHelper,
@@ -15,6 +23,8 @@ const blogDb = new QueryHelper(Blog);
 const tagDb = new QueryHelper(Tag);
 const blogTagDb = new QueryHelper(BlogTag);
 const commentDb = new QueryHelper(Comment);
+const blogReactDb = new QueryHelper(BlogReact);
+const blogShareDb = new QueryHelper(BlogShare);
 
 export const createCategory = async (req, res) => {
 	const lang = getLang(req);
@@ -199,6 +209,31 @@ export const approveComment = async (req, res) => {
 	const { commentId: id } = req.params;
 	const { approved } = req.body;
 	await commentDb.update({ approved }, { id });
+
+	const lang = getLang(req);
+	const message = translate[lang].success;
+	return serverResponse(res, 200, message);
+};
+export const disOrLikeBlog = async (req, res) => {
+	const { blogId } = req.params;
+	const { id: userId } = req.user;
+	const blogReact = await blogReactDb.findOne({ blogId, userId });
+	let changed = 0;
+	if (blogReact) {
+		await blogReactDb.delete({ blogId, userId });
+		changed = -1;
+	} else {
+		await blogReactDb.create({ blogId, userId, like: true });
+		changed = 1;
+	}
+	const lang = getLang(req);
+	const message = translate[lang].success;
+	return serverResponse(res, 200, message, changed);
+};
+export const shareBlog = async (req, res) => {
+	const { blogId } = req.params;
+	const userId = req.isAuthenticated() ? req.user.id : null;
+	await blogShareDb.create({ blogId, userId });
 
 	const lang = getLang(req);
 	const message = translate[lang].success;

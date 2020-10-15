@@ -8,7 +8,9 @@ import {
 	publishBlog,
 	createComment,
 	getComments,
-	approveComment
+	approveComment,
+	disOrLikeBlog,
+	shareBlog
 } from '../../controllers/blog';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin, isAuthenticated } from '../../middlewares/auth';
@@ -78,5 +80,15 @@ blogRoutes.patch(
 	catchErrors(doesCommitExist),
 	catchErrors(approveComment)
 );
-
+blogRoutes.patch(
+	'/:blogId/like',
+	catchErrors(isAuthenticated),
+	catchErrors(doesBlogExist),
+	catchErrors(disOrLikeBlog)
+);
+blogRoutes.patch(
+	'/:blogId/share',
+	catchErrors(doesBlogExist),
+	catchErrors(shareBlog)
+);
 export default blogRoutes;

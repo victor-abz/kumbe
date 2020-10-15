@@ -53,4 +53,7 @@ export class QueryHelper {
 	async count(whereCondition = {}) {
 		return this.model.count({ where: whereCondition, logging: false });
 	}
+	async upsert(data, whereCondition = {}) {
+		return this.model.upsert(data, { where: whereCondition, logging: false });
+	}
 }

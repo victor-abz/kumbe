@@ -1,6 +1,12 @@
 import { translate } from '../config';
-import { getLang, paginator, QueryHelper, serverResponse } from '../helpers';
-import { questionIncludes } from '../helpers/modelIncludes';
+import {
+	getLang,
+	paginator,
+	QueryHelper,
+	ROOM_NAME,
+	serverResponse
+} from '../helpers';
+import { questionIncludes, userIncludes } from '../helpers/modelIncludes';
 import { Discussion, DiscussionTag, Reply, Sequelize } from '../models';
 
 const discussionDb = new QueryHelper(Discussion);
@@ -10,14 +16,9 @@ const { Op } = Sequelize;
 export const createQuestion = async (req, res) => {
 	req.body.userId = req.user.id;
 	const newQuestion = await discussionDb.create(req.body);
-	const discussionTags = req.body.tags.map((tagId) => ({
-		tagId,
-		discussionId: newQuestion.id
-	}));
-	await discussionTagDb.bulkCreate(discussionTags);
 
 	const lang = getLang(req);
-	return serverResponse(res, 201, translate[lang].success);
+	return serverResponse(res, 201, translate[lang].success, newQuestion);
 };
 export const getQuestions = async (req, res) => {
 	const { languageId } = req.body;
@@ -27,7 +28,7 @@ export const getQuestions = async (req, res) => {
 	const questions = await discussionDb.findAll(
 		{ languageId },
 		questionIncludes,
-		null,
+		[['createdAt', 'DESC']],
 		attributes,
 		offset,
 		limit
@@ -43,9 +44,37 @@ export const getReplies = async (req, res) => {
 		type === 'reply'
 			? { parentId: { [Op.ne]: null }, parentId: questionId }
 			: { discussionId: questionId };
-	const replies = await replyDb.findAll(conditions);
+	const replies = await replyDb.findAll(conditions, userIncludes);
 
 	const lang = getLang(req);
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message, replies);
+};
+export const createReply = async (req, res) => {
+	const { content, anonymous } = req.body;
+	const { id, firstName, lastName, username, profilePic } = req.user;
+	req.body.userId = id;
+	const newReply = await replyDb.create(req.body);
+
+	const reply = {
+		id: newReply.id,
+		content,
+		anonymous,
+		userNames: `${firstName} ${lastName}`,
+		createdAt: newReply.createdAt,
+		discussionId: newReply.discussionId,
+		userId: id,
+		parentId: newReply.parentId,
+		author: {
+			firstName,
+			lastName,
+			username,
+			profilePic
+		}
+	};
+	global.io.to(ROOM_NAME).emit('new-reply', reply);
+
+	const lang = getLang(req);
+	const message = translate[lang].success;
+	return serverResponse(res, 201, message, newReply);
 };

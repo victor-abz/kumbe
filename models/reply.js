@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
 	);
 	Reply.associate = (models) => {
 		Reply.belongsTo(models.User, {
-			as: 'user',
+			as: 'author',
 			foreignKey: 'userId'
 		});
 		Reply.belongsTo(models.Discussion, {

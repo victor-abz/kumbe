@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
 			foreignKey: 'discussionId'
 		});
 		Discussion.belongsTo(models.User, {
-			as: 'editor',
+			as: 'author',
 			foreignKey: 'userId'
 		});
 		Discussion.belongsTo(models.Language, {

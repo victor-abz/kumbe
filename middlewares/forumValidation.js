@@ -30,3 +30,21 @@ export const isQuestionInfoValid = (req, res, next) => {
 	if (!error) return next();
 	return serverResponse(res, 400, error);
 };
+export const isReplyInfoValid = (req, res, next) => {
+	const validateAction = req.method === 'POST' ? 'create' : 'update';
+	let validator = new Validator(req.body);
+
+	const error = validator.validateInput('reply', validateAction);
+	if (error) return serverResponse(res, 400, error);
+	let { type } = req.body;
+	const { questionId } = req.params;
+	req.body.parentId = type === 'reply' ? questionId : null;
+	req.body.discussionId = type === 'question' ? questionId : null;
+	if (req.body.parentId || req.body.discussionId) {
+		return next();
+	}
+	const lang = getLang(req);
+
+	const message = translate[lang].invalidReply;
+	return serverResponse(res, 400, message);
+};

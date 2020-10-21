@@ -26,7 +26,7 @@ export const categoryIncludes = [
 export const userIncludes = [
 	{
 		model: User,
-		as: 'editor',
+		as: 'author',
 		attributes: ['firstName', 'lastName', 'username', 'profilePic']
 	}
 ];
@@ -51,7 +51,6 @@ export const blogIncludes = [
 	}
 ];
 export const questionIncludes = [
-	...tagsIncludes,
 	...userIncludes,
 	...categoryIncludes,
 	{

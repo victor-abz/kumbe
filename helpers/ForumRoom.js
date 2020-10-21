@@ -1,6 +1,7 @@
+export const ROOM_NAME = 'FORUM_ROOM';
 export class ForumRoom {
 	constructor() {
-		this.roomName = 'FORUM_ROOM';
+		this.roomName = ROOM_NAME;
 		this.users = [];
 	}
 	userExist(id) {
@@ -19,5 +20,8 @@ export class ForumRoom {
 	}
 	getRoomUsers() {
 		return this.users;
+	}
+	getRoomName() {
+		return this.roomName;
 	}
 }

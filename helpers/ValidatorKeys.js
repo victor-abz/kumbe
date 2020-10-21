@@ -83,7 +83,6 @@ export class ValidatorKeys {
 			content: Joi.string().required(),
 			anonymous: Joi.boolean().required(),
 			categoryId: Joi.string().required(),
-			tags: Joi.array().required(),
 			languageId: Joi.string()
 		};
 	}
@@ -91,9 +90,10 @@ export class ValidatorKeys {
 		return {
 			content: Joi.string().required(),
 			anonymous: Joi.boolean().required(),
+			type: Joi.string().valid('reply', 'question').required(),
 			discussionId: Joi.string(),
 			parentId: Joi.string(),
-			userId: Joi.string().required()
+			languageId: Joi.string()
 		};
 	}
 }

@@ -4,24 +4,26 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 import cors from 'cors';
 import userAgent from 'express-useragent';
+import socketIo from 'socket.io';
 import { capture } from 'express-device';
 import { sequelize } from './models';
-import { localPassport, session, security } from './config';
+import { localPassport, session, security, appSocket } from './config';
 import { handleErrors } from './middlewares/app';
 import routes from './routes';
 
 dotenv.config();
 localPassport();
 
-const port = process.env.PORT || 3000;
 sequelize
-  .authenticate()
-  .then(() => console.log('Database connected'))
-  .catch((error) => {
-    console.log(`DB configuration error: ${error.message}`);
-    process.exit(1);
-  });
+	.authenticate()
+	.then(() => process.stdout.write('Database connected'))
+	.catch((error) => {
+		process.stdout.write(`DB configuration error: ${error.message}\n`);
+		process.exit(1);
+	});
+const port = process.env.PORT || 3000;
 const app = express();
+
 app.use(cors({ origin: true, credentials: true }));
 app.use(userAgent.express());
 app.use(bodyParser.json());
@@ -46,6 +48,13 @@ app.use(handleErrors);
 /**
  * Start express server
  */
-app.listen(port, () => console.log(`listening on port ${port}`));
+const server = app.listen(port, () => {
+	process.stdout.write(`Server is running on port: ${port}\n`);
+});
+/**
+ * Connect socket
+ */
+global.io = socketIo(server);
+global.io.on('connection', appSocket.connection);
 
 export default app;

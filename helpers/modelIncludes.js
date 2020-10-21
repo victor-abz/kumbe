@@ -5,7 +5,8 @@ import {
 	BlogReact,
 	Tag,
 	User,
-	Blog
+	Blog,
+	Reply
 } from '../models';
 
 export const blogOneIncludes = [
@@ -23,23 +24,28 @@ export const tagsIncludes = [
 		attributes: ['id', 'name', 'color']
 	}
 ];
-
-export const blogIncludes = [
-	...tagsIncludes,
+export const categoryIncludes = [
 	{
 		model: Category,
 		as: 'category',
 		attributes: ['name']
-	},
+	}
+];
+export const userIncludes = [
 	{
 		model: User,
-		as: 'editor',
+		as: 'author',
 		attributes: ['firstName', 'lastName', 'username', 'profilePic']
-	},
+	}
+];
+export const blogIncludes = [
+	...tagsIncludes,
+	...categoryIncludes,
+	...userIncludes,
 	{
 		model: BlogShare,
 		as: 'shares',
-		attributes: ['id']
+		attributes: ['blogId']
 	},
 	{
 		model: BlogReact,
@@ -52,11 +58,13 @@ export const blogIncludes = [
 		attributes: ['blogId']
 	}
 ];
-export const commentIncludes = [
-	...blogOneIncludes,
+export const commentIncludes = [...blogOneIncludes, ...userIncludes];
+export const questionIncludes = [
+	...userIncludes,
+	...categoryIncludes,
 	{
-		model: User,
-		as: 'user',
-		attributes: ['firstName', 'lastName', 'username', 'profilePic']
+		model: Reply,
+		as: 'replies',
+		attributes: ['id']
 	}
 ];

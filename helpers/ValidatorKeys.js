@@ -85,4 +85,22 @@ export class ValidatorKeys {
 			blogId: Joi.string()
 		};
 	}
+	getQuestionKeys(action) {
+		return {
+			content: Joi.string().required(),
+			anonymous: Joi.boolean().required(),
+			categoryId: Joi.string().required(),
+			languageId: Joi.string()
+		};
+	}
+	getReplyKeys(action) {
+		return {
+			content: Joi.string().required(),
+			anonymous: Joi.boolean().required(),
+			type: Joi.string().valid('reply', 'question').required(),
+			discussionId: Joi.string(),
+			parentId: Joi.string(),
+			languageId: Joi.string()
+		};
+	}
 }

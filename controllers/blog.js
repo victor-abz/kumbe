@@ -125,10 +125,11 @@ export const getBlogs = async (req, res) => {
 	if (category === 'sample') {
 		orderBy = [['title', 'ASC']];
 	}
-	if (validate(category)) {
+	if (category) {
+		const attribute = validate(category) ? 'categoryId' : 'slug';
 		whereConditions = {
 			languageId,
-			categoryId: category
+			[attribute]: category
 		};
 	}
 	if (isAdmin !== 'yes') {

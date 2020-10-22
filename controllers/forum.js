@@ -22,11 +22,21 @@ export const createQuestion = async (req, res) => {
 };
 export const getQuestions = async (req, res) => {
 	const { languageId } = req.body;
+	const { category } = req.query;
 	const { offset, limit } = paginator(req.query);
+	let whereConditions = { languageId };
 
 	const attributes = ['id', 'content', 'anonymous', 'createdAt'];
+
+	if (category) {
+		whereConditions = {
+			languageId,
+			categoryId: category
+		};
+	}
+	
 	const questions = await discussionDb.findAll(
-		{ languageId },
+		whereConditions,
 		questionIncludes,
 		[['createdAt', 'DESC']],
 		attributes,
@@ -36,6 +46,14 @@ export const getQuestions = async (req, res) => {
 	const lang = getLang(req);
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message, questions);
+};
+export const getOneQuestion = async (req, res) => {
+	const lang = getLang(req);
+	const { questionId: id } = req.params;
+	
+	const blog = await discussionDb.findOne({ id }, questionIncludes);
+	const message = translate[lang].success;
+	return serverResponse(res, 200, message, blog);
 };
 export const getReplies = async (req, res) => {
 	const { type = 'question' } = req.query;

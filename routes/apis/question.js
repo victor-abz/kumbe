@@ -3,7 +3,8 @@ import {
 	createQuestion,
 	createReply,
 	getQuestions,
-	getReplies
+	getReplies,
+	getOneQuestion
 } from '../../controllers/forum';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin, isAuthenticated } from '../../middlewares/auth';
@@ -18,12 +19,13 @@ const questionRoutes = Router();
 
 questionRoutes.post(
 	'/',
-	isAtLeastAdmin,
+	isAuthenticated,
 	isQuestionInfoValid,
 	doesCategoryExist,
 	catchErrors(createQuestion)
 );
 questionRoutes.get('/', catchErrors(getQuestions));
+questionRoutes.get('/:questionId', catchErrors(doesQuestionExist), catchErrors(getOneQuestion));
 questionRoutes.post(
 	'/:questionId/replies',
 	catchErrors(isAuthenticated),

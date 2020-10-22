@@ -11,7 +11,7 @@ export const doesQuestionExist = async (req, res, next) => {
 	let discussion = null;
 	const lang = getLang(req);
 
-	const message = translate[lang].dataNotFound('Discution');
+	const message = translate[lang].dataNotFound('Discussion');
 	if (!validate(questionId)) return serverResponse(res, 400, message);
 
 	if (type === 'reply') {

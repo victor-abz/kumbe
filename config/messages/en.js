@@ -18,6 +18,7 @@ export const en = {
 	loginSuccess: (names) => `Welcome ${names}`,
 	registerSuccess: (names) => `Thank you, ${names}, for registering`,
 	dataNotFound: (type) => `${type} does not exist`,
+	dataExist: (type) => `${type} has already been created`,
 	fileError: 'Unknown file upload',
 	notUploaded: 'File not uploaded',
 	delRemainCount: (count) => `Remain ${3 - count} click(s)!`,

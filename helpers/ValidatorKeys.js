@@ -103,4 +103,11 @@ export class ValidatorKeys {
 			languageId: Joi.string()
 		};
 	}
+	getProductKeys(action) {
+		return {
+			name: Joi.string().required(),
+			coverImage: Joi.string().required(),
+			languageId: Joi.string()
+		};
+	}
 }

@@ -37,6 +37,9 @@ export class Validator extends ValidatorKeys {
 			case 'reply':
 				validationKeys = this.getReplyKeys(action);
 				break;
+			case 'product':
+				validationKeys = this.getProductKeys(action);
+				break;
 			default:
 				break;
 		}

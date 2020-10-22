@@ -29,7 +29,6 @@ class AppSocket {
 			socketJoinCb();
 		});
 		client.on('disconnect', () => {
-			console.log('disconnect');
 			const user = forumRoom.removeUser(client.id);
 			if (user) {
 				global.io.to(forumRoom.roomName).emit('users-list', {

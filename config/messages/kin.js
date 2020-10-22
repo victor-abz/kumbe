@@ -16,6 +16,7 @@ export const kin = {
 	invalidLogin: 'Amazina mwatanze siyo',
 	invalidPwd: 'Ibanga muri gukoresha siryo',
 	dataNotFound: (type) => `${type} ntibashishije kuboneka`,
+	dataExist: (type) => `${type} irahari`,
 	fileError: 'Ntimwemerewe kuzamura file',
 	notUploaded: 'File ntabwo yabaye uploaded',
 	delRemainCount: (count) => `Harabura inshuro ${3 - count}!!`,

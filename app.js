@@ -56,5 +56,3 @@ const server = app.listen(port, () => {
  */
 global.io = socketIo(server);
 global.io.on('connection', appSocket.connection);
-
-export default app;

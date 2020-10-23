@@ -7,7 +7,8 @@ export const en = {
 	notAdminOrOwner: 'This action is for admin or owner',
 	notFound: 'Oops, you seem lost',
 	success: 'Successfuly done',
-	serverError: 'Service not available',
+	serverError:
+		'Sorry the site might be in maintenanace, Try again or contact the site ADMIN',
 	usernameTaken: 'The username has taken',
 	alreadyAuth: 'You are already authenticatred',
 	loginSuccess: (name) => `Welcome ${name}`,

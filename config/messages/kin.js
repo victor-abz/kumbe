@@ -7,7 +7,8 @@ export const kin = {
 	notAdminOrOwner: 'Bikorwa na Administrator cyangwa nyira byo',
 	notFound: 'Yoo, Ibyo mushaka ntibibashije kuboneka',
 	success: 'Igikorwa cyagenze neza',
-	serverError: 'Mube mwihangane cg muhamagare admin',
+	serverError:
+		'Urubuga rushobora kuba ruri gukorerwa mentanance. Mube mwihangane cg muhamagare ADMIN',
 	usernameTaken: 'Iyi username ifitwe n undi',
 	alreadyAuth: 'Singombwa gukora login',
 	loginSuccess: (name) => `Murisanga ${name}, kuri ${appName} platform`,

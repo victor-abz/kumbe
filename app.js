@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import passport from 'passport';
@@ -8,7 +9,7 @@ import socketIo from 'socket.io';
 import { capture } from 'express-device';
 import { sequelize } from './models';
 import { localPassport, session, security, appSocket } from './config';
-import { handleErrors } from './middlewares/app';
+import { catchErrors, handleErrors } from './middlewares/app';
 import routes from './routes';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(userAgent.express());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/build'));
 app.use(capture());
 app.use(session());
 
@@ -40,7 +42,16 @@ app.use(passport.session());
 /**
  * App routes
  */
-app.use(routes);
+app.use('/api', routes);
+/**
+ * Running the frontend
+ */
+app.get(
+	'/*',
+	catchErrors((req, res) => {
+		return res.sendFile(path.resolve(__dirname + '/build', 'index.html'));
+	})
+);
 /**
  * Catch unexpected errors
  */

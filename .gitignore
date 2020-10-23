@@ -107,3 +107,6 @@ package-lock.json
 
 #Project files
 app_files/
+
+#Frontent build
+build/

@@ -110,4 +110,11 @@ export class ValidatorKeys {
 			languageId: Joi.string()
 		};
 	}
+	getPartnerKeys(action) {
+		return {
+			name: Joi.string().required(),
+			coverImage: Joi.string().required(),
+			languageId: Joi.string()
+		};
+	}
 }

@@ -4,7 +4,8 @@ import {
 	createReply,
 	getQuestions,
 	getReplies,
-	getOneQuestion
+	getOneQuestion,
+	likeQuestion
 } from '../../controllers/forum';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin, isAuthenticated } from '../../middlewares/auth';
@@ -25,7 +26,11 @@ questionRoutes.post(
 	catchErrors(createQuestion)
 );
 questionRoutes.get('/', catchErrors(getQuestions));
-questionRoutes.get('/:questionId', catchErrors(doesQuestionExist), catchErrors(getOneQuestion));
+questionRoutes.get(
+	'/:questionId',
+	catchErrors(doesQuestionExist),
+	catchErrors(getOneQuestion)
+);
 questionRoutes.post(
 	'/:questionId/replies',
 	catchErrors(isAuthenticated),
@@ -37,6 +42,12 @@ questionRoutes.get(
 	'/:questionId/replies',
 	catchErrors(doesQuestionExist),
 	catchErrors(getReplies)
+);
+questionRoutes.patch(
+	'/:questionId/like',
+	catchErrors(isAuthenticated),
+	catchErrors(doesQuestionExist),
+	catchErrors(likeQuestion)
 );
 
 export default questionRoutes;

@@ -36,6 +36,10 @@ export default (sequelize, DataTypes) => {
 			as: 'replies',
 			foreignKey: 'discussionId'
 		});
+		Discussion.hasMany(models.DiscussionLike, {
+			as: 'likes',
+			foreignKey: 'discussionId'
+		});
 	};
 	return Discussion;
 };

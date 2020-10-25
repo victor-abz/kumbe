@@ -7,11 +7,11 @@ import {
 	serverResponse
 } from '../helpers';
 import { questionIncludes, userIncludes } from '../helpers/modelIncludes';
-import { Discussion, DiscussionTag, Reply, Sequelize } from '../models';
+import { Discussion, DiscussionLike, Reply, Sequelize } from '../models';
 
 const discussionDb = new QueryHelper(Discussion);
-const discussionTagDb = new QueryHelper(DiscussionTag);
 const replyDb = new QueryHelper(Reply);
+const discussionLikeDb = new QueryHelper(DiscussionLike);
 const { Op } = Sequelize;
 export const createQuestion = async (req, res) => {
 	req.body.userId = req.user.id;
@@ -34,7 +34,7 @@ export const getQuestions = async (req, res) => {
 			categoryId: category
 		};
 	}
-	
+
 	const questions = await discussionDb.findAll(
 		whereConditions,
 		questionIncludes,
@@ -50,7 +50,7 @@ export const getQuestions = async (req, res) => {
 export const getOneQuestion = async (req, res) => {
 	const lang = getLang(req);
 	const { questionId: id } = req.params;
-	
+
 	const blog = await discussionDb.findOne({ id }, questionIncludes);
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message, blog);
@@ -95,4 +95,23 @@ export const createReply = async (req, res) => {
 	const lang = getLang(req);
 	const message = translate[lang].success;
 	return serverResponse(res, 201, message, newReply);
+};
+export const likeQuestion = async (req, res) => {
+	const { questionId: discussionId } = req.params;
+	const { id: userId, firstName, lastName } = req.user;
+	const discussionParams = { discussionId, userId };
+	const hasLiked = await discussionLikeDb.findOne(discussionParams);
+	let like = 0;
+	if (hasLiked) {
+		await discussionLikeDb.delete(discussionParams);
+		like = -1;
+	} else {
+		await discussionLikeDb.create({ ...discussionParams, like: true });
+	}
+	const newLike = { discussionId, like, userNames: `${firstName} ${lastName}` };
+	global.io.to(ROOM_NAME).emit('new-question-like', newLike);
+
+	const lang = getLang(req);
+	const message = translate[lang].success;
+	return serverResponse(res, 201, message, newLike);
 };

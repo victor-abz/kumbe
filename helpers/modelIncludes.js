@@ -6,7 +6,8 @@ import {
 	Tag,
 	User,
 	Blog,
-	Reply
+	Reply,
+	DiscussionLike
 } from '../models';
 
 export const blogOneIncludes = [
@@ -66,5 +67,10 @@ export const questionIncludes = [
 		model: Reply,
 		as: 'replies',
 		attributes: ['id']
+	},
+	{
+		model: DiscussionLike,
+		as: 'likes',
+		attributes: ['userId']
 	}
 ];

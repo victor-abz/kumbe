@@ -1,3 +1,4 @@
+import { unlink } from 'fs';
 import { translate } from '../config';
 import { getLang, QueryHelper, serverResponse } from '../helpers';
 import { Service } from '../models';
@@ -28,10 +29,15 @@ export const editProduct = async (req, res) => {
 };
 export const deleteProduct = async (req, res) => {
 	const { productId: id } = req.params;
-
+	const product = await serviceDb.findOne({ id });
 	await serviceDb.delete({ id });
 
-	const lang = getLang(req);
-	const message = translate[lang].success;
-	return serverResponse(res, 200, message);
+	unlink(`${process.env.IMAGES_ZONE}/${product.coverImage}`, (error) => {
+		if (error) {
+			process.stdout.write('Sorry service not available');
+		}
+		const lang = getLang(req);
+		const message = translate[lang].success;
+		return serverResponse(res, 200, message);
+	});
 };

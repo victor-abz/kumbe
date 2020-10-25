@@ -1,8 +1,9 @@
 import { translate } from '../config';
 import { getLang, QueryHelper, serverResponse, Validator } from '../helpers';
-import { Service } from '../models';
+import { Service, Sequelize } from '../models';
 
 const serviceDb = new QueryHelper(Service);
+const { Op } = Sequelize;
 export const isProductInfoValid = async (req, res, next) => {
 	const lang = getLang(req);
 	let validator = new Validator(req.body);
@@ -10,7 +11,11 @@ export const isProductInfoValid = async (req, res, next) => {
 	const error = validator.validateInput('product', validateAction);
 	if (error) return serverResponse(res, 400, error);
 
-	const service = await serviceDb.findOne({ name: req.body.name });
+	let findParams = { name: req.body.name };
+	if (req.method === 'PATCH') {
+		findParams = { ...findParams, id: { [Op.ne]: req.params.productId } };
+	}
+	const service = await serviceDb.findOne(findParams);
 	if (!service) {
 		return next();
 	}

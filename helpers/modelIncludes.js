@@ -31,7 +31,7 @@ export const categoryIncludes = [
 	{
 		model: Category,
 		as: 'category',
-		attributes: ['name']
+		attributes: ['name', 'id']
 	}
 ];
 export const userIncludes = [

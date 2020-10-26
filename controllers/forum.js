@@ -92,6 +92,8 @@ export const createReply = async (req, res) => {
 		discussionId: newReply.discussionId,
 		userId: id,
 		parentId: newReply.parentId,
+		likes: [],
+		dislikes: [],
 		author: {
 			firstName,
 			lastName,

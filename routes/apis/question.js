@@ -5,13 +5,14 @@ import {
 	getQuestions,
 	getReplies,
 	getOneQuestion,
-	likeQuestion
+	likeQuestion,
+	reactToReply
 } from '../../controllers/forum';
 import { catchErrors } from '../../middlewares/app';
-import { isAtLeastAdmin, isAuthenticated } from '../../middlewares/auth';
+import { isAuthenticated } from '../../middlewares/auth';
 import { doesCategoryExist } from '../../middlewares/blogValidation';
 import {
-	doesQuestionExist,
+	doesDiscussionExist,
 	isQuestionInfoValid,
 	isReplyInfoValid
 } from '../../middlewares/forumValidation';
@@ -28,26 +29,32 @@ questionRoutes.post(
 questionRoutes.get('/', catchErrors(getQuestions));
 questionRoutes.get(
 	'/:questionId',
-	catchErrors(doesQuestionExist),
+	catchErrors(doesDiscussionExist),
 	catchErrors(getOneQuestion)
 );
 questionRoutes.post(
 	'/:questionId/replies',
 	catchErrors(isAuthenticated),
 	isReplyInfoValid,
-	catchErrors(doesQuestionExist),
+	catchErrors(doesDiscussionExist),
 	catchErrors(createReply)
 );
 questionRoutes.get(
 	'/:questionId/replies',
-	catchErrors(doesQuestionExist),
+	catchErrors(doesDiscussionExist),
 	catchErrors(getReplies)
 );
 questionRoutes.patch(
 	'/:questionId/like',
 	catchErrors(isAuthenticated),
-	catchErrors(doesQuestionExist),
+	catchErrors(doesDiscussionExist),
 	catchErrors(likeQuestion)
+);
+questionRoutes.patch(
+	'/:replyId/reply-react/:type',
+	catchErrors(isAuthenticated),
+	catchErrors(doesDiscussionExist),
+	catchErrors(reactToReply)
 );
 
 export default questionRoutes;

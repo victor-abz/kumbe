@@ -7,7 +7,9 @@ import {
 	User,
 	Blog,
 	Reply,
-	DiscussionLike
+	DiscussionLike,
+	ReplyDisLike,
+	ReplyReact
 } from '../models';
 
 export const blogOneIncludes = [
@@ -71,6 +73,19 @@ export const questionIncludes = [
 	{
 		model: DiscussionLike,
 		as: 'likes',
+		attributes: ['userId']
+	}
+];
+export const replyIncludes = [
+	...userIncludes,
+	{
+		model: ReplyReact,
+		as: 'likes',
+		attributes: ['userId']
+	},
+	{
+		model: ReplyDisLike,
+		as: 'dislikes',
 		attributes: ['userId']
 	}
 ];

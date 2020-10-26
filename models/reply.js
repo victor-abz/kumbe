@@ -31,6 +31,14 @@ export default (sequelize, DataTypes) => {
 			as: 'replies',
 			foreignKey: 'parentId'
 		});
+		Reply.hasMany(models.ReplyReact, {
+			as: 'likes',
+			foreignKey: 'replyId'
+		});
+		Reply.hasMany(models.ReplyDisLike, {
+			as: 'dislikes',
+			foreignKey: 'replyId'
+		});
 	};
 	return Reply;
 };

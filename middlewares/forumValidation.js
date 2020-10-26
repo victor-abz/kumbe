@@ -5,19 +5,19 @@ import { Discussion, Reply } from '../models';
 
 const discussionDb = new QueryHelper(Discussion);
 const replyDb = new QueryHelper(Reply);
-export const doesQuestionExist = async (req, res, next) => {
-	const { questionId } = req.params;
+export const doesDiscussionExist = async (req, res, next) => {
+	const discussioId = req.params.questionId || req.params.replyId;
 	const { type = 'question' } = req.query;
 	let discussion = null;
 	const lang = getLang(req);
 
 	const message = translate[lang].dataNotFound('Discussion');
-	if (!validate(questionId)) return serverResponse(res, 400, message);
+	if (!validate(discussioId)) return serverResponse(res, 400, message);
 
 	if (type === 'reply') {
-		discussion = await replyDb.findOne({ id: questionId });
+		discussion = await replyDb.findOne({ id: discussioId });
 	} else {
-		discussion = await discussionDb.findOne({ id: questionId });
+		discussion = await discussionDb.findOne({ id: discussioId });
 	}
 	if (discussion) return next();
 	return serverResponse(res, 404, message);

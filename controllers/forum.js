@@ -6,12 +6,21 @@ import {
 	ROOM_NAME,
 	serverResponse
 } from '../helpers';
-import { questionIncludes, userIncludes } from '../helpers/modelIncludes';
-import { Discussion, DiscussionLike, Reply, Sequelize } from '../models';
+import { questionIncludes, replyIncludes } from '../helpers/modelIncludes';
+import {
+	Discussion,
+	DiscussionLike,
+	Reply,
+	ReplyReact,
+	ReplyDisLike,
+	Sequelize
+} from '../models';
 
 const discussionDb = new QueryHelper(Discussion);
 const replyDb = new QueryHelper(Reply);
 const discussionLikeDb = new QueryHelper(DiscussionLike);
+const replyLikeDb = new QueryHelper(ReplyReact);
+const replyDisLikeDb = new QueryHelper(ReplyDisLike);
 const { Op } = Sequelize;
 export const createQuestion = async (req, res) => {
 	req.body.userId = req.user.id;
@@ -62,7 +71,7 @@ export const getReplies = async (req, res) => {
 		type === 'reply'
 			? { parentId: { [Op.ne]: null }, parentId: questionId }
 			: { discussionId: questionId };
-	const replies = await replyDb.findAll(conditions, userIncludes);
+	const replies = await replyDb.findAll(conditions, replyIncludes);
 
 	const lang = getLang(req);
 	const message = translate[lang].success;
@@ -107,9 +116,62 @@ export const likeQuestion = async (req, res) => {
 		like = -1;
 	} else {
 		await discussionLikeDb.create({ ...discussionParams, like: true });
+		like = 1;
 	}
 	const newLike = { discussionId, like, userNames: `${firstName} ${lastName}` };
 	global.io.to(ROOM_NAME).emit('new-question-like', newLike);
+
+	const lang = getLang(req);
+	const message = translate[lang].success;
+	return serverResponse(res, 201, message, newLike);
+};
+export const reactToReply = async (req, res) => {
+	const { replyId, type } = req.params;
+	const { id: userId, firstName, lastName } = req.user;
+	const replyParams = { replyId, userId };
+	const hasLiked = await replyLikeDb.findOne(replyParams);
+	const hasDisLiked = await replyDisLikeDb.findOne(replyParams);
+
+	let like = 0,
+		dislike = 0;
+	/**
+	 * If has liked a reply; delete like
+	 */
+	if (type === 'like') {
+		if (hasLiked) {
+			await replyLikeDb.delete(replyParams);
+			like = -1;
+		} else if (hasDisLiked) {
+			await replyDisLikeDb.delete(replyParams);
+			dislike = -1;
+			await replyLikeDb.create({ ...replyParams, like: true });
+			like = 1;
+		} else {
+			await replyLikeDb.create({ ...replyParams, like: true });
+			like = 1;
+		}
+	} else if (type === 'dislike') {
+		if (hasLiked) {
+			await replyLikeDb.delete(replyParams);
+			like = -1;
+			await replyDisLikeDb.create({ ...replyParams, dislike: true });
+			dislike = 1;
+		} else if (hasDisLiked) {
+			await replyDisLikeDb.delete(replyParams);
+			dislike = -1;
+		} else {
+			await replyDisLikeDb.create({ ...replyParams, dislike: true });
+			dislike = 1;
+		}
+	}
+
+	const newLike = {
+		replyId,
+		like,
+		dislike,
+		userNames: `${firstName} ${lastName}`
+	};
+	global.io.to(ROOM_NAME).emit('new-reply-react', newLike);
 
 	const lang = getLang(req);
 	const message = translate[lang].success;

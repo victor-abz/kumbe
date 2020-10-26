@@ -16,9 +16,9 @@ module.exports = {
 				allowNull: false,
 				onDelete: 'CASCADE',
 				references: {
-					model: 'replies',
+					model: 'discussions',
 					key: 'id',
-					as: 'replyId'
+					as: 'discussionId'
 				}
 			},
 			userId: {

@@ -8,6 +8,7 @@ import { catchErrors } from '../../middlewares/app';
 import mediaRoutes from './media';
 import questionRoutes from './question';
 import productRoutes from './product';
+import partnerRoutes from './partner';
 
 const apiRoutes = Router();
 
@@ -18,6 +19,7 @@ apiRoutes.use('/tags', tagRoutes);
 apiRoutes.use('/medias', mediaRoutes);
 apiRoutes.use('/questions', questionRoutes);
 apiRoutes.use('/products', productRoutes);
+apiRoutes.use('/partners', partnerRoutes);
 apiRoutes.post('/upload/:fileType', catchErrors(uploadFile));
 
 export default apiRoutes;

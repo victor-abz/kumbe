@@ -120,7 +120,12 @@ export const likeQuestion = async (req, res) => {
 		await discussionLikeDb.create({ ...discussionParams, like: true });
 		like = 1;
 	}
-	const newLike = { discussionId, like, userNames: `${firstName} ${lastName}` };
+	const newLike = {
+		discussionId,
+		like,
+		userId,
+		userNames: `${firstName} ${lastName}`
+	};
 	global.io.to(ROOM_NAME).emit('new-question-like', newLike);
 
 	const lang = getLang(req);
@@ -171,6 +176,7 @@ export const reactToReply = async (req, res) => {
 		replyId,
 		like,
 		dislike,
+		userId,
 		userNames: `${firstName} ${lastName}`
 	};
 	global.io.to(ROOM_NAME).emit('new-reply-react', newLike);

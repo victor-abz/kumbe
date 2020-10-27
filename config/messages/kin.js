@@ -25,5 +25,6 @@ export const kin = {
 	imageNotAllowed: 'Ikosa: Hemewe gusa ifoto zo mubwoko bwa (jpeg, jpg cg png)',
 	audioNotAllowed: 'Ikosa: Hemewe gusa audio zo mu bwoko bwa (mp3, mpeg)',
 	logoutMsg: `Murakoze gukoresha ${appName} platform`,
-	invalidReply: 'Igisubizo kirabura'
+	invalidReply: 'Igisubizo kirabura',
+	imageTypeSelect: 'Hitamo ubwoko bw ifoto(Comic cg Fact factory'
 };

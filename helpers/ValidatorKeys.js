@@ -65,9 +65,10 @@ export class ValidatorKeys {
 	getMediaKeys(action) {
 		const basicKeys = {
 			title: Joi.string().required(),
-			type: Joi.string().valid('audio', 'image', 'video').required(),
-			mediaLink: Joi.string().required(),
 			description: Joi.string().required(),
+			type: Joi.string().valid('audio', 'image', 'video').required(),
+			imageType: Joi.string().valid('Comic', 'Fact Factory'),
+			mediaLink: Joi.string().required(),
 			tags: Joi.array(),
 			languageId: Joi.string()
 		};

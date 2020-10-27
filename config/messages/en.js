@@ -27,5 +27,6 @@ export const en = {
 	imageNotAllowed: 'Error: only (jpeg, jpg or png) images allowed',
 	audioNotAllowed: 'Error: only (mp3, mpeg) audio allowed',
 	logoutMsg: `Thank you for using ${appName}`,
-	invalidReply: 'Invalid reply'
+	invalidReply: 'Invalid reply',
+	imageTypeSelect: 'Select image type(Comic or Fact factory'
 };

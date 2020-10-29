@@ -28,6 +28,26 @@ export class QueryHelper {
 			attributes
 		});
 	}
+	async findAndCountAll(
+		whereCondition,
+		include,
+		orderBy = [['createdAt', 'DESC']],
+		attributes,
+		offset = 0,
+		limit = 20
+	) {
+		return this.model.findAndCountAll({
+			order: orderBy,
+			offset,
+			limit,
+			where: whereCondition,
+			distict: true,
+			subQuery: false,
+			logging: false,
+			include,
+			attributes
+		});
+	}
 	async create(data) {
 		return this.model.create(data, { logging: false });
 	}

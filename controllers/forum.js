@@ -52,9 +52,10 @@ export const getQuestions = async (req, res) => {
 		offset,
 		limit
 	);
+	const questionsCount = await discussionDb.count(whereConditions);
 	const lang = getLang(req);
 	const message = translate[lang].success;
-	return serverResponse(res, 200, message, questions);
+	return serverResponse(res, 200, message, questions, questionsCount);
 };
 export const getOneQuestion = async (req, res) => {
 	const lang = getLang(req);

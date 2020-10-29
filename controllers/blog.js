@@ -142,9 +142,9 @@ export const getBlogs = async (req, res) => {
 		offset,
 		limit
 	);
-
+	const blogCounts = await blogDb.count(whereConditions);
 	const message = translate[lang].success;
-	return serverResponse(res, 200, message, blogs);
+	return serverResponse(res, 200, message, blogs, blogCounts);
 };
 export const getOneBlog = async (req, res) => {
 	const lang = getLang(req);

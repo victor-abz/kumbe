@@ -47,6 +47,7 @@
     "express-useragent": "^1.0.15",
     "faker": "^5.1.0",
     "fs": "0.0.1-security",
+    "googleapis": "^62.0.0",
     "helmet": "^4.1.0",
     "joi": "^17.2.1",
     "jsonwebtoken": "^8.5.1",

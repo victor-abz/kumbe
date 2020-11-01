@@ -43,6 +43,9 @@ export class Validator extends ValidatorKeys {
 			case 'partner':
 				validationKeys = this.getPartnerKeys(action);
 				break;
+			case 'faq':
+				validationKeys = this.getFAQuestionKeys(action);
+				break;
 			default:
 				break;
 		}

@@ -118,4 +118,11 @@ export class ValidatorKeys {
 			languageId: Joi.string()
 		};
 	}
+	getFAQuestionKeys() {
+		return {
+			question: Joi.string().required(),
+			answer: Joi.string().required(),
+			languageId: Joi.string()
+		};
+	}
 }

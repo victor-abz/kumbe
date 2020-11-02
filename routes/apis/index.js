@@ -9,6 +9,7 @@ import mediaRoutes from './media';
 import questionRoutes from './question';
 import productRoutes from './product';
 import partnerRoutes from './partner';
+import manageRouter from './manage';
 
 const apiRoutes = Router();
 
@@ -20,6 +21,7 @@ apiRoutes.use('/medias', mediaRoutes);
 apiRoutes.use('/questions', questionRoutes);
 apiRoutes.use('/products', productRoutes);
 apiRoutes.use('/partners', partnerRoutes);
+apiRoutes.use('/manage/faqs', manageRouter);
 apiRoutes.post('/upload/:fileType', catchErrors(uploadFile));
 
 export default apiRoutes;

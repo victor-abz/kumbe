@@ -19,7 +19,7 @@ export const getFAQuestions = async (req, res) => {
 	return serverResponse(res, 200, message, questions);
 };
 export const editFAQuestion = async (req, res) => {
-	const { questionId: id } = req.body;
+	const { questionId: id } = req.params;
 
 	await faqDb.update(req.body, { id });
 
@@ -28,7 +28,7 @@ export const editFAQuestion = async (req, res) => {
 	return serverResponse(res, 200, message);
 };
 export const deleteFAQuestion = async (req, res) => {
-	const { questionId: id } = req.body;
+	const { questionId: id } = req.params;
 
 	await faqDb.delete({ id });
 

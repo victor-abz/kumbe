@@ -1,13 +1,13 @@
 const { google } = require('googleapis');
 
 // Config
-const clientEmail = process.env.CLIENT_EMAIL;
-const privateKey = process.env.PRIVATE_KEY.replace(new RegExp('\\\\n'), '\n');
+const clientEmail = process.env.GA_CLIENT_EMAIL;
+const privateKey = process.env.GA_PRIVATE_KEY.replace(new RegExp("\\\\n", "\g"), "\n")
 const scopes = ['https://www.googleapis.com/auth/analytics.readonly'];
 
 // API's
 const analytics = google.analytics('v3');
-const viewId = process.env.VIEW_ID;
+const viewId = process.env.GA_VIEW_ID;
 const jwt = new google.auth.JWT({
   email: clientEmail,
   key: privateKey,
@@ -41,7 +41,7 @@ async function getMetric(metric, startDate, endDate) {
     }
     return cleanMetric;
   }
-  function getData(metrics = ['ga:users'], startDate = '30daysAgo', endDate = 'today') {
+export const getData = (metrics = ['ga:users'], startDate = '30daysAgo', endDate = 'today') =>  {
     // ensure all metrics have ga:
     const results = [];
     for (let i = 0; i < metrics.length; i += 1) {
@@ -50,5 +50,3 @@ async function getMetric(metric, startDate, endDate) {
     }
     return results;
   }
-  
-module.exports = { getData };

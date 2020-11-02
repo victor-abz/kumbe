@@ -16,7 +16,6 @@ export const getProducts = async (req, res) => {
 
 	const lang = getLang(req);
 	const message = translate[lang].success;
-	console.log('<><><><');
 	return serverResponse(res, 200, message, products);
 };
 export const editProduct = async (req, res) => {

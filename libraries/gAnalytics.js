@@ -14,39 +14,38 @@ const jwt = new google.auth.JWT({
   scopes,
 });
 
-async function getMetric(metric, startDate, endDate) {
+// Get Metrics function
+const  getMetric = async(metrics = ['ga:users'], dimensions, startDate, endDate) => {
     await setTimeout[Object.getOwnPropertySymbols(setTimeout)[0]](
-      Math.trunc(1000 * Math.random()),
-    ); // 3 sec
+      Math.trunc(10000 * Math.random()),
+    ); // 10 sec(Google Timeout)
     const result = await analytics.data.ga.get({
       auth: jwt,
       ids: `ga:${viewId}`,
       'start-date': startDate,
       'end-date': endDate,
-      metrics: metric,
+      metrics: metrics,
+      dimensions: dimensions,
+      sort: '-ga:sessions',
+		'max-results': 50,
     });
     const res = {};
-    res[metric] = {
-      value: parseInt(result.data.totalsForAllResults[metric], 10),
+    res[metrics] = {
+      value: result.data,
       start: startDate,
       end: endDate,
     };
     return res;
-  }
+}
 
-  function parseMetric(metric) {
-    let cleanMetric = metric;
-    if (!cleanMetric.startsWith('ga:')) {
-      cleanMetric = `ga:${cleanMetric}`;
-    }
-    return cleanMetric;
-  }
-export const getData = (metrics = ['ga:users'], startDate = '30daysAgo', endDate = 'today') =>  {
-    // ensure all metrics have ga:
+
+export const getData = (settings, startDate = '30daysAgo', endDate = 'today') =>  {
     const results = [];
-    for (let i = 0; i < metrics.length; i += 1) {
-      const metric = parseMetric(metrics[i]);
-      results.push(getMetric(metric, startDate, endDate));
-    }
+    settings.map((item) => {
+        const { metrics, dimensions } = item
+        return results.push( getMetric(metrics, dimensions, startDate, endDate));
+    })
+
     return results;
-  }
+}
+  

@@ -20,7 +20,8 @@
     "node",
     "kumbe"
   ],
-  "author": "",
+  "author": "Abizeyimana Victor, Akimana Jean D'amour",
+  "email": "svicky.shema@gmail.com, akimanaja17@gmail.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/victor-abz/kumbe/issues"
@@ -67,7 +68,13 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.7.0",
-    "nodemon": "^2.0.4"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "prettier-eslint": "^11.0.0"
   }
 }

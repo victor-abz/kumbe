@@ -139,6 +139,7 @@ export const getBlogs = async (req, res) => {
 	}
 	if (search) {
 		const tagIds = validTags(search);
+		console.log('Check');
 		whereTags = {
 			tagId: { [Op.and]: tagIds }
 		};

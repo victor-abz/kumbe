@@ -19,11 +19,11 @@ export const blogOneIncludes = [
 		attributes: ['id', 'title']
 	}
 ];
-export const tagsIncludes = [
+export const tagsIncludes = (whereTagIds = {}) => [
 	{
 		model: Tag,
 		as: 'tags',
-		through: { attributes: [] },
+		through: { attributes: [], where: whereTagIds },
 		attributes: ['id', 'name', 'color']
 	}
 ];
@@ -41,8 +41,8 @@ export const userIncludes = [
 		attributes: ['firstName', 'lastName', 'username', 'profilePic']
 	}
 ];
-export const blogIncludes = [
-	...tagsIncludes,
+export const blogIncludes = (whereTagIds = {}) => [
+	...tagsIncludes(whereTagIds),
 	...categoryIncludes,
 	...userIncludes,
 	{

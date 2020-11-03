@@ -67,8 +67,8 @@ export const getMedias = async (req, res) => {
 		offset,
 		limit
 	);
-
+	const mediasCount = await mediaDb.count(conditions);
 	const lang = getLang(req);
 	const message = translate[lang].success;
-	return serverResponse(res, 200, message, medias);
+	return serverResponse(res, 200, message, medias, mediasCount);
 };

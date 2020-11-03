@@ -1,4 +1,3 @@
-import { validate } from 'uuid';
 import {
 	Blog,
 	Category,
@@ -6,14 +5,16 @@ import {
 	BlogTag,
 	Comment,
 	BlogReact,
-	BlogShare
+	BlogShare,
+	Sequelize
 } from '../models';
 import {
 	serverResponse,
 	QueryHelper,
 	getLang,
 	generateSlug,
-	paginator
+	paginator,
+	validTags
 } from '../helpers';
 import { translate } from '../config';
 import { blogIncludes, commentIncludes } from '../helpers/modelIncludes';
@@ -25,6 +26,7 @@ const blogTagDb = new QueryHelper(BlogTag);
 const commentDb = new QueryHelper(Comment);
 const blogReactDb = new QueryHelper(BlogReact);
 const blogShareDb = new QueryHelper(BlogShare);
+const { Op } = Sequelize;
 
 export const createCategory = async (req, res) => {
 	const lang = getLang(req);
@@ -118,10 +120,11 @@ export const publishBlog = async (req, res) => {
 export const getBlogs = async (req, res) => {
 	const lang = getLang(req);
 	const { languageId } = req.body;
-	const { category, isAdmin } = req.query;
+	const { category, isAdmin, search } = req.query;
 	const { offset, limit } = paginator(req.query);
 	let orderBy = [['createdAt', 'DESC']];
 	let whereConditions = { languageId };
+	let whereTags = {};
 	if (category === 'sample') {
 		orderBy = [['title', 'ASC']];
 	}
@@ -134,9 +137,15 @@ export const getBlogs = async (req, res) => {
 	if (isAdmin !== 'yes') {
 		whereConditions = { ...whereConditions, isPublished: true };
 	}
+	if (search) {
+		const tagIds = validTags(search);
+		whereTags = {
+			tagId: { [Op.and]: tagIds }
+		};
+	}
 	const blogs = await blogDb.findAll(
 		whereConditions,
-		blogIncludes,
+		blogIncludes(whereTags),
 		orderBy,
 		null,
 		offset,
@@ -150,7 +159,7 @@ export const getOneBlog = async (req, res) => {
 	const lang = getLang(req);
 	const { blogId: id } = req.params;
 
-	const blog = await blogDb.findOne({ id }, blogIncludes);
+	const blog = await blogDb.findOne({ id }, blogIncludes());
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message, blog);
 };

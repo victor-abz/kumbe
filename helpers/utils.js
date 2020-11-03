@@ -6,6 +6,7 @@ import path from 'path';
 import { translate } from '../config';
 import { User } from '../models';
 import { QueryHelper } from './QueryHelper';
+import { validate } from 'uuid';
 
 const userDb = new QueryHelper(User);
 export const hashPassword = (password) => {
@@ -78,6 +79,12 @@ export const paginator = ({ page = 0, pageSize = 20 }) => {
 	const limit = pageSize ? +pageSize : 20;
 	const offset = page && +page !== 0 ? (+page - 1) * limit : 0;
 	return { limit, offset };
+};
+export const validTags = (tagIds = '') => {
+	const newTags = tagIds.split(',').map((id) => {
+		if (id && validate(id)) return id;
+	});
+	return newTags;
 };
 /**
  *

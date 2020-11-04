@@ -139,9 +139,8 @@ export const getBlogs = async (req, res) => {
 	}
 	if (search) {
 		const tagIds = validTags(search);
-		console.log('Check');
 		whereTags = {
-			tagId: { [Op.and]: tagIds }
+			tagId: { [Op.or]: tagIds }
 		};
 	}
 	const blogs = await blogDb.findAll(
@@ -205,15 +204,25 @@ export const createComment = async (req, res) => {
 export const getComments = async (req, res) => {
 	const { blogId } = req.params;
 	const lang = getLang(req);
+	const { offset, limit } = paginator(req.query);
 	const { isAdmin } = req.query;
+
 	let conditions = blogId ? { blogId } : null;
 	if (isAdmin !== 'yes') {
 		conditions = { ...conditions, approved: true };
 	}
-	const comments = await commentDb.findAll(conditions, commentIncludes);
+	const comments = await commentDb.findAll(
+		conditions,
+		commentIncludes,
+		null,
+		null,
+		offset,
+		limit
+	);
+	const commentsCount = await commentDb.count(conditions);
 
 	const message = translate[lang].success;
-	return serverResponse(res, 200, message, comments);
+	return serverResponse(res, 200, message, comments, commentsCount);
 };
 export const approveComment = async (req, res) => {
 	const { commentId: id } = req.params;

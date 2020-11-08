@@ -10,6 +10,7 @@ import questionRoutes from './question';
 import productRoutes from './product';
 import partnerRoutes from './partner';
 import manageRouter from './manage';
+import analyticsRoutes from './analytics';
 
 const apiRoutes = Router();
 
@@ -22,6 +23,7 @@ apiRoutes.use('/questions', questionRoutes);
 apiRoutes.use('/products', productRoutes);
 apiRoutes.use('/partners', partnerRoutes);
 apiRoutes.use('/manage/faqs', manageRouter);
+apiRoutes.use('/analytics', analyticsRoutes);
 apiRoutes.post('/upload/:fileType', catchErrors(uploadFile));
 
 export default apiRoutes;

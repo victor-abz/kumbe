@@ -138,14 +138,18 @@ export const getBlogs = async (req, res) => {
 		whereConditions = { ...whereConditions, isPublished: true };
 	}
 	if (search) {
-		const tagIds = validTags(search);
-		whereTags = {
-			tagId: { [Op.or]: tagIds }
+		// const tagIds = validTags(search);
+		// whereTags = {
+		// 	tagId: { [Op.or]: tagIds }
+		// };
+		whereConditions = {
+			...whereConditions,
+			title: { [Op.iLike]: `%${search}%` }
 		};
 	}
 	const blogs = await blogDb.findAll(
 		whereConditions,
-		blogIncludes(whereTags),
+		blogIncludes(),
 		orderBy,
 		null,
 		offset,
@@ -205,11 +209,14 @@ export const getComments = async (req, res) => {
 	const { blogId } = req.params;
 	const lang = getLang(req);
 	const { offset, limit } = paginator(req.query);
-	const { isAdmin } = req.query;
+	const { isAdmin, search } = req.query;
 
 	let conditions = blogId ? { blogId } : null;
 	if (isAdmin !== 'yes') {
 		conditions = { ...conditions, approved: true };
+	}
+	if (search) {
+		conditions = { ...conditions, content: { [Op.iLike]: `%${search}%` } };
 	}
 	const comments = await commentDb.findAll(
 		conditions,

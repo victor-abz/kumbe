@@ -31,19 +31,21 @@ export const createQuestion = async (req, res) => {
 };
 export const getQuestions = async (req, res) => {
 	const { languageId } = req.body;
-	const { category } = req.query;
+	const { category, search } = req.query;
 	const { offset, limit } = paginator(req.query);
 	let whereConditions = { languageId };
 
 	const attributes = ['id', 'content', 'anonymous', 'createdAt'];
 
 	if (category) {
+		whereConditions = { ...whereConditions, categoryId: category };
+	}
+	if (search) {
 		whereConditions = {
-			languageId,
-			categoryId: category
+			...whereConditions,
+			content: { [Op.iLike]: `%${search}%` }
 		};
 	}
-
 	const questions = await discussionDb.findAll(
 		whereConditions,
 		questionIncludes,

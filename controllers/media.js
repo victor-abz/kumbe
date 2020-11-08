@@ -6,10 +6,11 @@ import {
 	QueryHelper,
 	serverResponse
 } from '../helpers';
-import { Media, MediaTag } from '../models';
+import { Media, MediaTag, Sequelize } from '../models';
 
 const mediaDb = new QueryHelper(Media);
 const mediaTagDb = new QueryHelper(MediaTag);
+const { Op } = Sequelize;
 export const createMedia = async (req, res) => {
 	const { type, mediaLink } = req.body;
 	req.body.thumbnail = type === 'video' ? createYtbThumbnail(mediaLink) : '';
@@ -52,11 +53,14 @@ export const updateMedia = async (req, res) => {
 
 export const getMedias = async (req, res) => {
 	const mediaTypes = ['image', 'audio', 'video'];
-	const { mediaType } = req.query;
+	const { mediaType, search } = req.query;
 	const { limit, offset } = paginator(req.query);
 	let conditions = { type: mediaType };
 	if (!mediaTypes.includes(mediaType) || mediaType === 'all') {
 		conditions = null;
+	}
+	if (search) {
+		conditions = { ...conditions, title: { [Op.iLike]: `%${search}%` } };
 	}
 	const attributes = { exclude: ['languageId', 'updatedAt'] };
 	const medias = await mediaDb.findAll(

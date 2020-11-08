@@ -15,7 +15,7 @@ const jwt = new google.auth.JWT({
 });
 
 // Get Metrics function
-const  getMetric = async(metrics = ['ga:users'], dimensions, startDate, endDate) => {
+const  getMetric = async(metrics = ['ga:users'], dimensions, name, startDate, endDate) => {
     await setTimeout[Object.getOwnPropertySymbols(setTimeout)[0]](
       Math.trunc(10000 * Math.random()),
     ); // 10 sec(Google Timeout)
@@ -26,14 +26,13 @@ const  getMetric = async(metrics = ['ga:users'], dimensions, startDate, endDate)
       'end-date': endDate,
       metrics: metrics,
       dimensions: dimensions,
-      sort: '-ga:sessions',
-		'max-results': 50,
+      sort: `-${metrics}`
     });
     const res = {};
-    res[metrics] = {
-      value: result.data,
-      start: startDate,
-      end: endDate,
+    const { totalsForAllResults, rows} = result.data
+    res[name] = {
+      totalsForAllResults, 
+      rows
     };
     return res;
 }
@@ -41,9 +40,9 @@ const  getMetric = async(metrics = ['ga:users'], dimensions, startDate, endDate)
 
 export const getData = (settings, startDate = '30daysAgo', endDate = 'today') =>  {
     const results = [];
-    settings.map((item) => {
-        const { metrics, dimensions } = item
-        return results.push( getMetric(metrics, dimensions, startDate, endDate));
+    settings.map((analytic) => {
+        const { metrics, dimensions, name } = analytic
+        return results.push( getMetric(metrics, dimensions, name, startDate, endDate));
     })
 
     return results;

@@ -7,20 +7,16 @@ import { reports } from '../libraries/settings';
 
 
 export const getAnalytics = async (req, res) => {
-    const { metrics, dimension, startDate, endDate } = req.query;
+    const { startDate, endDate } = req.query;
+    const lang = getLang(req);
 
     Promise.all(
         getData(reports, startDate, endDate)
     )
         .then((data) => {
-            // flatten list of objects into one object
-            res.send(data);
-            console.log("Done");
+            return serverResponse(res, 200, translate[lang].success, data);
         })
         .catch((err) => {
-            console.log("Error:");
-            console.log(err);
-            res.send({ status: "Error getting a metric", message: `${err}` });
-            console.log("Done");
+            return serverResponse(res, 404, "Error getting Analytics");
         });
 };

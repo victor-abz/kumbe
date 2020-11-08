@@ -6,6 +6,12 @@ export const reports = [
         name: 'Page Views'
     },
     {
+        dimensions: "ga:day", // Monthly Page Views
+        metrics:
+            "ga:pageviews",
+        name: 'Page Views Monthly'
+    },
+    {
         dimensions: "ga:city", // Users
         metrics:
             "ga:users,ga:newUsers",

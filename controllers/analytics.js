@@ -1,7 +1,5 @@
-import { unlink } from "fs";
 import { translate } from "../config";
-import { getLang, QueryHelper, serverResponse } from "../helpers";
-import { Partner } from "../models";
+import { getLang, serverResponse } from "../helpers";
 import { getData } from "../libraries/gAnalytics";
 import { reports } from '../libraries/settings';
 

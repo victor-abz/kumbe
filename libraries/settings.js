@@ -36,9 +36,3 @@ export const reports = [
         name: 'Gender'
     },
 ];
-
-export const reportDates = {
-    type: "total", // daily, total
-    startDate: "2020-10-01",
-    endDate: "2020-11-02",
-};

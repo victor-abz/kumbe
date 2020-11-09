@@ -13,10 +13,11 @@ export const createPartner = async (req, res) => {
 };
 export const getPartners = async (req, res) => {
 	const partners = await partnerDb.findAll();
+	const partnersCount = await partnerDb.count();
 
 	const lang = getLang(req);
 	const message = translate[lang].success;
-	return serverResponse(res, 200, message, partners);
+	return serverResponse(res, 200, message, partners, partnersCount);
 };
 
 export const deletePartner = async (req, res) => {

@@ -28,5 +28,6 @@ export const en = {
 	audioNotAllowed: 'Error: only (mp3, mpeg) audio allowed',
 	logoutMsg: `Thank you for using ${appName}`,
 	invalidReply: 'Invalid reply',
-	imageTypeSelect: 'Select image type(Comic or Fact factory'
+	imageTypeSelect: 'Select image type(Comic or Fact factory',
+	signinNotAllowed: 'Not yet allowed to sign into the system'
 };

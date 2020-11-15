@@ -30,6 +30,14 @@ export default (sequelize, DataTypes) => {
 			as: 'language',
 			foreignKey: 'languageId'
 		});
+		Media.belongsTo(models.Media, {
+			as: 'parent',
+			foreignKey: 'parentId'
+		});
+		Media.hasMany(models.Media, {
+			as: 'children',
+			foreignKey: 'parentId'
+		});
 		Media.belongsToMany(models.Tag, {
 			as: 'tags',
 			through: 'media_tags',

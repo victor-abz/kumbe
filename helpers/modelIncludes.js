@@ -9,7 +9,8 @@ import {
 	Reply,
 	DiscussionLike,
 	ReplyDisLike,
-	ReplyReact
+	ReplyReact,
+	Media
 } from '../models';
 
 export const blogOneIncludes = [
@@ -87,5 +88,12 @@ export const replyIncludes = [
 		model: ReplyDisLike,
 		as: 'dislikes',
 		attributes: ['userId']
+	}
+];
+export const mediaIncludes = [
+	{
+		model: Media,
+		as: 'children',
+		attributes: ['mediaLink']
 	}
 ];

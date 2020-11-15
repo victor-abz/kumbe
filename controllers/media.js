@@ -6,11 +6,13 @@ import {
 	QueryHelper,
 	serverResponse
 } from '../helpers';
+import { mediaIncludes } from '../helpers/modelIncludes';
 import { Media, MediaTag, Sequelize } from '../models';
 
 const mediaDb = new QueryHelper(Media);
 const mediaTagDb = new QueryHelper(MediaTag);
 const { Op } = Sequelize;
+const mediaTypes = ['image', 'audio', 'video'];
 export const createMedia = async (req, res) => {
 	const { type, mediaLink } = req.body;
 	req.body.thumbnail = type === 'video' ? createYtbThumbnail(mediaLink) : '';
@@ -52,8 +54,8 @@ export const updateMedia = async (req, res) => {
 };
 
 export const getMedias = async (req, res) => {
-	const mediaTypes = ['image', 'audio', 'video'];
-	const { mediaType, search } = req.query;
+	const { mediaType, search, byLanguage } = req.query;
+	const { languageId } = req.body;
 	const { limit, offset } = paginator(req.query);
 	let conditions = { type: mediaType };
 	if (!mediaTypes.includes(mediaType) || mediaType === 'all') {
@@ -62,10 +64,13 @@ export const getMedias = async (req, res) => {
 	if (search) {
 		conditions = { ...conditions, title: { [Op.iLike]: `%${search}%` } };
 	}
+	if (byLanguage) {
+		conditions = { ...conditions, languageId, parentId: null };
+	}
 	const attributes = { exclude: ['languageId', 'updatedAt'] };
 	const medias = await mediaDb.findAll(
 		conditions,
-		null,
+		mediaIncludes,
 		[['createdAt', 'DESC']],
 		attributes,
 		offset,

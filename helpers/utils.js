@@ -150,7 +150,7 @@ export const isFileAllowed = (file, filePath, lang, fileCallBack) => {
 	if (mimetype && extname) {
 		return fileCallBack(null, true);
 	} else {
-		fileCallBack(errorMessage);
+		return fileCallBack(errorMessage);
 	}
 };
 export const createYtbThumbnail = (videoLink) => {

@@ -22,7 +22,8 @@ sequelize
 		process.stdout.write(`DB configuration error: ${error.message}\n`);
 		process.exit(1);
 	});
-const port = process.env.PORT || 3000;
+const isTest = process.env.NODE_ENV === 'test';
+const port = isTest ? process.env.PORT_TEST : process.env.PORT;
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));

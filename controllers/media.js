@@ -54,12 +54,15 @@ export const updateMedia = async (req, res) => {
 };
 
 export const getMedias = async (req, res) => {
-	const { mediaType, search, byLanguage } = req.query;
+	const { mediaType, imageType, search, byLanguage } = req.query;
 	const { languageId } = req.body;
 	const { limit, offset } = paginator(req.query);
 	let conditions = { type: mediaType };
 	if (!mediaTypes.includes(mediaType) || mediaType === 'all') {
 		conditions = null;
+	}
+	if (imageType){
+		conditions = { ...conditions, imageType}
 	}
 	if (search) {
 		conditions = { ...conditions, title: { [Op.iLike]: `%${search}%` } };

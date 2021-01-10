@@ -61,7 +61,7 @@ export const getMedias = async (req, res) => {
 	if (!mediaTypes.includes(mediaType) || mediaType === 'all') {
 		conditions = null;
 	}
-	if (!imageType === 'null'){
+	if (imageType === 'Comic' || imageType === 'Fact Factory'){
 		conditions = { ...conditions, imageType}
 	}
 	if (search) {

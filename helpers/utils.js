@@ -10,7 +10,7 @@ import { validate } from 'uuid';
 
 const userDb = new QueryHelper(User);
 export const hashPassword = (password) => {
-	const salt = bcrypt.genSaltSync(process.env.PASS_SALT);
+	const salt = bcrypt.genSaltSync(10, process.env.PASS_SALT);
 	const hashPass = bcrypt.hashSync(password, salt);
 	return hashPass;
 };

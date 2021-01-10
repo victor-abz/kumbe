@@ -125,4 +125,18 @@ export class ValidatorKeys {
 			languageId: Joi.string()
 		};
 	}
+	getSliderKeys() {
+		return {
+			title: Joi.string().required(),
+			caption: Joi.string().required(),
+			position: Joi.string().valid('left', 'right').required(),
+			titleColor: Joi.string().required(),
+			bgColor: Joi.string().required(),
+			captionColor: Joi.string().required(),
+			imageLink: Joi.string().required(),
+			clickText: Joi.string().required(),
+			categoryId: Joi.string().required(),
+			languageId: Joi.string()
+		};
+	}
 }

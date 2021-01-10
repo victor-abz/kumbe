@@ -46,6 +46,9 @@ export class Validator extends ValidatorKeys {
 			case 'faq':
 				validationKeys = this.getFAQuestionKeys(action);
 				break;
+			case 'slider':
+				validationKeys = this.getSliderKeys(action);
+				break;
 			default:
 				break;
 		}

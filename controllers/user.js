@@ -33,6 +33,14 @@ export const getUsers = async (req, res) => {
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message, users, usersCount);
 };
+export const changeAccessLevel = async (req, res) => {
+	const { accessLevel } = req.body;
+	const { userId } = req.params;
+	await userDb.update({ accessLevel }, { id: userId });
+
+	const lang = getLang(req);
+	return serverResponse(res, 200, translate[lang].success);
+};
 export const createNewUser = async (req, res) => {
 	//Create a user here
 	const lang = getLang(req);

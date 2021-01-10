@@ -6,13 +6,15 @@ import {
 	signupUser,
 	logoutUser,
 	updateProfile,
-	getUserProfile
+	getUserProfile,
+	changeAccessLevel
 } from '../../controllers/user';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin, isAuthenticated } from '../../middlewares/auth';
 import {
 	isLoginInfoValid,
 	isSignUpInfoValid,
+	isUpdateALevelValid,
 	isUpdateUserInfoValid
 } from '../../middlewares/userValidation';
 
@@ -25,6 +27,12 @@ userRoutes.patch(
 	isAuthenticated,
 	catchErrors(isUpdateUserInfoValid),
 	catchErrors(updateProfile)
+);
+userRoutes.post(
+	'/update/:userId',
+	isAtLeastAdmin,
+	catchErrors(isUpdateALevelValid),
+	catchErrors(changeAccessLevel)
 );
 userRoutes.get('/profile', isAuthenticated, getUserProfile);
 userRoutes.post('/login', isLoginInfoValid, catchErrors(loginUser));

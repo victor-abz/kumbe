@@ -22,7 +22,7 @@ apiRoutes.use('/medias', mediaRoutes);
 apiRoutes.use('/questions', questionRoutes);
 apiRoutes.use('/products', productRoutes);
 apiRoutes.use('/partners', partnerRoutes);
-apiRoutes.use('/manage/faqs', manageRouter);
+apiRoutes.use('/manage', manageRouter);
 apiRoutes.use('/analytics', analyticsRoutes);
 apiRoutes.post('/upload/:fileType', catchErrors(uploadFile));
 

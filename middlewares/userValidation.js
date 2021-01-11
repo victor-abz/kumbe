@@ -53,7 +53,10 @@ export const isUpdateALevelValid = async (req, res, next) => {
 		aLNotAllowed = 'The access level is not allowed',
 		notFount = 'User not found',
 		invalidUser = 'Invalid user data';
-	if (accessLevel && userId) {
+	if (userId && userId === id) {
+		return serverResponse(res, 401, notYou);
+	}
+	if (accessLevel) {
 		if (Number(accessLevel) < 2 || Number(accessLevel) > 4) {
 			return serverResponse(res, 403, aLNotAllowed);
 		}
@@ -65,9 +68,6 @@ export const isUpdateALevelValid = async (req, res, next) => {
 			return serverResponse(res, 400, aLNotAllowed);
 		}
 		return next();
-	}
-	if (userId === id) {
-		return serverResponse(res, 401, notYou);
 	}
 	return serverResponse(res, 400, invalidUser);
 };

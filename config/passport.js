@@ -46,9 +46,9 @@ export const localPassport = () => {
 							return done({ message: translate[lang].invalidPwd });
 						}
 						user = user.toJSON();
-						if (Number(user.accessLevel) > 2) {
-							return done({ message: translate[lang].signinNotAllowed });
-						}
+						// if (Number(user.accessLevel) > 2) {
+						// 	return done({ message: translate[lang].signinNotAllowed });
+						// }
 						delete user.password;
 						return done(null, user);
 					})

@@ -1,4 +1,5 @@
-import { QueryHelper, serverResponse, Validator } from '../helpers';
+import { QueryHelper, serverResponse, Validator, getLang } from '../helpers';
+import { translate } from '../config';
 import { Faq, SliderContent } from '../models';
 
 const faqDb = new QueryHelper(Faq);

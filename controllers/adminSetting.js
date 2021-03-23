@@ -1,3 +1,4 @@
+import { unlink } from 'fs';
 import { Faq, SliderContent } from '../models';
 import { getLang, QueryHelper, serverResponse } from '../helpers';
 import { translate } from '../config';
@@ -60,4 +61,18 @@ export const updateSlider = async (req, res) => {
 	const lang = getLang(req);
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message);
+};
+export const deleteSlider = async (req, res) => {
+	const { sliderId: id } = req.params;
+	const slider = await sliderDb.findOne({ id });
+	await sliderDb.delete({ id });
+
+	unlink(`${process.env.IMAGES_ZONE}/${slider.imageLink}`, (error) => {
+		if (error) {
+			process.stdout.write('Sorry service not available');
+		}
+		const lang = getLang(req);
+		const message = translate[lang].success;
+		return serverResponse(res, 200, message);
+	});
 };

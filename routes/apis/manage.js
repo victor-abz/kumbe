@@ -3,6 +3,7 @@ import {
 	addFAQuestion,
 	createNewSlider,
 	deleteFAQuestion,
+	deleteSlider,
 	editFAQuestion,
 	getFAQuestions,
 	getSliders,
@@ -55,6 +56,12 @@ manageRouter.patch(
 	isSliderValid,
 	catchErrors(doesCategoryExist),
 	catchErrors(updateSlider)
+);
+manageRouter.delete(
+	'/sliders/:sliderId',
+	catchErrors(isAtLeastAdmin),
+	catchErrors(doesSliderExit),
+	catchErrors(deleteSlider)
 );
 
 export default manageRouter;

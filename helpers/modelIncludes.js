@@ -10,7 +10,8 @@ import {
 	DiscussionLike,
 	ReplyDisLike,
 	ReplyReact,
-	Media
+	Media,
+	Language
 } from '../models';
 
 export const blogOneIncludes = [
@@ -35,6 +36,14 @@ export const categoryIncludes = [
 		attributes: ['name', 'id']
 	}
 ];
+export const languageIncludes = [
+	{
+		model: Language,
+		as: 'language',
+		attributes: ['id', 'name', 'shortName']
+	}
+];
+export const sliderIncludes = [...categoryIncludes, ...languageIncludes];
 export const userIncludes = [
 	{
 		model: User,

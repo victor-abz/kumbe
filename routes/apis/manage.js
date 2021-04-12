@@ -11,7 +11,10 @@ import {
 } from '../../controllers/adminSetting';
 import { catchErrors } from '../../middlewares/app';
 import { isAtLeastAdmin } from '../../middlewares/auth';
-import { doesCategoryExist } from '../../middlewares/blogValidation';
+import {
+	doesCategoryExist,
+	doSliderCategoriesExist
+} from '../../middlewares/blogValidation';
 import {
 	doesFAQExit,
 	doesSliderExit,
@@ -54,7 +57,7 @@ manageRouter.patch(
 	catchErrors(isAtLeastAdmin),
 	catchErrors(doesSliderExit),
 	isSliderValid,
-	catchErrors(doesCategoryExist),
+	catchErrors(doSliderCategoriesExist),
 	catchErrors(updateSlider)
 );
 manageRouter.delete(

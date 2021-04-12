@@ -1,11 +1,18 @@
 import { unlink } from 'fs';
-import { Faq, SliderContent } from '../models';
-import { getLang, QueryHelper, serverResponse } from '../helpers';
+import { Faq, SliderContent, Language } from '../models';
+import {
+	generateSlug,
+	getLang,
+	QueryHelper,
+	saveNewSlider,
+	serverResponse
+} from '../helpers';
 import { translate } from '../config';
-import { categoryIncludes } from '../helpers/modelIncludes';
+import { sliderIncludes } from '../helpers/modelIncludes';
 
 const faqDb = new QueryHelper(Faq);
 const sliderDb = new QueryHelper(SliderContent);
+const languageDb = new QueryHelper(Language);
 export const addFAQuestion = async (req, res) => {
 	const newFaq = await faqDb.create(req.body);
 
@@ -40,32 +47,51 @@ export const deleteFAQuestion = async (req, res) => {
 	return serverResponse(res, 200, message);
 };
 export const createNewSlider = async (req, res) => {
-	const newSlider = await sliderDb.create(req.body);
+	const { textContents, ...rest } = req.body;
+	const uniqueSign = generateSlug();
+
+	/**
+	 * Save a new slider
+	 */
+	await saveNewSlider(textContents, uniqueSign, rest);
 
 	const lang = getLang(req);
 	const message = translate[lang].success;
-	return serverResponse(res, 201, message, newSlider);
+	return serverResponse(res, 201, message);
 };
 export const getSliders = async (req, res) => {
 	const { languageId } = req.body;
-
-	const sliders = await sliderDb.findAll({ languageId }, categoryIncludes);
+	const { forAdmin } = req.query;
+	let conditions = { languageId };
+	if (forAdmin && forAdmin === 'forAdmin') {
+		conditions = null;
+	}
+	const sliders = await sliderDb.findAll(conditions, sliderIncludes);
 	const lang = getLang(req);
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message, sliders);
 };
 export const updateSlider = async (req, res) => {
-	const { sliderId: id } = req.params;
-	await sliderDb.update(req.body, { id });
+	const { uniqueSign } = req.params;
+	const { textContents, ...rest } = req.body;
+
+	// Delete the old sliders
+	await sliderDb.delete({ uniqueSign });
+
+	/**
+	 * Save a new slider
+	 */
+	await saveNewSlider(textContents, uniqueSign, rest);
 
 	const lang = getLang(req);
 	const message = translate[lang].success;
 	return serverResponse(res, 200, message);
 };
 export const deleteSlider = async (req, res) => {
-	const { sliderId: id } = req.params;
+	const { sliderId: id, uniqueSign } = req.params;
 	const slider = await sliderDb.findOne({ id });
-	await sliderDb.delete({ id });
+
+	await sliderDb.delete({ uniqueSign });
 
 	unlink(`${process.env.IMAGES_ZONE}/${slider.imageLink}`, (error) => {
 		if (error) {

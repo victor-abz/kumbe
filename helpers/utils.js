@@ -4,7 +4,7 @@ import slugify from 'slugify';
 import uniqid from 'uniqid';
 import path from 'path';
 import { translate } from '../config';
-import { User } from '../models';
+import { User, Language, SliderContent } from '../models';
 import { QueryHelper } from './QueryHelper';
 import { validate } from 'uuid';
 
@@ -47,7 +47,7 @@ export const tokenGenerator = (tokenLength) => {
 	}
 	return token.join('');
 };
-export const generateSlug = (title) => {
+export const generateSlug = (title = 'unique') => {
 	const uniqueId = uniqid.process();
 	const slug = `${slugify(title, { lower: true })}-${uniqueId}`;
 	return slug;
@@ -158,4 +158,39 @@ export const createYtbThumbnail = (videoLink) => {
 	const videoId = matchVId === null ? '' : matchVId[1];
 	const nFrameImg = `http://img.youtube.com/vi/${videoId}/0.jpg`;
 	return nFrameImg;
+};
+export const saveNewSlider = async (
+	textContents = [],
+	uniqueSign = '',
+	items = {}
+) => {
+	const sliderDb = new QueryHelper(SliderContent);
+	const languageDb = new QueryHelper(Language);
+	try {
+		let slidersContents = [];
+		/**
+		 * Create tasks to adjust slider contents according to
+		 * the appropriate language
+		 */
+		const tasks = textContents.map(
+			async ({ lang, categoryId, ...restItem }) => {
+				const language = await languageDb.findOne({ shortName: lang });
+				if (language) {
+					slidersContents.push({
+						...items,
+						...restItem,
+						languageId: language.id,
+						categoryId,
+						uniqueSign
+					});
+				}
+			}
+		);
+		// run the tasks
+		await Promise.all(tasks);
+		// Save the contents into DBs
+		await sliderDb.bulkCreate(slidersContents);
+	} catch (error) {
+		throw new Error(error);
+	}
 };

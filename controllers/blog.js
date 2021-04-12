@@ -17,7 +17,11 @@ import {
 	validTags
 } from '../helpers';
 import { translate } from '../config';
-import { blogIncludes, commentIncludes } from '../helpers/modelIncludes';
+import {
+	blogIncludes,
+	commentIncludes,
+	languageIncludes
+} from '../helpers/modelIncludes';
 
 const categoryDb = new QueryHelper(Category);
 const blogDb = new QueryHelper(Blog);
@@ -42,11 +46,12 @@ export const createCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
 	const lang = getLang(req);
 	const { languageId } = req.body;
-	const { categoryType = 'blog' } = req.query;
-	const categories = await categoryDb.findAll({
-		languageId,
-		type: categoryType
-	});
+	const { categoryType = 'blog', forSlider } = req.query;
+	let conditions = { languageId, type: categoryType };
+	if (forSlider && forSlider === 'forSlider') {
+		conditions = { type: categoryType };
+	}
+	const categories = await categoryDb.findAll(conditions, languageIncludes);
 	return serverResponse(res, 200, translate[lang].success, categories);
 };
 export const updateCategory = async (req, res) => {

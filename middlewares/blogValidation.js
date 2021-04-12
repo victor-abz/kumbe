@@ -62,6 +62,26 @@ export const doesCategoryExist = async (req, res, next) => {
 	const message = translate[lang].dataNotFound('Category');
 	return serverResponse(res, 404, message);
 };
+export const doSliderCategoriesExist = async (req, res, next) => {
+	const { textContents } = req.body;
+	let exists = [];
+	if (textContents) {
+		await Promise.all(
+			textContents.map(async (item) => {
+				const category = await categoryDb.findOne({ id: item.categoryId });
+				if (category) {
+					exists.push(item.categoryId);
+				}
+			})
+		);
+		if (exists.length === textContents.length) {
+			return next();
+		}
+	}
+	const lang = getLang(req);
+	const message = translate[lang].dataNotFound('Category');
+	return serverResponse(res, 404, message);
+};
 export const doesBlogExist = async (req, res, next) => {
 	const blogIdOrSlug = req.params.blogId || req.body.blogId;
 	if (blogIdOrSlug) {

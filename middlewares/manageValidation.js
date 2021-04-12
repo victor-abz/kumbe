@@ -33,6 +33,7 @@ export const doesSliderExit = async (req, res, next) => {
 	const { sliderId: id } = req.params;
 	const slider = await sliderDb.findOne({ id });
 	if (slider) {
+		req.params.uniqueSign = slider.uniqueSign;
 		return next();
 	}
 	const lang = getLang(req);

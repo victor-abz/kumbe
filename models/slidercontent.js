@@ -19,7 +19,8 @@ export default (sequelize, DataTypes) => {
 			titleColor: DataTypes.STRING,
 			captionColor: DataTypes.STRING,
 			imageLink: DataTypes.STRING,
-			clickText: DataTypes.STRING
+			clickText: DataTypes.STRING,
+			uniqueSign: DataTypes.STRING
 		},
 		{ tableName: 'slider_contents' }
 	);
@@ -29,7 +30,7 @@ export default (sequelize, DataTypes) => {
 			foreignKey: 'categoryId'
 		});
 		SliderContent.belongsTo(models.Language, {
-			as: 'languages',
+			as: 'language',
 			foreignKey: 'languageId'
 		});
 	};

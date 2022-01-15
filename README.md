@@ -38,7 +38,3 @@ ABIZEYIMANA Victor – [@victor-abz](https://github.com/victor-abz)
 AKIMANA Jean d'amour - [@AJAkimana](https://github.com/AJAkimana)
 
 Sponsored by HDI Rwanda
-
-
-
->>>>>> Fake Commit <<<<<<>>>>>>
